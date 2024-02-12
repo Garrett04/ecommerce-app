@@ -4,8 +4,6 @@ const PORT = 3000;
 
 const bodyParser = require('body-parser');
 
-const db = require('./db/db');
-
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {

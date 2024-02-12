@@ -1,34 +1,45 @@
 const express = require('express');
 const usersRouter = express.Router();
-const pool = require('../db/db');
+
+const { 
+    findByUsername, 
+    createUser 
+} = require('../db/dbHelperFunctions');
+
+const bcrypt = require('bcrypt');
 
 // Registration of new users
-usersRouter.post('/register', async (req, res) => {
+usersRouter.post('/register', async (req, res, next) => {
     try {
         const { username, password } = req.body;
 
-        const user = await pool.query(
-            'SELECT * FROM users WHERE username = $1', 
-            [username]
-        );
+        const foundUser = await findByUsername(username);
 
-        if (user.rows.length > 0) {
-            return res.status(400).send("User already exists.");
+        if (!foundUser) {
+            return res.status(400).send('User already exists.');
         }
 
-        const newUser = await pool.query(
-            'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
-            [username, password]
-        );
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await createUser(username, hashedPassword);
 
         res.json(newUser.rows[0]);
 
         // console.log(req.body);
     } catch (err) {
-        console.error(err.message);
+        next(err);
     }
 })
 
+// Login of users
+usersRouter.post('/login', (req, res) => {
+    
+});
 
+// Error handling for 500 server errors.
+usersRouter.use((err, req, res, next) => {
+    console.error('Error: ', err.message);
+    res.status(500).send('Internal Server Error');
+})
 
 module.exports = usersRouter;
