@@ -10,22 +10,22 @@ const findByUsername = async (username) => {
 
         if (users.rows.length > 0) {
             // console.log('Found user');
-            return false; 
+            return users.rows[0]; 
         }
 
-        return true;
+        return false;
     } catch (err) {
         console.error('Error finding user by username: ', err.message);
         throw new Error('Error finding user by username');
     }
 }
 
-const createUser = async (username, hashedPassword) => {
+const createUser = async (name, username, hashedPassword) => {
     try {
-        const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
+        const query = 'INSERT INTO users (name, username, password) VALUES ($1, $2, $3) RETURNING *';
         const newUser = await pool.query(
             query,
-            [username, hashedPassword] 
+            [name, username, hashedPassword] 
         ) 
 
         return newUser;
@@ -44,7 +44,7 @@ const findById = async (id) => {
         )
 
         if (user.rows.length > 0) {
-            return user.rows;
+            return user.rows[0]; // Previously: user.rows
         }
         return false;
     } catch (err) {
