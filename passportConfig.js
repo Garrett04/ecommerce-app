@@ -2,7 +2,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const { 
     findByUsername, findById 
 } = require('./db/dbHelperFunctions');
-
 const bcrypt = require('bcrypt');
 
 
