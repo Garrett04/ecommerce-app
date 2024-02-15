@@ -36,6 +36,9 @@ app.get('/', (req, res) => {
 const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
+const productsRouter = require('./routes/products');
+app.use('/products', productsRouter);
+
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}.`);
 })

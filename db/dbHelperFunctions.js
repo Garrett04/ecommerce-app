@@ -1,5 +1,6 @@
 const pool = require('./dbConfig');
 
+// users table
 const findByUsername = async (username) => {
     try {
         const query = 'SELECT * FROM users WHERE username = $1';
@@ -53,8 +54,56 @@ const findById = async (id) => {
     }
 }
 
+// products, categories, and categories_products table
+const findByCategory = async (categoryId) => {
+    try {   
+        const query = `SELECT products.name 
+                        FROM products, categories_products 
+                        WHERE categories_products.category_id = $1
+                            AND categories_products.product_id = products.id`;
+        const products = await pool.query(
+            query,
+            [categoryId]
+        );
+
+        if (products.rows.length > 0) {
+            console.log(products.rows);
+            return products.rows;
+        }
+
+        return false;
+    } catch (err) {
+        console.error('Error finding products by category id: ', err.message);
+        throw new Error('Error finding products by category id');
+    }
+}
+
+const findByProductID = async (productID) => {
+    try {   
+        const query = `SELECT products.name 
+                        FROM products 
+                        WHERE products.id = $1`;
+
+        const product = await pool.query(
+            query,
+            [productID]
+        );
+
+        if (product.rows.length > 0) {
+            return product.rows;
+        }
+
+        return false;
+    } catch (err) {
+        console.error('Error finding products by product id: ', err.message);
+        throw new Error('Error finding products by product id');
+    }
+}
+
 module.exports = { 
     findByUsername,
     createUser,
-    findById
+    findById,
+    findByCategory,
+    findByProductID,
 }

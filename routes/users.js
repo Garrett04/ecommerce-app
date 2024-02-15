@@ -37,42 +37,34 @@ usersRouter.post('/register', async (req, res, next) => {
     const { name, username, password, password2 } = req.body;
     let errors = [];
 
-    try {
-        // Validation checks
-        if (!name || !username || !password || !password2) {
-            errors.push({ message: "Please enter all fields" });
-        }
+    const foundUser = await findByUsername(username);
 
-        if (password.length < 6) {
-            errors.push({ message: "Password should have a minimum of 6 characters" });
-        }
-        
-        if (password !== password2) {
-            errors.push({ message: "Passwords do not match" });
-        }
-
-        if (errors.length > 0) {
-            res.render('register', { errors });
-        } else {
-            // Form validation has passed
-            const foundUser = await findByUsername(username);
-
-            if (foundUser) {
-                return res.status(400).send('User already exists.');
-            }
-    
-            const hashedPassword = await bcrypt.hash(password, 10);
-    
-            const newUser = await createUser(name, username, hashedPassword);
-    
-            // res.json(newUser.rows[0]);
-            req.flash('success_msg', 'You are now registered. Please log in.');
-            res.redirect('/users/login');
-        }
-        // console.log(req.body);
-    } catch (err) {
-        next(err);
+    // Validation checks
+    if (foundUser) {
+        errors.push({ message: "User already exists. Try a different one" })
     }
+    if (!name || !username || !password || !password2) {
+        errors.push({ message: "Please enter all fields" });
+    }
+    if (password.length < 6) {
+        errors.push({ message: "Password should have a minimum of 6 characters" });
+    }
+    if (password !== password2) {
+        errors.push({ message: "Passwords do not match" });
+    }
+    if (errors.length > 0) {
+        res.render('register', { errors });
+    } else {
+        // Form validation has passed
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await createUser(name, username, hashedPassword);
+
+        // res.json(newUser.rows[0]);
+        req.flash('success_msg', 'You are now registered. Please log in.');
+        res.redirect('/users/login');
+    }
+    // console.log(req.body);
 })
 
 // Login of users
