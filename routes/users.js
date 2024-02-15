@@ -18,8 +18,18 @@ usersRouter.get('/login', checkAuthenticated, (req, res) => {
     res.render('login');
 })
 
-usersRouter.get('/dashboard', checkNotAuthenticated, (req, res) => {
+usersRouter.get('/dashboard', checkNotAuthenticated, async (req, res) => {
     res.render('dashboard', { user: req.user.name })
+})
+
+usersRouter.get('/logout', (req, res, next) => {
+    req.logOut(err => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success_msg', 'You have logged out');
+        res.redirect('/users/login');
+    });
 })
 
 // Registration of new users
@@ -30,15 +40,15 @@ usersRouter.post('/register', async (req, res, next) => {
     try {
         // Validation checks
         if (!name || !username || !password || !password2) {
-            errors.push({ error: "Please enter all fields" });
+            errors.push({ message: "Please enter all fields" });
         }
 
         if (password.length < 6) {
-            errors.push({ error: "Password should have a minimum of 6 characters" });
+            errors.push({ message: "Password should have a minimum of 6 characters" });
         }
         
         if (password !== password2) {
-            errors.push({ error: "Passwords do not match" });
+            errors.push({ message: "Passwords do not match" });
         }
 
         if (errors.length > 0) {
@@ -84,7 +94,7 @@ function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/login');
+    res.redirect('/users/login');
 }
 
 // Error handling for 500 server errors.

@@ -35,11 +35,10 @@ function initialize(passport) {
 
     passport.serializeUser((user, done) => done(null, user.id));
 
-    passport.deserializeUser((id, done) => {
-        const user = findById(id);
+    passport.deserializeUser(async (id, done) => {
+        const user = await findById(id);
 
         return done(null, user);
-
     })
 }
 
