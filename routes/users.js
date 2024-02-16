@@ -3,7 +3,8 @@ const usersRouter = express.Router();
 
 const { 
     findByUsername, 
-    createUser 
+    createUser, 
+    updateUser
 } = require('../db/dbHelperFunctions');
 
 const bcrypt = require('bcrypt');
@@ -18,8 +19,18 @@ usersRouter.get('/login', checkAuthenticated, (req, res) => {
     res.render('login');
 })
 
-usersRouter.get('/dashboard', checkNotAuthenticated, async (req, res) => {
-    res.render('dashboard', { user: req.user.name })
+// Route to handle redirection of the users dashboard.
+usersRouter.get('/dashboard', checkNotAuthenticated, (req, res) => {
+    res.redirect(`/users/${req.user.id}/dashboard`);
+})
+
+usersRouter.get('/:userId/dashboard', (req, res) => {
+    // If the userId parameter in the link is changed to any other number other than the user's
+    // Then redirect the user to the dashboard with the correct user id.
+    if (req.params.userId != req.user.id) {
+        return res.redirect(`/users/${req.user.id}/dashboard`);
+    }
+    res.render('dashboard', { user: req.user.name });
 })
 
 usersRouter.get('/logout', (req, res, next) => {
@@ -73,6 +84,26 @@ usersRouter.post('/login', passport.authenticate('local', {
     failureRedirect: '/users/login',
     failureFlash: true
 }));
+
+// Modification of users details
+usersRouter.put('/:userId/edit-profile', async (req, res) => {
+    const { userId } = req.params;
+    const { name, password } = req.body;
+    let hashedPassword;
+
+    if (!name && !password) {
+        return res.status(400).send("Please provide name or password to update User info.");
+    }
+
+    if (password) {
+        hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await updateUser(userId, name, hashedPassword);
+    
+    // console.log(updatedUser);
+    res.status(201).json(updatedUser);
+})
 
 // Middlewares to check if the user is first authenticated before going to specific routes
 function checkAuthenticated(req, res, next) {

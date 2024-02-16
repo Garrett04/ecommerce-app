@@ -54,6 +54,41 @@ const findById = async (id) => {
     }
 }
 
+const updateUser = async (id, name, hashedPassword) => {
+    try {
+        let newUserInfo;
+        let valuesArr = [];
+
+        // console.log(id, name, hashedPassword);
+        
+        if (name && hashedPassword) {
+            newUserInfo = 'SET name = $1, password = $2 WHERE id = $3';
+            valuesArr.push(name, hashedPassword);
+        } else if (name) {
+            newUserInfo = 'SET name = $1 WHERE id = $2';
+            valuesArr.push(name);
+        }else if (hashedPassword) {
+            newUserInfo = 'SET password = $1 WHERE id = $2';
+            valuesArr.push(hashedPassword);
+        }
+
+        const query = `UPDATE users ${newUserInfo} RETURNING *`;
+
+        // console.log(query);
+
+        const updatedUser = await pool.query(
+            query,
+            [...valuesArr, id]
+        )
+
+        return updatedUser.rows;
+        
+    } catch (err) {
+        console.error('Error updating user info by id: ', err.message);
+        throw new Error('Error updating user info by id');
+    }
+}
+
 // products, categories, and categories_products table
 const findByCategory = async (categoryId) => {
     try {   
@@ -104,6 +139,7 @@ module.exports = {
     findByUsername,
     createUser,
     findById,
+    updateUser,
     findByCategory,
     findByProductID,
 }
