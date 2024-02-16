@@ -8,5 +8,11 @@
 <body>
     <a href="/users/logout">Logout</a>
     <h1>Hello <%= user %></h1>
+    <ul>
+        <% if(typeof success_msg !== 'undefined') { %>
+            <li><%= success_msg %></li>
+        <% } %>
+    </ul>
+    <a href="/users/<%= userId %>/edit-profile">Edit Profile</a>
 </body>
 </html>

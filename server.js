@@ -10,10 +10,13 @@ const initializePassport = require('./passportConfig');
 initializePassport(passport);
 
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 
 app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: false }));
+
+app.use(methodOverride('_method'));
 
 app.use(session({
     secret: "secret",
@@ -27,7 +30,6 @@ app.use(passport.session());
 app.use(flash());
 
 app.set('view engine', 'ejs');
-
 
 app.get('/', (req, res) => {
     res.render('index');

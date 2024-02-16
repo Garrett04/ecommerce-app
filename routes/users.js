@@ -30,7 +30,14 @@ usersRouter.get('/:userId/dashboard', (req, res) => {
     if (req.params.userId != req.user.id) {
         return res.redirect(`/users/${req.user.id}/dashboard`);
     }
-    res.render('dashboard', { user: req.user.name });
+    res.render('dashboard', { user: req.user.name, userId: req.user.id });
+})
+
+usersRouter.get('/:userId/edit-profile', (req, res) => {
+    res.render('edit-profile', { 
+        username: req.user.username, 
+        userId: req.user.id
+    });
 })
 
 usersRouter.get('/logout', (req, res, next) => {
@@ -88,21 +95,44 @@ usersRouter.post('/login', passport.authenticate('local', {
 // Modification of users details
 usersRouter.put('/:userId/edit-profile', async (req, res) => {
     const { userId } = req.params;
-    const { name, password } = req.body;
+
+    const { name, password, password2 } = req.body;
     let hashedPassword;
 
-    if (!name && !password) {
-        return res.status(400).send("Please provide name or password to update User info.");
-    }
+    // console.log(name, password, password2)
 
-    if (password) {
-        hashedPassword = await bcrypt.hash(password, 10);
-    }
+    // Validation checks
+    const passwordCompare = await bcrypt.compare(password, req.user.password);
 
-    const updatedUser = await updateUser(userId, name, hashedPassword);
+    // console.log(req.user.password, passwordCompare);
     
-    // console.log(updatedUser);
-    res.status(201).json(updatedUser);
+    if (!name && !password) {
+        return res.status(400).send("Please provide new name or new password to update user info.");
+    }
+
+    if (!passwordCompare) {
+        return res.render('edit-profile', { 
+            username: req.user.username, 
+            userId: req.user.id,
+            wrongPassword: 'Please enter valid old password' 
+        });
+    } else {
+        if (password2) {
+            hashedPassword = await bcrypt.hash(password2, 10);
+        }
+    
+        const updatedUser = await updateUser(userId, name, hashedPassword);
+        
+        // console.log(updatedUser);
+        // res.status(201).json(updatedUser);
+
+        res.render('dashboard', { 
+            user: updatedUser.name, 
+            userId: updatedUser.id,
+            success_msg: "Profile updated successfully" 
+        });
+    }
+    
 })
 
 // Middlewares to check if the user is first authenticated before going to specific routes

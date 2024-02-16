@@ -81,7 +81,7 @@ const updateUser = async (id, name, hashedPassword) => {
             [...valuesArr, id]
         )
 
-        return updatedUser.rows;
+        return updatedUser.rows[0];
         
     } catch (err) {
         console.error('Error updating user info by id: ', err.message);
