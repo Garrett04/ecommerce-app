@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { genPassword } = require('../lib/passwordUtils');
+const { genPassword } = require('../../lib/passwordUtils');
 const passport = require('passport');
-const User = require('../models/User');
+const User = require('../../models/User');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 // GET ROUTES
 router.get('/login', (req, res) => {
@@ -13,9 +14,16 @@ router.get('/register', (req, res) => {
     res.render('register');
 })
 
-// temporary route
-router.get('/dashboard', (req, res) => {
+// temporary routes
+router.get('/dashboard', isAuth, (req, res) => {
     res.render('dashboard', { user: req.user.username });
+})
+
+router.get('/logout', (req, res) => {
+    req.logout(err => {
+        if (err) { return next(err) }
+        res.redirect('/');
+    });
 })
 
 // POST ROUTES

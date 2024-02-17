@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: new pgSession({
         pool,
         tableName: 'session'
@@ -35,12 +35,19 @@ require('./auth/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use((req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    console.log(req.isAuthenticated());
+    next();
+});
+
 // ROUTES
 app.get('/', (req, res) => {
     res.render('index');
 })
 
-const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth/auth');
 app.use('/', authRouter);
 
 // const userRouter = require('./routes/user');
