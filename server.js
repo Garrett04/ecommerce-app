@@ -1,45 +1,51 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-const session = require('express-session');
 const passport = require('passport');
-const flash = require('express-flash');
-const initializePassport = require('./passportConfig');
+const session = require('express-session');
+const genFunc = require('connect-pg-simple');
+const { connectionString } = require('./db/config');
 
-initializePassport(passport);
+// const methodOverride = require('method-override');
 
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.json());
+// app.use(methodOverride('_method'));
 
-app.use(express.urlencoded({ extended: false }));
-
-app.use(methodOverride('_method'));
+// SESSION SETUP
+const PostgresqlStore = genFunc(session);
+const sessionStore = new PostgresqlStore({
+    conString: connectionString
+})
 
 app.use(session({
-    secret: "secret",
+    secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: sessionStore,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 // 1 day (1 day * 24 hr/1 day * 60 min/1 hr
+    }
 }));
+
+// PASSPORT AUTHENTICATION
+require('./auth/passport');
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(flash());
+// app.set('view engine', 'ejs');
 
-app.set('view engine', 'ejs');
+// ROUTES
+const authRouter = require('./routes/auth');
+app.use('/', authRouter);
 
-app.get('/', (req, res) => {
-    res.render('index');
-})
+// const userRouter = require('./routes/user');
+// app.use('/users', userRouter);
 
-const usersRouter = require('./routes/users');
-app.use('/users', usersRouter);
-
-const productsRouter = require('./routes/products');
-app.use('/products', productsRouter);
+// const productsRouter = require('./routes/product');
+// app.use('/products', productsRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}.`);

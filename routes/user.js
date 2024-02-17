@@ -1,5 +1,5 @@
 const express = require('express');
-const usersRouter = express.Router();
+const userRouter = express.Router();
 
 const { 
     findByUsername, 
@@ -11,20 +11,20 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 // Render views
-usersRouter.get('/register', checkAuthenticated, (req, res) => {
+userRouter.get('/register', checkAuthenticated, (req, res) => {
     res.render('register');
 })
 
-usersRouter.get('/login', checkAuthenticated, (req, res) => {
+userRouter.get('/login', checkAuthenticated, (req, res) => {
     res.render('login');
 })
 
 // Route to handle redirection of the users dashboard.
-usersRouter.get('/dashboard', checkNotAuthenticated, (req, res) => {
+userRouter.get('/dashboard', checkNotAuthenticated, (req, res) => {
     res.redirect(`/users/${req.user.id}/dashboard`);
 })
 
-usersRouter.get('/:userId/dashboard', (req, res) => {
+userRouter.get('/:userId/dashboard', (req, res) => {
     // If the userId parameter in the link is changed to any other number other than the user's
     // Then redirect the user to the dashboard with the correct user id.
     if (req.params.userId != req.user.id) {
@@ -33,14 +33,14 @@ usersRouter.get('/:userId/dashboard', (req, res) => {
     res.render('dashboard', { user: req.user.name, userId: req.user.id });
 })
 
-usersRouter.get('/:userId/edit-profile', (req, res) => {
+userRouter.get('/:userId/edit-profile', (req, res) => {
     res.render('edit-profile', { 
         username: req.user.username, 
         userId: req.user.id
     });
 })
 
-usersRouter.get('/logout', (req, res, next) => {
+userRouter.get('/logout', (req, res, next) => {
     req.logOut(err => {
         if (err) {
             return next(err);
@@ -51,7 +51,7 @@ usersRouter.get('/logout', (req, res, next) => {
 })
 
 // Registration of new users
-usersRouter.post('/register', async (req, res, next) => {
+userRouter.post('/register', async (req, res, next) => {
     const { name, username, password, password2 } = req.body;
     let errors = [];
 
@@ -86,14 +86,14 @@ usersRouter.post('/register', async (req, res, next) => {
 })
 
 // Login of users
-usersRouter.post('/login', passport.authenticate('local', {
+userRouter.post('/login', passport.authenticate('local', {
     successRedirect: '/users/dashboard',
     failureRedirect: '/users/login',
     failureFlash: true
 }));
 
 // Modification of users details
-usersRouter.put('/:userId/edit-profile', async (req, res) => {
+userRouter.put('/:userId/edit-profile', async (req, res) => {
     const { userId } = req.params;
 
     const { name, password, password2 } = req.body;
@@ -150,10 +150,4 @@ function checkNotAuthenticated(req, res, next) {
     res.redirect('/users/login');
 }
 
-// Error handling for 500 server errors.
-usersRouter.use((err, req, res, next) => {
-    console.error('Error: ', err.message);
-    res.status(500).send('Internal Server Error');
-})
-
-module.exports = usersRouter;
+module.exports = userRouter;
