@@ -1,153 +1,68 @@
 const express = require('express');
-const userRouter = express.Router();
+const router = express.Router();
+const utils = require('../lib/utils');
+const User = require('../models/User');
+const { authenticateJWT } = require('./middlewares/authMiddleware');
 
-const { 
-    findByUsername, 
-    createUser, 
-    updateUser
-} = require('../db/dbHelperFunctions');
-
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-
-// Render views
-userRouter.get('/register', checkAuthenticated, (req, res) => {
-    res.render('register');
-})
-
-userRouter.get('/login', checkAuthenticated, (req, res) => {
+// GET ROUTES
+router.get('/login', (req, res) => {
     res.render('login');
 })
 
-// Route to handle redirection of the users dashboard.
-userRouter.get('/dashboard', checkNotAuthenticated, (req, res) => {
-    res.redirect(`/users/${req.user.id}/dashboard`);
+router.get('/register', (req, res) => {
+    res.render('register');
 })
 
-userRouter.get('/:userId/dashboard', (req, res) => {
-    // If the userId parameter in the link is changed to any other number other than the user's
-    // Then redirect the user to the dashboard with the correct user id.
-    if (req.params.userId != req.user.id) {
-        return res.redirect(`/users/${req.user.id}/dashboard`);
-    }
-    res.render('dashboard', { user: req.user.name, userId: req.user.id });
+// temporary routes
+router.get('/dashboard', authenticateJWT, (req, res) => {
+    // res.render('dashboard', { user: req.user.username });
+    res.json({ success: true, msg: "You are now authorised", user: req.user });
 })
 
-userRouter.get('/:userId/edit-profile', (req, res) => {
-    res.render('edit-profile', { 
-        username: req.user.username, 
-        userId: req.user.id
+router.get('/logout', (req, res) => {
+    req.logout(err => {
+        if (err) { return next(err) }
+        res.redirect('/');
     });
 })
 
-userRouter.get('/logout', (req, res, next) => {
-    req.logOut(err => {
-        if (err) {
-            return next(err);
-        }
-        req.flash('success_msg', 'You have logged out');
-        res.redirect('/users/login');
-    });
-})
+// POST ROUTES
+router.post('/login', async (req, res, next) => {
+    const { username, password } = req.body;
 
-// Registration of new users
-userRouter.post('/register', async (req, res, next) => {
-    const { name, username, password, password2 } = req.body;
-    let errors = [];
+    const user = await User.findByUsername(username);
 
-    const foundUser = await findByUsername(username);
+    if (!user) {
+        res.status(401).json({ success: false, msg: "could not find user" });
+    }
 
-    // Validation checks
-    if (foundUser) {
-        errors.push({ message: "User already exists. Try a different one" })
-    }
-    if (!name || !username || !password || !password2) {
-        errors.push({ message: "Please enter all fields" });
-    }
-    if (password.length < 6) {
-        errors.push({ message: "Password should have a minimum of 6 characters" });
-    }
-    if (password !== password2) {
-        errors.push({ message: "Passwords do not match" });
-    }
-    if (errors.length > 0) {
-        res.render('register', { errors });
+    const isValid = utils.validatePassword(password, user.pw_hash, user.pw_salt);
+
+    if (isValid) {
+
+        const tokenObject = utils.issueJWT(user);
+        res.json({ success: true, user: user, token: tokenObject.token, expiresIn: tokenObject.expires });
+
     } else {
-        // Form validation has passed
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = await createUser(name, username, hashedPassword);
-
-        // res.json(newUser.rows[0]);
-        req.flash('success_msg', 'You are now registered. Please log in.');
-        res.redirect('/users/login');
+        res.status(401).json({ success: false, msg: "you entered the wrong password" });
     }
-    // console.log(req.body);
 })
 
-// Login of users
-userRouter.post('/login', passport.authenticate('local', {
-    successRedirect: '/users/dashboard',
-    failureRedirect: '/users/login',
-    failureFlash: true
-}));
-
-// Modification of users details
-userRouter.put('/:userId/edit-profile', async (req, res) => {
-    const { userId } = req.params;
-
-    const { name, password, password2 } = req.body;
-    let hashedPassword;
-
-    // console.log(name, password, password2)
-
-    // Validation checks
-    const passwordCompare = await bcrypt.compare(password, req.user.password);
-
-    // console.log(req.user.password, passwordCompare);
+router.post('/register', async (req, res, next) => {
+    const { username, password } = req.body;
     
-    if (!name && !password) {
-        return res.status(400).send("Please provide new name or new password to update user info.");
-    }
+    const saltHash = utils.genPassword(password);
 
-    if (!passwordCompare) {
-        return res.render('edit-profile', { 
-            username: req.user.username, 
-            userId: req.user.id,
-            wrongPassword: 'Please enter valid old password' 
-        });
-    } else {
-        if (password2) {
-            hashedPassword = await bcrypt.hash(password2, 10);
-        }
+    const { salt, hash } = saltHash;
     
-        const updatedUser = await updateUser(userId, name, hashedPassword);
-        
-        // console.log(updatedUser);
-        // res.status(201).json(updatedUser);
+    const newUser = await User.create({ username, hash, salt });
 
-        res.render('dashboard', { 
-            user: updatedUser.name, 
-            userId: updatedUser.id,
-            success_msg: "Profile updated successfully" 
-        });
-    }
-    
+    const jwt = utils.issueJWT(newUser);
+
+    res.json({ success: true, user: newUser, token: jwt.token, expiresIn: jwt.expires })
+
+    console.log(newUser);
 })
 
-// Middlewares to check if the user is first authenticated before going to specific routes
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/users/dashboard');
-    }
-    next();
-}
 
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/users/login');
-}
-
-module.exports = userRouter;
+module.exports = router;
