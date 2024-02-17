@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const connection = require('../db/config');
 const User = require('../models/User');
-const { validPassword } = require('../lib/passwordUtils');
+const { validatePassword } = require('../lib/passwordUtils');
 
 passport.use(new LocalStrategy(
     async (username, password, done) => {
@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
             if (!user) { return done(null, false) }
 
             // To validate the password
-            const isValid = validPassword(password, user.hash, user.salt);
+            const isValid = validatePassword(password, user.hash, user.salt);
             
             // If user was found and the password was valid using the validPassword function 
             // then return done with no error and the user object.
