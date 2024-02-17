@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
@@ -10,6 +11,7 @@ const pool = require('./db/config');
 
 // const methodOverride = require('method-override');
 
+// just like body-parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,25 +32,27 @@ app.use(session({
 }));
 
 // PASSPORT AUTHENTICATION
-require('./auth/passport');
+// Passes the global passport object into the configuration function.
+require('./auth/passport')(passport);
 
+// Initialization of passport on every request
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-    console.log(req.session);
-    console.log(req.user);
-    console.log(req.isAuthenticated());
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log(req.session);
+//     console.log(req.user);
+//     console.log(req.isAuthenticated());
+//     next();
+// });
 
 // ROUTES
 app.get('/', (req, res) => {
     res.render('index');
 })
 
-const authRouter = require('./routes/auth/auth');
-app.use('/', authRouter);
+// Import all routes over here
+app.use('/', require('./routes/index'));
 
 // const userRouter = require('./routes/user');
 // app.use('/users', userRouter);
@@ -56,6 +60,7 @@ app.use('/', authRouter);
 // const productsRouter = require('./routes/product');
 // app.use('/products', productsRouter);
 
+// Server listens on http://localhost:3000
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}.`);
 })

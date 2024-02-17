@@ -1,43 +1,33 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const connection = require('../db/config');
+const fs = require('fs');
+const path = require('path');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../models/User');
-const { validatePassword } = require('../lib/passwordUtils');
 
-passport.use(new LocalStrategy(
-    async (username, password, done) => {
-        try {
-            const user = await User.findByUsername(username);
-            
-            // If no user was found then return done with no error and false.
-            if (!user) { return done(null, false) }
+const pathToKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
+const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
 
-            // To validate the password
-            const isValid = validatePassword(password, user.pw_hash, user.pw_salt);
-            
-            // If user was found and the password was valid using the validPassword function 
-            // then return done with no error and the user object.
-            // Else return done with no error and no user object indicating wrong password. 
-            if (isValid) {
-                return done(null, user);
-            } else {
-                return done(null, false);
-            }
-        } catch (err) {
-            done(err);
-        }
-    }
-));
+const options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: PUB_KEY,
+    algorithms: ['RS256']
+}
 
-passport.serializeUser((user, done) => {
-    done(null, user.id)
-})
-
-passport.deserializeUser(async (userId, done) => {
+const strategy = new JwtStrategy(options, async (payload, done) => {
     try {
-        const user = await User.findById(userId);
-        return done(null, user);
+        const user = await User.findById(payload.sub);
+
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+        }
+
     } catch (err) {
-        throw new Error(err);
+        done(err, null);
     }
 })
+
+module.exports = (passport) => {
+    passport.use(strategy);
+}

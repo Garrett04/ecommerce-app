@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { genPassword } = require('../../lib/passwordUtils');
+const utils = require('../../lib/utils');
 const passport = require('passport');
 const User = require('../../models/User');
 const { isAuth } = require('../middlewares/authMiddleware');
@@ -27,29 +27,41 @@ router.get('/logout', (req, res) => {
 })
 
 // POST ROUTES
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/login'
-}))
+router.post('/login', async (req, res, next) => {
+    const { username, password } = req.body;
+
+    const user = await User.findByUsername(username);
+
+    if (!user) {
+        res.status(401).json({ success: false, msg: "could not find user" });
+    }
+
+    const isValid = utils.validatePassword(password, user.pw_hash, user.pw_salt);
+
+    if (isValid) {
+
+        const tokenObject = utils.issueJWT(user);
+        res.json({ success: true, user: user, token: tokenObject.token, expiresIn: tokenObject.expires });
+
+    } else {
+        res.status(401).json({ success: false, msg: "you entered the wrong password" });
+    }
+})
 
 router.post('/register', async (req, res, next) => {
     const { username, password } = req.body;
     
-    const saltHash = genPassword(password);
+    const saltHash = utils.genPassword(password);
 
-    console.log(saltHash);
     const { salt, hash } = saltHash;
-
-    const userExists = await User.findByUsername(username);
     
-    if (userExists) {
-        return res.send('User already exits');
-    }
-
     const newUser = await User.create({ username, hash, salt });
 
+    const jwt = utils.issueJWT(newUser);
+
+    res.json({ success: true, user: newUser, token: jwt.token, expiresIn: jwt.expires })
+
     console.log(newUser);
-    res.redirect('/login');
 })
 
 
