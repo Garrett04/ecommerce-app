@@ -9,19 +9,7 @@
 <body>
     <h1>Register</h1>
 
-    <ul>
-        <% if(typeof errors != 'undefined') { %> 
-            <% errors.forEach(error => { %>
-                <li><%= error.message %></li>
-            <% }) %>
-        <% } %>
-    </ul>
-
-    <form action="/users/register" method="POST">
-        <div>
-            <input type="text" id="name" name="name" placeholder="Name" required>
-        </div>
-
+    <form action="/register" method="POST">
         <div>
             <input type="text" id="username" name="username" placeholder="Username" required>
         </div>
@@ -38,7 +26,7 @@
             <input type="Submit" value="Register">
         </div>
 
-        Already registered? <a href="/users/login">Login here</a>
+        Already registered? <a href="/login">Login here</a>
     </form>
 </body>
 </html>

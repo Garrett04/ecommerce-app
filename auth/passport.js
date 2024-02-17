@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
             if (!user) { return done(null, false) }
 
             // To validate the password
-            const isValid = validatePassword(password, user.hash, user.salt);
+            const isValid = validatePassword(password, user.pw_hash, user.pw_salt);
             
             // If user was found and the password was valid using the validPassword function 
             // then return done with no error and the user object.

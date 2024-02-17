@@ -10,7 +10,7 @@ class User {
     async create(data) {
         try {
             // pg query statement
-            const statement = `INSERT INTO users (name, username, password) 
+            const statement = `INSERT INTO users (username, pw_hash, pw_salt) 
                             VALUES ($1, $2, $3) 
                             RETURNING *`;
 
@@ -120,4 +120,4 @@ class User {
     }
 }
 
-module.exports = User;
+module.exports = new User();
