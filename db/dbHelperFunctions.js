@@ -29,7 +29,7 @@ const createUser = async (name, username, hashedPassword) => {
             [name, username, hashedPassword] 
         ) 
 
-        return newUser;
+        return newUser.rows;
     } catch (err) {
         console.error('Error creating new user: ', err.message);
         throw new Error('Error creating new user');
@@ -135,11 +135,32 @@ const findByProductID = async (productID) => {
     }
 }
 
+// carts table
+const createCart = async (title, userId) => {
+    try {   
+        const query = `INSERT INTO carts (title, user_id) 
+                        VALUES ($1, $2)
+                        RETURNING *`;
+        const newCart = await pool.query(
+            query, 
+            [title, userId]
+        );
+
+        return newCart.rows;
+    } catch (err) {
+        console.error('Error creating new cart: ', err.message);
+        throw new Error('Error creating new cart');
+    }
+}
+
 module.exports = { 
     findByUsername,
     createUser,
     findById,
     updateUser,
+
     findByCategory,
     findByProductID,
+    
+    createCart,
 }

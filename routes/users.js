@@ -31,6 +31,7 @@ usersRouter.get('/:userId/dashboard', (req, res) => {
         return res.redirect(`/users/${req.user.id}/dashboard`);
     }
     res.render('dashboard', { user: req.user.name, userId: req.user.id });
+    res.json(req.user);
 })
 
 usersRouter.get('/:userId/edit-profile', (req, res) => {
