@@ -1,32 +1,45 @@
 const express = require('express');
-const productsRouter = express.Router();
+const router = express.Router();
+const Product = require('../models/Product');
 
-const { findByCategory, findByProductID } = require('../db/dbHelperFunctions');
-
-productsRouter.get('/', async (req, res) => {
+// GET ROUTES
+router.get('/', async (req, res, next) => {
     const categoryId = req.query.category;
-    
-    const products = await findByCategory(categoryId);
+
+    // If categoryId is not found then go to the next route else proceed.
+    if (!categoryId) {
+        return next();
+    }
+
+    const products = await Product.findByCategory(categoryId);
 
     if (!products) {
-        return res.status(404).send("No products found by category");
+        return res.status(404).json({ msg: "No products found by category." });
     }
 
     res.json(products);
+})
 
-});
+router.get('/', async (req, res) => {
+    const products = await Product.find();
 
-productsRouter.get('/:productID', async (req, res) => {
-    const { productID } = req.params;
+    if (!products) {
+        return res.status(404).find({ msg: "No products found." })
+    }
 
-    const product = await findByProductID(productID);
+    res.json(products);
+})
+
+router.get('/:productId', async(req, res) => {
+    const { productId } = req.params;
+
+    const product = await Product.findById(productId);
 
     if (!product) {
-        return res.status(404).send("Product not found by product id"); 
+        return res.status(404).json({ msg: "Product not found by product id." });
     }
 
     res.json(product);
-
 })
 
-module.exports = productsRouter;
+module.exports = router;
