@@ -3,8 +3,13 @@ const Cart = require('../models/Cart');
 const { authenticateJWT, authCartAccess } = require('./middlewares/authMiddleware');
 
 // GET ROUTES
-router.get('/:cartId', authenticateJWT, async (req, res) => {
-    
+// To get cart by its id
+router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+    const { cartId } = req.params;
+
+    const cart = await Cart.findById(cartId);
+
+    res.json({ success: true, cart: cart });
 })
 
 // POST ROUTES
@@ -26,7 +31,6 @@ router.post('/', authenticateJWT, async (req, res) => {
 // To add product to cart associated by cart id
 router.post('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
-
     const { productId, quantity } = req.body;
 
     if (!productId || !quantity) {

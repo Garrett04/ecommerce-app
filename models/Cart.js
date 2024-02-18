@@ -109,15 +109,22 @@ class Cart {
     async findById(cartId) {
         try {
             // pg query statement
-            const statement = `SELECT *
-                                FROM carts
-                                WHERE id = $1`;
+            const statement = `SELECT carts_products.cart_id,
+                                        carts.user_id, 
+                                        products.name AS product_name, 
+                                        carts_products.quantity AS product_quantity, 
+                                        products.price AS product_price
+                                FROM carts, products, carts_products
+                                WHERE carts_products.cart_id = $1
+                                    AND products.id = carts_products.product_id
+                                    AND carts_products.cart_id = carts.id`;
 
             // query database
             const result = await db.query(statement, [cartId]);
 
             if (result.rows.length > 0) {
-                return result.rows[0];
+                // console.log(result.rows);
+                return result.rows;
             }
 
             return null;
