@@ -55,9 +55,9 @@ router.post('/register', async (req, res, next) => {
 
     const newUser = await User.create({ username, hash, salt });
     const jwt = utils.issueJWT(newUser);
-    
+
     res.json({ success: true, user: newUser, token: jwt.token, expiresIn: jwt.expires })
-    console.log(newUser);
+    // console.log(newUser);
 })
 
 
