@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Cart = require('../models/Cart');
-const { authenticateJWT } = require('./middlewares/authMiddleware');
+const { authenticateJWT, authCartAccess } = require('./middlewares/authMiddleware');
 
 // GET ROUTES
 router.get('/:cartId', authenticateJWT, async (req, res) => {
@@ -15,26 +15,27 @@ router.post('/', authenticateJWT, async (req, res) => {
     // console.log(userId);
 
     if (!title) {
-        return res.status(400).json({ msg: "Please provide the cart title" });
+        return res.status(400).json({ success: false, msg: "Please provide the cart title" });
     }
 
     const newCart = await Cart.create({ title, userId });
 
-    res.status(201).json(newCart);
+    res.status(201).json({ success: true, cart: newCart });
 })
 
 // To add product to cart associated by cart id
-router.post('/:cartId', authenticateJWT, async (req, res) => {
+router.post('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
+
     const { productId, quantity } = req.body;
 
     if (!productId || !quantity) {
-        return res.status(400).json({ msg: "Please provide the product Id and quantity" });
+        return res.status(400).json({ success: false, msg: "Please provide the product Id and quantity" });
     }
 
     const cart = await Cart.addProduct({ cartId, productId, quantity });
 
-    res.status(201).json(cart);
+    res.status(201).json({success: true, cart: cart});
 })
 
 module.exports = router;

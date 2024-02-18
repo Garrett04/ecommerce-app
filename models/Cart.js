@@ -117,7 +117,7 @@ class Cart {
             const result = await db.query(statement, [cartId]);
 
             if (result.rows.length > 0) {
-                return result.rows;
+                return result.rows[0];
             }
 
             return null;
@@ -125,6 +125,33 @@ class Cart {
             throw new Error(err);
         }
     }
+
+    // /**
+    //  * Retrieve cart by userId
+    //  * 
+    //  * @param  {String} userId Id of user
+    //  * @return {Object|null} Cart object
+    //  */
+    // async findByUserId(userId) {
+    //     try {
+    //         // pg query statement
+    //         const statement = `SELECT *
+    //                             FROM carts
+    //                             WHERE user_id = $1`;
+            
+    //         // query database
+    //         const result = await db.query(statement, [userId]);
+
+    //         if (result.rows.length > 0) {
+    //             console.log(result.rows[0]);
+    //             return result.rows[0];
+    //         }
+
+    //         return null;
+    //     } catch (err) {
+    //         throw new Error(err);
+    //     }
+    // }
 }
 
 module.exports = new Cart();
