@@ -68,7 +68,11 @@ router.put('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
 router.delete('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     
-    // const deletedCart = await 
+    const deletedCart = await Cart.delete(cartId);
+
+    // console.log(deletedCart);
+
+    res.status(200).json({ success: true, msg: "Cart deleted succesfully", cart_id: deletedCart.id });
 })
 
 module.exports = router;

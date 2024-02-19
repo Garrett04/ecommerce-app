@@ -146,32 +146,34 @@ class Cart {
         }
     }
 
-    // /**
-    //  * Retrieve cart by userId
-    //  * 
-    //  * @param  {String} userId Id of user
-    //  * @return {Object|null} Cart object
-    //  */
-    // async findByUserId(userId) {
-    //     try {
-    //         // pg query statement
-    //         const statement = `SELECT *
-    //                             FROM carts
-    //                             WHERE user_id = $1`;
+    /**
+     * Delete cart associated by cart id
+     * 
+     * @param  {String} cartId id of cart
+     * @return {null} 
+     */
+    async delete(cartId) {
+        try {
+            // pg query statement
+            const statement = `DELETE FROM carts
+                                WHERE carts.id = $1
+                                RETURNING *`;
+
+            // query database
+            const result = await db.query(statement, [cartId]);
+
+            // console.log(result.rows);
+            // console.log(result.rows.length);
+            if (result.rows.length > 0) {
+                return result.rows[0];
+            } 
             
-    //         // query database
-    //         const result = await db.query(statement, [userId]);
+            return null;
 
-    //         if (result.rows.length > 0) {
-    //             console.log(result.rows[0]);
-    //             return result.rows[0];
-    //         }
-
-    //         return null;
-    //     } catch (err) {
-    //         throw new Error(err);
-    //     }
-    // }
+        } catch (err) {
+            throw new Error(err);
+        }
+    } 
 }
 
 module.exports = new Cart();
