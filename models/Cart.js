@@ -12,7 +12,7 @@ class Cart {
             // pg query statement
             const statement = `INSERT INTO carts (title, user_id)
                                 VALUES ($2, $1)
-                                RETURNING *`;
+                                RETURNING *`;           
 
             // values array to insert to the statement
             const values = [data.userId, data.title];
@@ -106,23 +106,36 @@ class Cart {
      * @param  {String} cartId Id of cart
      * @return {Object|null} Cart object 
      */
-    async findById(cartId) {
-        try {
-            // pg query statement
-            const statement = `SELECT carts_products.cart_id,
-                                        carts.user_id, 
-                                        products.name AS product_name, 
-                                        carts_products.quantity AS product_quantity, 
-                                        products.price AS product_price
-                                FROM carts, products, carts_products
-                                WHERE carts_products.cart_id = $1
-                                    AND products.id = carts_products.product_id
-                                    AND carts_products.cart_id = carts.id`;
+    async findById(is_carts_table, cartId) {
+        let statement;
 
+        // If is_carts_table is false then retrieve from the carts_products table.
+        if (!is_carts_table) {
+            statement = `SELECT carts_products.cart_id,
+                                carts.user_id, 
+                                carts.id AS carts_table_id,
+                                products.name AS product_name, 
+                                carts_products.quantity AS product_quantity, 
+                                products.price AS product_price
+                        FROM carts, products, carts_products
+                        WHERE carts_products.cart_id = $1
+                            AND products.id = carts_products.product_id
+                            AND carts_products.cart_id = carts.id`;
+        } else {
+            statement = `SELECT *
+                        FROM carts
+                        WHERE id = $1`;
+        }
+
+        try {
             // query database
             const result = await db.query(statement, [cartId]);
 
-            if (result.rows.length > 0) {
+            // console.log(result.rows);
+            // console.log(result.rows.length);
+            if (result.rows.length == 1) { // If there's only one row then return that row object.
+                return result.rows[0];
+            } else if (result.rows.length > 0) {
                 // console.log(result.rows);
                 return result.rows;
             }

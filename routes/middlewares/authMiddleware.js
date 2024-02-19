@@ -6,14 +6,16 @@ module.exports.authenticateJWT = (req, res, next) => {
     passport.authenticate('jwt', { session: false })(req, res, next)
 }
 
-// Checks if user is authorized before accessing the cart.
+// Checks if user is authorized before accessing carts_products.
 module.exports.authCartAccess = async (req, res, next) => {
     const { cartId } = req.params;
     const userId = req.user.id;
-    
-    const cart = await Cart.findById(cartId);
+    let hasCartAccess;
 
-    // console.log(cart);
+    // Retrieving from carts table
+    const cart = await Cart.findById(true, cartId);
+
+    // console.log("cart:", cart);
 
     // If cart does not exist then return a 404 status code. 
     if (!cart) {
@@ -23,18 +25,13 @@ module.exports.authCartAccess = async (req, res, next) => {
     // console.log("cart user_id: ", cart.user_id);
     // console.log("userid: ", userId);
 
-    const hasCartAccess = cart.every(({user_id}) => {
-        if (user_id === userId) {
-            return true;
-        } else {
-            return false;
-        }
-    })
+    hasCartAccess = cart.user_id === userId ? true : false;
 
     // console.log(hasCartAccess);
 
     if(!hasCartAccess) {
         return res.status(401).json({ success: false, msg: "Not authorized to cart" });
     }
+
     next();
 }

@@ -1,13 +1,17 @@
 const router = require('express').Router();
 const Cart = require('../models/Cart');
-const { authenticateJWT, authCartAccess } = require('./middlewares/authMiddleware');
+const { 
+    authenticateJWT, 
+    authCartAccess
+} = require('./middlewares/authMiddleware');
 
 // GET ROUTES
 // To get cart by its id
 router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
 
-    const cart = await Cart.findById(cartId);
+    // Calls findById which takes in an is_carts_table boolean value of false indicating to retrieve from the carts_products table
+    const cart = await Cart.findById(false, cartId);
 
     res.json({ success: true, cart: cart });
 })
@@ -40,6 +44,31 @@ router.post('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const cart = await Cart.addProduct({ cartId, productId, quantity });
 
     res.status(201).json({success: true, cart: cart});
+})
+
+// PUT ROUTES
+// To update cart details
+router.put('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+    const { cartId } = req.params;
+    const { title } = req.body;
+
+    if (!title) {
+        return res.status(400).json({ success: false, msg: "Please provide the cart title" });
+    }
+
+    const updatedCart = await Cart.update({ id: cartId, title });
+
+    // console.log("updatedCart:", updatedCart);
+
+    res.json({ success: true, cart: updatedCart });
+})
+
+// DELETE ROUTES
+// To delete cart
+router.delete('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+    const { cartId } = req.params;
+    
+    // const deletedCart = await 
 })
 
 module.exports = router;
