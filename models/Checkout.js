@@ -12,8 +12,8 @@ class Checkout {
         // pg query statement
         const statement = `INSERT INTO checkout (
                                 payment_method, 
-                                shipping_address, 
-                                billing_address,
+                                shipping_address_id, 
+                                billing_address_id,
                                 subtotal,
                                 tax,
                                 shipping_cost,
@@ -37,8 +37,8 @@ class Checkout {
         const {
             cartId, 
             payment_method,
-            shipping_address,
-            billing_address  
+            shipping_address_id,
+            billing_address_id  
         } = data;
 
         const subtotal = await Cart.getSubtotal(cartId);
@@ -47,8 +47,8 @@ class Checkout {
         // values array to insert to the statement
         const values = [ 
             payment_method, 
-            shipping_address, 
-            billing_address, 
+            shipping_address_id, 
+            billing_address_id, 
             subtotal, 
             null, // for now let tax be null
             null, // let shipping_cost be null

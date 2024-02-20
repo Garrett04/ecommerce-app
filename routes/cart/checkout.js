@@ -10,22 +10,20 @@ router.post('/', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const { 
         payment_method,
-        shipping_address,
-        billing_address 
+        shipping_address_id,
+        billing_address_id 
     } = req.body;
-
-    const cart = await Cart.findById(false, cartId);
     
     const newPaymentInfo = {
         cartId,
         payment_method,
-        shipping_address,
-        billing_address 
+        shipping_address_id,
+        billing_address_id 
     }
 
     const makePayment = await Checkout.processPayment(newPaymentInfo);
 
-    console.log(makePayment);
+    // console.log(makePayment);
 
     // console.log(cart);
     res.status(201).json(makePayment);
