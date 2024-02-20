@@ -37,6 +37,62 @@ class Order {
             throw new Error(err);
         }
     }
+
+    /**
+     * Retrieve orders by user_id
+     * 
+     * @param  {String} userId id of user
+     * @return {Array|Object|null} all past orders 
+     */
+    async find(userId) {
+        try {
+            // pg query statement
+            const statement = `SELECT *
+                                FROM orders
+                                WHERE user_id = $1`;
+
+            // query database
+            const result = await db.query(statement, [userId]);
+            
+            if (result.rows.length == 1) {
+                return result.rows;
+            } else if (result.rows.length > 0) {
+                return result.rows[0];
+            }
+
+            return null;
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    /**
+     * Retrieve order by order id
+     * 
+     * @param  {String} orderId id of order
+     * @return {Object|null} order object
+     */
+    async findById(orderId) {
+        try {
+            // pg query statement
+            const statement = `SELECT *
+                                FROM orders
+                                WHERE id = $1`;
+
+            // query database
+            const result = await db.query(statement, [orderId]);
+
+            if (result.rows.length > 0) {
+                return result.rows[0];
+            }
+
+            return null;
+            
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Order();
