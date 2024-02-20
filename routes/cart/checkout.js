@@ -13,6 +13,14 @@ router.post('/', authenticateJWT, authCartAccess, async (req, res) => {
         shipping_address_id,
         billing_address_id 
     } = req.body;
+
+    const paymentExists = await Checkout.checkPaymentExists(cartId);
+
+    // console.log(paymentExists);
+
+    if (paymentExists) {
+        return res.status(400).json({ success: false, msg: "Payment already done" });
+    }
     
     const newPaymentInfo = {
         cartId,

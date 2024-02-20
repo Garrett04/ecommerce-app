@@ -19,7 +19,8 @@ class Checkout {
                                 shipping_cost,
                                 total_amount,
                                 checkout_date,
-                                checkout_status
+                                checkout_status,
+                                cart_id
                             ) VALUES (
                                 $1,
                                 $2,
@@ -29,7 +30,8 @@ class Checkout {
                                 $6,
                                 $7,
                                 CURRENT_DATE,
-                                $8
+                                $8,
+                                $9
                             )
                             RETURNING *`;
         
@@ -38,7 +40,7 @@ class Checkout {
             cartId, 
             payment_method,
             shipping_address_id,
-            billing_address_id  
+            billing_address_id
         } = data;
 
         const subtotal = await Cart.getSubtotal(cartId);
@@ -53,19 +55,47 @@ class Checkout {
             null, // for now let tax be null
             null, // let shipping_cost be null
             subtotal, // let total_amount be the subtotal since for now since no tax and shipping_cost is present
-            "success" // "pending" || "success" || "failed"
+            "success", // "pending" || "success" || "failed"
+            cartId
         ];
 
         try {
             // query database
             const result = await db.query(statement, values);
 
-            console.log(result.rows[0]);
+            // console.log(result.rows[0]);
             if (result.rows.length > 0) {
                 return result.rows[0];
             }
 
             return null;
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    /**
+     * Check if payment already exists by cart id
+     * 
+     * @param  {String} cartId id of cart
+     * @return {Boolean} boolean of true or false if payment exists 
+     */
+    async checkPaymentExists(cartId) {
+        try {
+            // pg query statement
+            const statement =  `SELECT *
+                                FROM checkout
+                                WHERE cart_id = $1`;
+
+            // query database
+            const result = await db.query(statement, [cartId]);
+
+            if (result.rows.length > 0) {
+                return true;
+            }
+
+            return false;
 
         } catch (err) {
             throw new Error(err);
