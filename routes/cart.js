@@ -75,4 +75,6 @@ router.delete('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     res.status(200).json({ success: true, msg: "Cart deleted succesfully", cart_id: deletedCart.id });
 })
 
+router.use('/:cartId/checkout', require('./checkout'));
+
 module.exports = router;

@@ -174,6 +174,40 @@ class Cart {
             throw new Error(err);
         }
     } 
+
+    /**
+     * Get subtotal associated by cart id
+     * 
+     * @param  {String} cartId id of cart
+     * @return {String|null} subtotal string
+     */
+    async getSubtotal(cartId) {
+        try {
+            // pg query statement
+            const statement = `WITH subtotal AS (
+                                    SELECT carts_products.quantity AS product_quantity, 
+                                            products.price AS product_price
+                                    FROM carts, products, carts_products
+                                    WHERE carts_products.cart_id = $1
+                                        AND products.id = carts_products.product_id
+                                        AND carts_products.cart_id = carts.id
+                                )
+                                SELECT SUM(product_quantity * product_price) AS subtotal
+                                FROM subtotal`;
+
+            // query database
+            const result = await db.query(statement, [cartId]);
+
+            if (result.rows.length > 0) {
+                return result.rows[0].subtotal;
+            }
+
+            return null;
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Cart();

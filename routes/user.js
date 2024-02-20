@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const utils = require('../lib/utils');
 const User = require('../models/User');
+const Address = require('../models/Address');
 const { authenticateJWT } = require('./middlewares/authMiddleware');
 
 // GET ROUTES
@@ -58,6 +59,30 @@ router.post('/register', async (req, res, next) => {
 
     res.json({ success: true, user: newUser, token: jwt.token, expiresIn: jwt.expires })
     // console.log(newUser);
+})
+
+router.post('/add-address', authenticateJWT, async (req, res) => {
+    const { 
+        address_line1, 
+        address_line2, 
+        city,
+        state,
+        postal_code,
+        country 
+    } = req.body;
+
+    const userId = req.user.id;
+
+    const data = {
+        user_id: userId,
+        ...req.body
+    }
+
+    console.log(data);
+
+    const newAddress = await Address.create(data);
+
+    res.status(201).json({ status: true, address: newAddress });
 })
 
 
