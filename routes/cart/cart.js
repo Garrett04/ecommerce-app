@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const Cart = require('../models/Cart');
+const Cart = require('../../models/Cart');
 const { 
     authenticateJWT, 
     authCartAccess
-} = require('./middlewares/authMiddleware');
+} = require('../middlewares/authMiddleware');
 
 // GET ROUTES
 // To get cart by its id

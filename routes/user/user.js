@@ -63,5 +63,4 @@ router.post('/register', async (req, res, next) => {
 
 router.use('/address', require('./address'));
 
-
 module.exports = router;

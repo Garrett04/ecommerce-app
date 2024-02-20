@@ -61,6 +61,61 @@ class Address {
     }
 
     /**
+     * Update user address by user id
+     * 
+     * @param  {Array} data data of new user address and user id
+     * @return {Object|null} Updated user address
+     */
+    async update(data) {
+        try {
+            // pg query statement
+            const statement = `UPDATE addresses
+                                SET address_line1 = $2,
+                                    address_line2 = $3,
+                                    city = $4,
+                                    state = $5,
+                                    postal_code = $6,
+                                    country = $7
+                                WHERE id = $1
+                                RETURNING *`;
+
+            // Destructuring of data object
+            const {
+                id,
+                address_line1,
+                address_line2,
+                city,
+                state,
+                postal_code,
+                country
+            } = data;
+
+            // values array to insert to statement
+            const values = [ 
+                id,
+                address_line1,
+                address_line2,
+                city,
+                state,
+                postal_code,
+                country 
+            ];
+
+            // query database
+            const result = await db.query(statement, values);
+            
+            if (result.rows.length > 0) {
+                return result.rows[0];
+            }
+
+            return null;
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    /**
      * Delete address by address id
      * 
      * @param  {String} addressId id of address

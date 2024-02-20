@@ -1,7 +1,7 @@
 const router = require('express').Router({ mergeParams: true });
-const Cart = require('../models/Cart');
-const { authenticateJWT, authCartAccess } = require('./middlewares/authMiddleware');
-const Checkout = require('../models/Checkout');
+const Cart = require('../../models/Cart');
+const { authenticateJWT, authCartAccess } = require('../middlewares/authMiddleware');
+const Checkout = require('../../models/Checkout');
 
 // POST ROUTES
 // To validate if cart exists, then process the payment 

@@ -66,25 +66,6 @@ class User {
     }
 
     /**
-     * Update user address by user id
-     * 
-     * @param  {Object} data data of new user address and user id
-     * @return {Object|null} Updated user address
-     */
-    async updateAddress(data) {
-        try {
-            // pg query statement
-            const statement = `UPDATE addresses
-                                `
-
-
-        } catch (err) {
-            throw new Error(err);
-        }
-
-    }
-
-    /**
      * Find user info in the database by username
      * 
      * @param  {String} username username

@@ -26,14 +26,32 @@ router.delete('/:addressId', authenticateJWT, async (req, res) => {
     const deletedAddressId = await Address.delete(addressId);
 
     if (!deletedAddressId) {
-        return res.status(404).json({ status: false, msg: "Address not found" });
+        return res.status(404).json({ success: false, msg: "Address not found" });
     } 
 
     res.status(200).json({ 
-        status: true, 
+        success: true, 
         msg: "Address deleted succesfully.", 
         address_id: deletedAddressId
     });
+})
+
+// PUT ROUTES
+router.put('/:addressId', authenticateJWT, async (req, res) => {
+    const { addressId } = req.params;
+    
+    const data = {
+        id: addressId,
+        ...req.body
+    };
+
+    const updatedAddress = await Address.update(data);
+
+    if (!updatedAddress) {
+        return res.status(404).json({ success: false, msg: "Address not found" });
+    }
+
+    res.json({ success: true, address: updatedAddress });
 })
 
 module.exports = router;
