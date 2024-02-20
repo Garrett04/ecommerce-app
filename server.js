@@ -2,20 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.set('view engine', 'ejs');
 
 const passport = require('passport');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const pool = require('./db/config');
 
-// const methodOverride = require('method-override');
-
 // just like body-parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// app.use(methodOverride('_method'));
 
 // SESSION SETUP
 app.use(session({
@@ -39,26 +34,13 @@ require('./auth/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use((req, res, next) => {
-//     console.log(req.session);
-//     console.log(req.user);
-//     console.log(req.isAuthenticated());
-//     next();
-// });
-
 // ROUTES
 app.get('/', (req, res) => {
     res.render('index');
 })
 
 // Import all routes over here
-app.use('/', require('./routes/index'));
-
-// const userRouter = require('./routes/user');
-// app.use('/users', userRouter);
-
-// const productsRouter = require('./routes/product');
-// app.use('/products', productsRouter);
+app.use('/api', require('./routes/index'));
 
 // Server listens on http://localhost:3000
 app.listen(PORT, () => {

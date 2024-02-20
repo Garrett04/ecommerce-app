@@ -41,15 +41,16 @@ class User {
         try {
             // pg query statement
             const statement = `UPDATE users
-                                SET username=$2
-                                    password=$3
-                                    first_name=$4
-                                    last_name=$5
+                                SET username=$2,
+                                    first_name=$3,
+                                    last_name=$4,
+                                    pw_hash=$5,
+                                    pw_salt=$6
                                 WHERE id = $1
                                 RETURNING *`;
 
             // values array to insert to the statement
-            const values = [data.id, data.username, data.password, data.first_name, data.last_name];
+            const values = [data.id, data.username, data.first_name, data.last_name, data.pw_hash, data.pw_salt];
 
             // query database
             const result = await db.query(statement, values);
