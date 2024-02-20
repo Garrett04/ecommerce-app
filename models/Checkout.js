@@ -44,7 +44,7 @@ class Checkout {
         } = data;
 
         const subtotal = await Cart.getSubtotal(cartId);
-        console.log(subtotal);
+        // console.log(subtotal);
 
         // values array to insert to the statement
         const values = [ 
