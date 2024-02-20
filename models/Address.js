@@ -44,13 +44,42 @@ class Address {
                 country
             ];
 
+            // console.log(values);
+
             // query database
             const result = await db.query(statement, values);
 
             if (result.rows.length > 0) {
                 return result.rows[0];
             }
-            
+
+            return null;
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    /**
+     * Delete address by address id
+     * 
+     * @param  {String} addressId id of address
+     * @return {String|null} deleted address id
+     */
+    async delete(addressId) {
+        try {
+            // pg query statement
+            const statement = `DELETE FROM addresses
+                                WHERE id = $1
+                                RETURNING *`;
+
+            // query database
+            const result = await db.query(statement, [addressId]);
+
+            if (result.rows.length > 0) {
+                return result.rows[0].id;
+            }
+
             return null;
 
         } catch (err) {

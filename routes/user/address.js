@@ -1,0 +1,39 @@
+const router = require('express').Router({ mergeParams: true });
+const { authenticateJWT } = require('../middlewares/authMiddleware');
+const Address = require('../../models/Address');
+
+//POST ROUTES
+// To add user address
+router.post('/add-address', authenticateJWT, async (req, res) => {
+    const userId = req.user.id;
+
+    const data = {
+        user_id: userId,
+        ...req.body
+    }
+
+    // console.log(data);
+
+    const newAddress = await Address.create(data);
+
+    res.status(201).json({ status: true, address: newAddress });
+})
+
+// To delete user address
+router.delete('/:addressId', authenticateJWT, async (req, res) => {
+    const { addressId } = req.params;
+
+    const deletedAddressId = await Address.delete(addressId);
+
+    if (!deletedAddressId) {
+        return res.status(404).json({ status: false, msg: "Address not found" });
+    } 
+
+    res.status(200).json({ 
+        status: true, 
+        msg: "Address deleted succesfully.", 
+        address_id: deletedAddressId
+    });
+})
+
+module.exports = router;
