@@ -12,6 +12,8 @@ const pool = require('./db/config');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// app.use(cors());
+
 // SESSION SETUP
 app.use(session({
     secret: process.env.SECRET,

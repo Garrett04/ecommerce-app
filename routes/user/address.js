@@ -1,5 +1,5 @@
 const router = require('express').Router({ mergeParams: true });
-const { authenticateJWT } = require('../middlewares/authMiddleware');
+const { authenticateJWT, authAddressAccess } = require('../middlewares/authMiddleware');
 const Address = require('../../models/Address');
 
 //POST ROUTES
@@ -20,7 +20,7 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
 })
 
 // To delete user address
-router.delete('/:addressId', authenticateJWT, async (req, res) => {
+router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
 
     const deletedAddressId = await Address.delete(addressId);
@@ -37,7 +37,7 @@ router.delete('/:addressId', authenticateJWT, async (req, res) => {
 })
 
 // PUT ROUTES
-router.put('/:addressId', authenticateJWT, async (req, res) => {
+router.put('/:addressId', authenticateJWT, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
     
     const data = {

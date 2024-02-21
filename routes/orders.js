@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const Order = require('../models/Order');
-const { authenticateJWT } = require('./middlewares/authMiddleware');
+const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddleware');
 
 // GET ROUTES
-router.get('/', authenticateJWT, async (req, res) => {
+router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
     const userId = req.user.id;
     
     const orders = await Order.find(userId);
@@ -15,7 +15,7 @@ router.get('/', authenticateJWT, async (req, res) => {
     res.json({ success: true, orders: orders });
 })
 
-router.get('/:orderId', authenticateJWT, async (req, res) => {
+router.get('/:orderId', authenticateJWT, authOrderAccess, async (req, res) => {
     const { orderId } = req.params;
 
     const order = await Order.findById(orderId);

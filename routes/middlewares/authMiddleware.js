@@ -1,5 +1,7 @@
 const passport = require('passport');
 const Cart = require('../../models/Cart');
+const Order = require('../../models/Order');
+const Address = require('../../models/Address');
 
 // Checks if user is authorized before proceeding to the requested route.
 module.exports.authenticateJWT = (req, res, next) => {
@@ -31,6 +33,30 @@ module.exports.authCartAccess = async (req, res, next) => {
 
     if(!hasCartAccess) {
         return res.status(401).json({ success: false, msg: "Not authorized to cart" });
+    }
+
+    next();
+}
+
+module.exports.authAddressAccess = async (req, res, next) => {
+    const userId = req.user.id;
+
+    const addressExists = await Address.findByUserId(userId);
+    
+    if (!addressExists) {
+        return res.status(401).json({ success: false, msg: "Not authorized to use address" });
+    }
+
+    next();
+}
+
+module.exports.authOrderAccess = async (req, res, next) => {
+    const userId = req.user.id;
+
+    const order = await Order.find(userId);
+
+    if (!order) {
+        return res.status(401).json({ msg: false, msg: "Not authorized to order" });
     }
 
     next();

@@ -1,13 +1,13 @@
 const router = require('express').Router({ mergeParams: true });
 const Cart = require('../../models/Cart');
-const { authenticateJWT, authCartAccess } = require('../middlewares/authMiddleware');
+const { authenticateJWT, authCartAccess, authAddressAccess } = require('../middlewares/authMiddleware');
 const Checkout = require('../../models/Checkout');
 const Order = require('../../models/Order');
 
 // POST ROUTES
 // To validate if cart exists, then process the payment 
 // and ensure payment details submitted are accurate.
-router.post('/', authenticateJWT, authCartAccess, async (req, res) => {
+router.post('/', authenticateJWT, authCartAccess, authAddressAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
     const { 

@@ -64,7 +64,12 @@ router.put('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
     const { username, password, first_name, last_name } = req.body;
 
+    // Make sure to submit the old password and the new password in the client side.
     // Password Validation
+    if (!password) {
+        return res.status(404).json({ success: false, msg: "Please provide current password before updating user details" });
+    }
+
     const prevUser = await User.findById(userId);
     const isSamePassword = utils.validatePassword(password, prevUser.pw_hash, prevUser.pw_salt);
 
@@ -77,9 +82,10 @@ router.put('/', authenticateJWT, async (req, res) => {
 
     const data = {
         id: userId,
-        username,
-        first_name, 
-        last_name,
+        // Making sure that if the provided input is null then put in the previous values.
+        username: username ? username : prevUser.username,
+        first_name: first_name ? first_name : prevUser.first_name, 
+        last_name: last_name ? last_name : prevUser.last_name,
         pw_hash: newPassword.hash,
         pw_salt: newPassword.salt
     }
@@ -92,7 +98,7 @@ router.put('/', authenticateJWT, async (req, res) => {
             id: updatedUser.id,
             username: updatedUser.username,
             first_name: updatedUser.first_name,
-            last_name: updatedUser.last_name 
+            last_name: updatedUser.last_name
         } 
     });
 })
