@@ -2,9 +2,41 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 
+/**
+ * @swagger
+ * definitions:
+ *  Product:
+ *      properties:
+ *          name:
+ *              type: string
+ *          price:
+ *              type: float
+ */
+
+
 // GET ROUTES
-router.get('/', async (req, res, next) => {
-    const categoryId = req.query.category;
+/**
+ * @swagger
+ * /api/products/category/{categoryId}:
+ *  get:
+ *      tags:
+ *          - products
+ *      description: Find products by category ID
+ *      produces: application/json
+ *      parameters:
+ *          - name: categoryId
+ *            in: path
+ *            description: Category ID
+ *            required: true
+ *            type: integer
+ *      responses:
+ *          200:
+ *              description: An array of products
+ *              schema:
+ *                  $ref: '#/definitions/Product'
+ */
+router.get('/category/:categoryId', async (req, res, next) => {
+    const categoryId = req.params.categoryId;
 
     // If categoryId is not found then go to the next route else proceed.
     if (!categoryId) {
@@ -20,6 +52,20 @@ router.get('/', async (req, res, next) => {
     res.json(products);
 })
 
+/**
+ * @swagger
+ * /api/products:
+ *  get:
+ *      tags:
+ *          - products
+ *      description: Retrieves all products
+ *      produces: application/json
+ *      responses:
+ *          200:
+ *              description: An array of products
+ *              schema:
+ *                  $ref: '#/definitions/Product'
+ */
 router.get('/', async (req, res) => {
     const products = await Product.find();
 
@@ -30,6 +76,27 @@ router.get('/', async (req, res) => {
     res.json(products);
 })
 
+/**
+ * @swagger
+ * /api/products/{productId}:
+ *   get:
+ *     tags:
+ *       - products
+ *     description: Returns a single product
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: productId
+ *         description: Product id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: A single product
+ *         schema:
+ *           $ref: '#/definitions/Product'
+ */
 router.get('/:productId', async(req, res) => {
     const { productId } = req.params;
 

@@ -4,9 +4,60 @@ const { authenticateJWT, authCartAccess, authAddressAccess } = require('../middl
 const Checkout = require('../../models/Checkout');
 const Order = require('../../models/Order');
 
+/**
+ * @swagger
+ * definitions:
+ *  Checkout:
+ *      properties:
+ *          id:
+ *              type: integer
+ *          payment_method:
+ *              type: string
+ *          shipping_address_id:
+ *              type: integer
+ *          billing_address_id:
+ *              type: integer
+ *          subtotal:
+ *              type: float
+ *          tax:
+ *              type: float
+ *          shipping_cost:
+ *              type: float
+ *          total_amount:
+ *              type: float
+ *          checkout_date:
+ *              type: string
+ *          checkout_status:
+ *              type: string
+ *          cart_id:
+ *              type: integer
+ */
+
 // POST ROUTES
 // To validate if cart exists, then process the payment 
 // and ensure payment details submitted are accurate.
+/**
+ * @swagger
+ * /api/cart/{cartId}/checkout:
+ *  post:
+ *      tags:
+ *          - cart
+ *      description: Make a payment and an order
+ *      parameters:
+ *          - name: cartId
+ *            in: path
+ *            description: Cart ID
+ *            required: true
+ *          - name: checkout
+ *            description: checkout object
+ *            in: body
+ *            required: true
+ *            schema:
+ *              $ref: '#/definitions/Checkout'
+ *      responses:
+ *          201:
+ *              description: Payment Successful
+ */
 router.post('/', authenticateJWT, authCartAccess, authAddressAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;

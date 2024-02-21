@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js",
+    "devStart": "nodemon app/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,6 +26,8 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "swagger-jsdoc": "^1.3.0",
+    "swagger-ui-express": "^5.0.0"
   }
 }

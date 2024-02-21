@@ -6,13 +6,17 @@ const PORT = process.env.PORT || 3000;
 const passport = require('passport');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
-const pool = require('./db/config');
+const pool = require('../db/config');
 
 // just like body-parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(cors());
+// CORS SETUP
+app.use(cors());
+
+// SWAGGER SETUP
+app.use(require('./swagger'));
 
 // SESSION SETUP
 app.use(session({
@@ -30,19 +34,15 @@ app.use(session({
 
 // PASSPORT AUTHENTICATION
 // Passes the global passport object into the configuration function.
-require('./auth/passport')(passport);
+require('./passport')(passport);
 
 // Initialization of passport on every request
 app.use(passport.initialize());
 app.use(passport.session());
 
 // ROUTES
-app.get('/', (req, res) => {
-    res.render('index');
-})
-
 // Import all routes over here
-app.use('/api', require('./routes/index'));
+app.use('/api', require('../routes/index'));
 
 // Server listens on http://localhost:3000
 app.listen(PORT, () => {

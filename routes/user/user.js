@@ -4,7 +4,41 @@ const utils = require('../../lib/utils');
 const User = require('../../models/User');
 const { authenticateJWT } = require('../middlewares/authMiddleware');
 
+/**
+ * @swagger
+ * definitions:
+ *   User:
+ *     properties:
+ *       username:
+ *         type: string
+ *       first_name:
+ *         type: string
+ *       last_name:
+ *         type: string
+ */
+
+
 // POST ROUTES
+/**
+ * @swagger
+ * /api/users/login:
+ *  post:
+ *      tags:
+ *          - users
+ *      description: Logs user into the system
+ *      produces:
+ *          - application/json
+ *      parameters:
+ *          - name: user
+ *            description: User object
+ *            in: body
+ *            required: true
+ *            schema:
+ *              $ref: '#/definitions/User'
+ *      responses:
+ *          200:
+ *              description: Successfully logged in
+ */
 router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
 
@@ -26,6 +60,26 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
+/**
+ * @swagger
+ * /api/users/register:
+ *  post:
+ *      tags:
+ *          - users
+ *      description: Creates a new user
+ *      produces:
+ *          - application/json
+ *      parameters:
+ *          - name: user
+ *            description: User object
+ *            in: body
+ *            required: true
+ *            schema:
+ *              $ref: '#/definitions/User'
+ *      responses:
+ *          200:
+ *              description: Successfully created
+ */
 router.post('/register', async (req, res, next) => {
     const { username, password } = req.body;
     const saltHash = utils.genPassword(password);
@@ -39,6 +93,21 @@ router.post('/register', async (req, res, next) => {
 })
 
 // GET ROUTES
+/**
+ * @swagger
+ * /api/users:
+ *  get:
+ *      tags:
+ *          - users
+ *      description: Returns user info
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: An object of the user information
+ *              schema:
+ *                  $ref: '#/definitions/User'
+ */
 router.get('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
 
@@ -60,6 +129,25 @@ router.get('/', authenticateJWT, async (req, res) => {
 })
 
 // PUT ROUTES
+/**
+ * @swagger
+ * /api/users:
+ *  put:
+ *      tags:
+ *          - users
+ *      description: Updates a user's information
+ *      produces: application/json
+ *      parameters:
+ *          name: users
+ *          in: body
+ *          description: Fields for the user resource
+ *          schema:
+ *              type: object
+ *              $ref: '#/definitions/User'
+ *      responses:
+ *          200:
+ *              description: Successfully updated
+ */
 router.put('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
     const { username, password, first_name, last_name } = req.body;
