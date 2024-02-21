@@ -6,15 +6,34 @@ const { authenticateJWT } = require('../middlewares/authMiddleware');
 
 /**
  * @swagger
+ * tags:
+ *      name: users
+ *      description: The users managing api
+ */
+
+/**
+ * @swagger
  * definitions:
  *   User:
+ *     required:
+ *          - username
+ *          - password
  *     properties:
- *       username:
- *         type: string
- *       first_name:
- *         type: string
- *       last_name:
- *         type: string
+ *          id:
+ *              type: integer
+ *          username:
+ *              type: string
+ *          password:
+ *              type: string
+ *          first_name:
+ *              type: string
+ *          last_name:
+ *              type: string
+ *     example:
+ *          username: charlie
+ *          password: 123
+ *          first_name: Charlie
+ *          last_name: Ali
  */
 
 
@@ -25,6 +44,7 @@ const { authenticateJWT } = require('../middlewares/authMiddleware');
  *  post:
  *      tags:
  *          - users
+ *      summary: Retrieve user information along with bearer token
  *      description: Logs user into the system
  *      produces:
  *          - application/json
@@ -53,7 +73,15 @@ router.post('/login', async (req, res, next) => {
     if (isValid) {
 
         const tokenObject = utils.issueJWT(user);
-        res.json({ success: true, user: user, token: tokenObject.token, expiresIn: tokenObject.expires });
+        res.json({ 
+            success: true, 
+            user: {
+                id: user.id,
+                username: user.username
+            }, 
+            token: tokenObject.token, 
+            expiresIn: tokenObject.expires 
+        });
 
     } else {
         res.status(401).json({ success: false, msg: "you entered the wrong password" });
@@ -66,6 +94,7 @@ router.post('/login', async (req, res, next) => {
  *  post:
  *      tags:
  *          - users
+ *      summary: Creates a new user
  *      description: Creates a new user
  *      produces:
  *          - application/json
@@ -88,7 +117,15 @@ router.post('/register', async (req, res, next) => {
     const newUser = await User.create({ username, hash, salt });
     const jwt = utils.issueJWT(newUser);
 
-    res.json({ success: true, user: newUser, token: jwt.token, expiresIn: jwt.expires })
+    res.json({ 
+        success: true, 
+        user: {
+            id: newUser.id,
+            username: newUser.username
+        }, 
+        token: jwt.token, 
+        expiresIn: jwt.expires 
+    })
     // console.log(newUser);
 })
 
@@ -99,7 +136,8 @@ router.post('/register', async (req, res, next) => {
  *  get:
  *      tags:
  *          - users
- *      description: Returns user info
+ *      summary: Returns user information
+ *      description: Returns user information
  *      produces:
  *          - application/json
  *      responses:
@@ -135,6 +173,7 @@ router.get('/', authenticateJWT, async (req, res) => {
  *  put:
  *      tags:
  *          - users
+ *      summary: Updates a user's information
  *      description: Updates a user's information
  *      produces: application/json
  *      parameters:

@@ -4,36 +4,39 @@ const swaggerUi = require('swagger-ui-express');
 
 // swagger definition
 const swaggerDefinition = {
-    info: {
-      title: 'E-Commerce API',
-      version: '1.0.0',
-      description: 'A functioning e-commerce api built using Express, Node.js and Postgres',
-    },
-    servers: [
-        {
-            url: `http://localhost:${process.env.PORT}`,
-            description: 'Dev Server'
-        }
-    ],
-    components: {
-        securitySchemes: {
-            bearerJWT: {
-                type: 'apiKey',
-                scheme: 'bearer',
-                bearerFormat: 'JWT'
-            },
-            cookieJWT: {
-                type: 'apiKey',
-                in: 'cookie',
-                name: 'access_token'
+    definition: {
+        openapi: '3.0.0',
+        info: {
+          title: 'E-Commerce API',
+          version: '1.0.0',
+          description: 'A functioning e-commerce api built using Express, Node.js and Postgres',
+        },
+        servers: [
+            {
+                url: `http://localhost:${process.env.PORT}`,
+                description: 'Dev Server'
             }
-        }
-    },
-    tags: [
-        'users',
-        'products',
-        'orders'
-    ]
+        ],
+        components: {
+            securitySchemes: {
+                bearerJWT: {
+                    type: 'apiKey',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                },
+                cookieJWT: {
+                    type: 'apiKey',
+                    in: 'cookie',
+                    name: 'access_token'
+                }
+            }
+        },
+        tags: [
+            'users',
+            'products',
+            'orders'
+        ]
+    }
 };
   
 // options for the swagger docs
@@ -58,6 +61,6 @@ swagger.get('/swagger.json', function(req, res) {
 });
 
 // swaggerUi setup
-swagger.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+swagger.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = swagger;

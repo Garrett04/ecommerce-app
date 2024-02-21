@@ -17,6 +17,12 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
  *              type: string
  *          checkout_id:
  *              type: integer
+ *      example:
+ *          id: 1
+ *          user_id: 1
+ *          order_date: 2023-10-15
+ *          order_status: success
+ *          checkout_id: 1
  */
 
 // GET ROUTES
@@ -26,7 +32,8 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
  *  get:
  *      tags:
  *          - orders
- *      description: Finds orders by user id
+ *      summary: Find all orders by user ID
+ *      description: Find all orders by user ID
  *      produces:
  *         - application/json
  *      responses:
@@ -53,6 +60,7 @@ router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
  *  get:
  *      tags:
  *          - orders
+ *      summary: Finds order by order ID
  *      description: Finds order by order ID
  *      produces: application/json
  *      parameters:

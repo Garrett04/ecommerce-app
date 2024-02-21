@@ -5,8 +5,44 @@ const {
     authCartAccess
 } = require('../middlewares/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *      name: cart
+ *      description: The cart managing api
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *  Cart:
+ *      required:
+ *          - title
+ *      properties:
+ *          id:
+ *              type: integer
+ *          title:
+ *              type: string
+ *          user_id:
+ *              type: integer
+ *      example:
+ *          id: 1
+ *          title: Charlie's cart
+ *          user_id: 1
+ */
+
 // GET ROUTES
 // To get cart by its id
+/**
+ * @swagger
+ * /api/cart/{cartId}:
+ *  get:
+ *      tags:
+ *          - cart
+ *      summary: Retrieve cart by cart ID
+ *      description: Retrieve cart by cart ID
+ *      
+ */
 router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
 

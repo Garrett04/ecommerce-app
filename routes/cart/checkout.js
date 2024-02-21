@@ -8,6 +8,10 @@ const Order = require('../../models/Order');
  * @swagger
  * definitions:
  *  Checkout:
+ *      required:
+ *          - payment_method
+ *          - shipping_address_id
+ *          - billing_address_id
  *      properties:
  *          id:
  *              type: integer
@@ -31,6 +35,18 @@ const Order = require('../../models/Order');
  *              type: string
  *          cart_id:
  *              type: integer
+ *      example:
+ *          id: 1
+ *          payment_method: netbanking
+ *          shipping_address_id: 2
+ *          billing_address_id: 3
+ *          subtotal: 100.15
+ *          tax: null
+ *          shipping_cost: null
+ *          total_amount: 100.15
+ *          checkout_date: 2023-10-15
+ *          checkout_status: success
+ *          cart_id: 1
  */
 
 // POST ROUTES
@@ -42,6 +58,7 @@ const Order = require('../../models/Order');
  *  post:
  *      tags:
  *          - cart
+ *      summary: Make a payment, create a new order and return it
  *      description: Make a payment and an order
  *      parameters:
  *          - name: cartId

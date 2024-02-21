@@ -4,8 +4,23 @@ const Address = require('../../models/Address');
 
 /**
  * @swagger
+ * tags:
+ *      name: address
+ *      description: The address managing api
+ */
+
+/**
+ * @swagger
  * definitions:
  *  Address:
+ *      required:
+ *          - user_id
+ *          - address_line1
+ *          - address_line2
+ *          - city
+ *          - state
+ *          - postal_code
+ *          - country
  *      properties:
  *          id: 
  *              type: integer
@@ -23,6 +38,15 @@ const Address = require('../../models/Address');
  *              type: string
  *          country:
  *              type: string
+ *      example:
+ *          id: 2
+ *          user_id: 1
+ *          address_line1: 24212
+ *          address_line2: Mariano Place
+ *          city: Konopelskimouth
+ *          state: Connecticut
+ *          postal_code: 61148
+ *          country: Austria
  */
 
 //POST ROUTES
@@ -32,7 +56,8 @@ const Address = require('../../models/Address');
  * /api/users/address/add-address:
  *  post:
  *      tags:
- *          - users
+ *          - address
+ *      summary: Creates a new address
  *      description: Creates a new address
  *      produces:
  *          - application/json
@@ -64,12 +89,13 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
  * /api/users/address/{addressId}:
  *  delete:
  *      tags:
- *          - users
+ *          - address
+ *      summary: Deletes a single address
  *      description: Deletes a single address
  *      produces:
  *          - application/json
  *      parameters:
- *          - name: id
+ *          - name: addressId
  *            description: Address ID
  *            in: path
  *            required: true
@@ -97,17 +123,23 @@ router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res
 
 /**
  * @swagger
- * /api/users/address:
+ * /api/users/address/{addressId}:
  *  put:
  *      tags:
- *          - users
+ *          - address
+ *      summary: Updates a user's address
  *      description: Updates a user's address
  *      produces: application/json
  *      parameters:
- *          name: address
- *          in: body
- *          description: Fields for the address resource
- *          schema:
+ *          - name: addressId
+ *            in: path
+ *            description: address ID
+ *            required: true
+ *          - name: address fields
+ *            in: body
+ *            description: Fields for the address resource
+ *            required: true
+ *            schema:
  *              type: object
  *              $ref: '#/definitions/Address'
  *      responses:

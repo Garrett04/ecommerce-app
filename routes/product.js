@@ -4,13 +4,26 @@ const Product = require('../models/Product');
 
 /**
  * @swagger
+ * tags:
+ *      name: products
+ *      description: The products managing api
+ */
+
+/**
+ * @swagger
  * definitions:
  *  Product:
  *      properties:
+ *          id:
+ *              type: integer
  *          name:
  *              type: string
  *          price:
  *              type: float
+ *      example:
+ *          id: 1
+ *          name: T-shirt
+ *          price: $19.99
  */
 
 
@@ -21,7 +34,8 @@ const Product = require('../models/Product');
  *  get:
  *      tags:
  *          - products
- *      description: Find products by category ID
+ *      summary: Find all products by category ID
+ *      description: Find all products by category ID
  *      produces: application/json
  *      parameters:
  *          - name: categoryId
@@ -58,13 +72,16 @@ router.get('/category/:categoryId', async (req, res, next) => {
  *  get:
  *      tags:
  *          - products
+ *      summary: Retrieve all products
  *      description: Retrieves all products
  *      produces: application/json
  *      responses:
  *          200:
  *              description: An array of products
  *              schema:
- *                  $ref: '#/definitions/Product'
+ *                  type: array
+ *                  items:
+ *                      $ref: '#/definitions/Product'
  */
 router.get('/', async (req, res) => {
     const products = await Product.find();
@@ -82,6 +99,7 @@ router.get('/', async (req, res) => {
  *   get:
  *     tags:
  *       - products
+ *     summary: Find product by product ID
  *     description: Returns a single product
  *     produces:
  *       - application/json
