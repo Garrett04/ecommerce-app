@@ -45,12 +45,22 @@ const Product = require('../models/Product');
  *            type: integer
  *      responses:
  *          200:
- *              description: An array of products
+ *              description: An array of products found by category id
+ *          404:
+ *              description: No products found by category
  *              schema:
- *                  $ref: '#/definitions/Product'
+ *                  type: object
+ *                  properties:
+ *                      success: 
+ *                          type: boolean
+ *                      msg:
+ *                          type: boolean
+ *                  example:
+ *                      success: false
+ *                      msg: No products found by category
  */
 router.get('/category/:categoryId', async (req, res, next) => {
-    const categoryId = req.params.categoryId;
+    const { categoryId } = req.params;
 
     // If categoryId is not found then go to the next route else proceed.
     if (!categoryId) {
@@ -60,10 +70,10 @@ router.get('/category/:categoryId', async (req, res, next) => {
     const products = await Product.findByCategory(categoryId);
 
     if (!products) {
-        return res.status(404).json({ msg: "No products found by category." });
+        return res.status(404).json({ success: false, msg: "No products found by category." });
     }
 
-    res.json(products);
+    res.json({ success: true, products: products });
 })
 
 /**
@@ -77,21 +87,27 @@ router.get('/category/:categoryId', async (req, res, next) => {
  *      responses:
  *          200:
  *              description: An array of products
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: array
- *                          items:
- *                              $ref: '#/definitions/Product'
+ *          404:
+ *              description: No products found
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success: 
+ *                          type: boolean
+ *                      msg:
+ *                          type: boolean
+ *                  example:
+ *                      success: false
+ *                      msg: No products found
  */
 router.get('/', async (req, res) => {
     const products = await Product.find();
 
     if (!products) {
-        return res.status(404).find({ msg: "No products found." })
+        return res.status(404).find({ success: false, msg: "No products found." })
     }
 
-    res.json(products);
+    res.json({ success: true, products: products});
 })
 
 /**
@@ -104,19 +120,32 @@ router.get('/', async (req, res) => {
  *     description: Returns a single product
  *     parameters:
  *       - name: productId
- *         description: The product id
+ *         description: Product id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: The product description by id
- *         content: 
- *              application/json:
- *                  schema:
- *                      $ref: '#/definitions/Product'
+ *         description: The product details by id
+ *         schema:
+ *              type: object
+ *              properties:
+ *                  success:
+ *                      type: boolean
+ *                  product:
+ *                      $ref: '#/definitions/Product'  
  *       404:
- *          description: The product was not found
+ *          description: Product not found by product id
+ *          schema:
+ *              type: object
+ *              properties:
+ *                  success: 
+ *                      type: boolean
+ *                  msg:
+ *                      type: string
+ *              example:
+ *                  success: false
+ *                  msg: Product not found by product id
  */
 router.get('/:productId', async(req, res) => {
     const { productId } = req.params;
@@ -124,10 +153,10 @@ router.get('/:productId', async(req, res) => {
     const product = await Product.findById(productId);
 
     if (!product) {
-        return res.status(404).json({ msg: "Product not found by product id." });
+        return res.status(404).json({ success: false, msg: "Product not found by product id." });
     }
 
-    res.json(product);
+    res.json({ success: true, product: product});
 })
 
 module.exports = router;
