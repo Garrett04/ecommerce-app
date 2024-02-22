@@ -74,14 +74,15 @@ router.get('/category/:categoryId', async (req, res, next) => {
  *          - products
  *      summary: Retrieve all products
  *      description: Retrieves all products
- *      produces: application/json
  *      responses:
  *          200:
  *              description: An array of products
- *              schema:
- *                  type: array
- *                  items:
- *                      $ref: '#/definitions/Product'
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/definitions/Product'
  */
 router.get('/', async (req, res) => {
     const products = await Product.find();
@@ -99,21 +100,23 @@ router.get('/', async (req, res) => {
  *   get:
  *     tags:
  *       - products
- *     summary: Find product by product ID
+ *     summary: Find product by product id
  *     description: Returns a single product
- *     produces:
- *       - application/json
  *     parameters:
  *       - name: productId
- *         description: Product id
+ *         description: The product id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A single product
- *         schema:
- *           $ref: '#/definitions/Product'
+ *         description: The product description by id
+ *         content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/definitions/Product'
+ *       404:
+ *          description: The product was not found
  */
 router.get('/:productId', async(req, res) => {
     const { productId } = req.params;

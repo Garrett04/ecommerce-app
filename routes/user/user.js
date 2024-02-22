@@ -30,8 +30,8 @@ const { authenticateJWT } = require('../middlewares/authMiddleware');
  *          last_name:
  *              type: string
  *     example:
- *          username: charlie
- *          password: 123
+ *          username: "charlie"
+ *          password: "123"
  *          first_name: Charlie
  *          last_name: Ali
  */
@@ -46,18 +46,31 @@ const { authenticateJWT } = require('../middlewares/authMiddleware');
  *          - users
  *      summary: Retrieve user information along with bearer token
  *      description: Logs user into the system
- *      produces:
- *          - application/json
  *      parameters:
  *          - name: user
  *            description: User object
  *            in: body
  *            required: true
  *            schema:
- *              $ref: '#/definitions/User'
+ *              type: object
+ *              properties:
+ *                  username:
+ *                      type: string
+ *                      example: 
+ *                          $ref: '#/definitions/User/example/username'
+ *                  password:
+ *                      type: string
+ *                      example:
+ *                          $ref: '#/definitions/User/example/password'
  *      responses:
  *          200:
  *              description: Successfully logged in
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#definitions/User'
+ *          500:
+ *              description: Server error 
  */
 router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
@@ -99,15 +112,30 @@ router.post('/login', async (req, res, next) => {
  *      produces:
  *          - application/json
  *      parameters:
- *          - name: user
+ *          - name: new user fields
  *            description: User object
  *            in: body
  *            required: true
  *            schema:
- *              $ref: '#/definitions/User'
+ *              type: object
+ *              properties:
+ *                  username:
+ *                      type: string
+ *                      example:
+ *                          $ref: '#/definitions/User/example/username'
+ *                  password:
+ *                      type: string
+ *                      example:
+ *                          $ref: '#/definitions/User/example/password'
  *      responses:
  *          200:
  *              description: Successfully created
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/definitions/User'
+ *          500: 
+ *              description: Server error
  */
 router.post('/register', async (req, res, next) => {
     const { username, password } = req.body;
@@ -138,13 +166,13 @@ router.post('/register', async (req, res, next) => {
  *          - users
  *      summary: Returns user information
  *      description: Returns user information
- *      produces:
- *          - application/json
  *      responses:
  *          200:
  *              description: An object of the user information
- *              schema:
- *                  $ref: '#/definitions/User'
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/definitions/User'
  */
 router.get('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
@@ -175,17 +203,22 @@ router.get('/', authenticateJWT, async (req, res) => {
  *          - users
  *      summary: Updates a user's information
  *      description: Updates a user's information
- *      produces: application/json
  *      parameters:
- *          name: users
- *          in: body
- *          description: Fields for the user resource
- *          schema:
+ *          - name: user fields to change
+ *            in: body
+ *            description: Fields for the user resource
+ *            required: true
+ *            schema:
  *              type: object
  *              $ref: '#/definitions/User'
  *      responses:
  *          200:
  *              description: Successfully updated
+ *              content:
+ *                  application/json:
+ *                      $ref: '#/definitions/User'
+ *          500:
+ *              description: Server error
  */
 router.put('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
