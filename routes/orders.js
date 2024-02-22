@@ -9,10 +9,12 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
  *  description: The orders managing api
  */
 
+
 /**
  * @swagger
  * definitions:
  *  Order:
+ *      type: object
  *      properties:
  *          id:
  *              type: integer
@@ -25,12 +27,13 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
  *          checkout_id:
  *              type: integer
  *      example:
- *          id: 1
+ *          id: 5
  *          user_id: 1
- *          order_date: 2023-10-15
+ *          order_date: 2024-02-20
  *          order_status: success
- *          checkout_id: 1
+ *          checkout_id: 12
  */
+
 
 // GET ROUTES
 /**
@@ -39,15 +42,58 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
  *  get:
  *      tags:
  *          - orders
- *      summary: Find all orders by user ID
- *      description: Find all orders by user ID
+ *      summary: Find all orders by user id
+ *      security:
+ *          - bearerAuth: []
+ *      description: Find all orders by user id
  *      produces:
  *         - application/json
  *      responses:
  *          200:
  *              description: An array of orders
  *              schema:
- *                  $ref: '#/definitions/Order'
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      orders:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                  user_id:
+ *                                      type: integer
+ *                                  order_date:
+ *                                      type: string
+ *                                      format: date-time
+ *                                  order_status:
+ *                                      type: string
+ *                                  checkout_id:
+ *                                      type: integer
+ *                  example:
+ *                      success: true
+ *                      orders:
+ *                          - id:  5
+ *                            user_id: 1
+ *                            order_date: 2024-02-20T00:00:00.000Z
+ *                            order_status: success
+ *                            checkout_id: 12
+ *          404:
+ *              description: No orders found by user id
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: No orders found by user id
+ *          401:
+ *              description: Unauthorized
  */
 router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
     const userId = req.user.id;
@@ -67,12 +113,13 @@ router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
  *  get:
  *      tags:
  *          - orders
- *      summary: Finds order by order ID
- *      description: Finds order by order ID
- *      produces: application/json
+ *      summary: Finds order by order id
+ *      security:
+ *          - bearerAuth: []
+ *      description: Finds order by order id
  *      parameters:
  *          - name: orderId
- *            description: Order ID
+ *            description: Order id
  *            in: path
  *            required: true
  *            type: integer
@@ -80,7 +127,30 @@ router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
  *          200:
  *              description: A single order
  *              schema: 
- *                  $ref: '#/definitions/Order'
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      order:
+ *                          $ref: '#/definitions/Order'
+ *              examples:
+ *                  success: true
+ *                  order:
+ *                      $ref: '#/definitions/Order'
+ *          404:
+ *              description: No order found by order id
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: No order found by order id
+ *          401:
+ *              description: Unauthorized
  */
 router.get('/:orderId', authenticateJWT, authOrderAccess, async (req, res) => {
     const { orderId } = req.params;

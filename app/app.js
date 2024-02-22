@@ -7,6 +7,7 @@ const passport = require('passport');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const pool = require('../db/config');
+const { authenticateJWT } = require('../routes/middlewares/authMiddleware');
 
 // just like body-parser middleware
 app.use(express.json());

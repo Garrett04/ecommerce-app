@@ -134,6 +134,12 @@ router.post('/login', async (req, res, next) => {
  *                  application/json:
  *                      schema:
  *                          $ref: '#/definitions/User'
+ *          409:
+ *              description: User with username already exists
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/definitions/User'
  *          500: 
  *              description: Server error
  */
@@ -141,6 +147,13 @@ router.post('/register', async (req, res, next) => {
     const { username, password } = req.body;
     const saltHash = utils.genPassword(password);
     const { salt, hash } = saltHash;
+
+    // Duplicate username check
+    const userExists = await User.findByUsername(username);
+
+    if (userExists) {
+        return res.status(409).json({ success: false, msg: "User with username already exists" });
+    }
 
     const newUser = await User.create({ username, hash, salt });
     const jwt = utils.issueJWT(newUser);
@@ -175,13 +188,19 @@ router.post('/register', async (req, res, next) => {
  *                  application/json:
  *                      schema:
  *                          $ref: '#/definitions/User'
- *          401:
- *              description: Unauthorized
- *              content:
- *                  text/plain:
- *                      schema:
+ *          404:
+ *              description: User not found
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success: 
  *                          type: string
- *                          example: Unauthorized                      
+ *                          example: false
+ *                      msg:
+ *                          type: string
+ *                          example: User not found            
+ *          401:
+ *              description: Unauthorized       
  */
 router.get('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
