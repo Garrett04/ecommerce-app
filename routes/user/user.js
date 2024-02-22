@@ -30,6 +30,7 @@ const { authenticateJWT } = require('../middlewares/authMiddleware');
  *          last_name:
  *              type: string
  *     example:
+ *          id: 1
  *          username: "charlie"
  *          password: "123"
  *          first_name: Charlie

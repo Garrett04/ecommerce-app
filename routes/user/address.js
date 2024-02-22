@@ -9,12 +9,12 @@ const Address = require('../../models/Address');
  *      description: The address managing api
  */
 
+
 /**
  * @swagger
  * definitions:
  *  Address:
  *      required:
- *          - user_id
  *          - address_line1
  *          - address_line2
  *          - city
@@ -25,7 +25,7 @@ const Address = require('../../models/Address');
  *          id: 
  *              type: integer
  *          user_id:
- *              type: integer
+ *              $ref: '#/definitions/User/example/id'
  *          address_line1:
  *              type: string
  *          address_line2:
@@ -47,7 +47,36 @@ const Address = require('../../models/Address');
  *          state: Connecticut
  *          postal_code: 61148
  *          country: Austria
+ * 
+ *  AddressRequestBody:
+ *      type: object
+ *      properties:
+ *          address_line1:
+ *              type: string
+ *              example:
+ *                  $ref: '#/definitions/Address/example/address_line1'
+ *          address_line2:
+ *              type: string
+ *              example:
+ *                  $ref: '#/definitions/Address/example/address_line2'
+ *          city:
+ *              type: string
+ *              example:
+ *                  $ref: '#/definitions/Address/example/city'
+ *          state:
+ *              type: string
+ *              example: 
+ *                  $ref: '#/definitions/Address/example/state'
+ *          postal_code:
+ *              type: string
+ *              example:
+ *                  $ref: '#/definitions/Address/example/postal_code'
+ *          country:
+ *              type: string
+ *              example:    
+ *                  $ref: '#/definitions/Address/example/country'
  */
+
 
 //POST ROUTES
 // To add user address
@@ -58,16 +87,28 @@ const Address = require('../../models/Address');
  *      tags:
  *          - address
  *      summary: Creates a new address
+ *      security:
+ *          - bearerAuth: []
  *      description: Creates a new address
- *      produces:
- *          - application/json
  *      parameters:
  *          - name: address
  *            description: address object
  *            in: body
  *            required: true
  *            schema:
- *              $ref: '#/definitions/Address'
+ *              $ref: '#/definitions/AddressRequestBody'
+ *      responses:
+ *          201:
+ *              description: Address created successfully
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      address:
+ *                          $ref: '#/definitions/Address'
+ *          401:
+ *              description: Unauthorized
  */
 router.post('/add-address', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
@@ -81,7 +122,7 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
 
     const newAddress = await Address.create(data);
 
-    res.status(201).json({ status: true, address: newAddress });
+    res.status(201).json({ success: true, address: newAddress });
 })
 
 /**
@@ -90,19 +131,48 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
  *  delete:
  *      tags:
  *          - address
- *      summary: Deletes a single address
- *      description: Deletes a single address
+ *      summary: Deletes an address by address id
+ *      security:
+ *          - bearerAuth: []
+ *      description: Deletes an address by address id
  *      produces:
  *          - application/json
  *      parameters:
  *          - name: addressId
- *            description: Address ID
+ *            description: Address id
  *            in: path
  *            required: true
  *            type: integer
  *      responses:
  *          200:
- *              description: Successfully deleted  
+ *              description: Address deleted successfully
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                      address_id:
+ *                          type: integer
+ *                  example:
+ *                      success: true
+ *                      msg: Address deleted succesfully
+ *                      address_id: 1
+ *          404:
+ *              description: Address not found
+ *              schema:
+ *                  type: Object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: Address not found
+ *          401:
+ *              description: Unauthorized
  */
 // To delete user address
 router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res) => {
@@ -116,7 +186,7 @@ router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res
 
     res.status(200).json({ 
         success: true, 
-        msg: "Address deleted succesfully.", 
+        msg: "Address deleted succesfully", 
         address_id: deletedAddressId
     });
 })
@@ -128,6 +198,8 @@ router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res
  *      tags:
  *          - address
  *      summary: Updates a user's address
+ *      security:
+ *          - bearerAuth: []
  *      description: Updates a user's address
  *      produces: application/json
  *      parameters:
@@ -140,11 +212,31 @@ router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res
  *            description: Fields for the address resource
  *            required: true
  *            schema:
- *              type: object
- *              $ref: '#/definitions/Address'
+ *              $ref: '#/definitions/AddressRequestBody'
  *      responses:
  *          200:
  *              description: Successfully updated
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      address:
+ *                          $ref: '#/definitions/Address'
+ *          404:
+ *              description: Address not found
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: Address not found
+ *          401:
+ *              description: Unauthorized
  */
 // PUT ROUTES
 router.put('/:addressId', authenticateJWT, authAddressAccess, async (req, res) => {
