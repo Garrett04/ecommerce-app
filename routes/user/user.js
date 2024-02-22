@@ -66,10 +66,42 @@ const { authenticateJWT } = require('../middlewares/authMiddleware');
  *      responses:
  *          200:
  *              description: Successfully logged in
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#definitions/User'
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      user:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: integer
+ *                              username:
+ *                                  type: string
+ *                      token:
+ *                          type: string
+ *                      expiresIn:
+ *                          type: string
+ *                  example:
+ *                      success: true
+ *                      user:
+ *                          id: 3
+ *                          username: charlie
+ *                      token:
+ *                          Bearer <TOKEN>
+ *                      expiresIn: 1d
+ *          404:
+ *              description: User not found
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: User not found
  *          500:
  *              description: Server error 
  */
@@ -79,7 +111,7 @@ router.post('/login', async (req, res, next) => {
     const user = await User.findByUsername(username);
 
     if (!user) {
-        res.status(401).json({ success: false, msg: "could not find user" });
+        res.status(404).json({ success: false, msg: "User not found" });
     }
 
     const isValid = utils.validatePassword(password, user.pw_hash, user.pw_salt);
@@ -131,16 +163,42 @@ router.post('/login', async (req, res, next) => {
  *      responses:
  *          200:
  *              description: Successfully created
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/definitions/User'
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      user:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: integer
+ *                              username:
+ *                                  type: string
+ *                      token:
+ *                          type: string
+ *                      expiresIn:
+ *                          type: string
+ *                  example:
+ *                      success: true
+ *                      user:
+ *                          id: 4
+ *                          username: charlie_new
+ *                      token:
+ *                          Bearer <TOKEN>
+ *                      expiresIn: 1d
  *          409:
  *              description: User with username already exists
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/definitions/User'
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: User with username already exists
  *          500: 
  *              description: Server error
  */
@@ -185,10 +243,29 @@ router.post('/register', async (req, res, next) => {
  *      responses:
  *          200:
  *              description: An object of the user information
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/definitions/User'
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      user:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: integer
+ *                              username:
+ *                                  type: string
+ *                              first_name:
+ *                                  type: string
+ *                              last_name:
+ *                                  type: string
+ *                  example:
+ *                      success: true
+ *                      user:
+ *                          id: 3
+ *                          username: charlie
+ *                          first_name: charlie
+ *                          last_name: ali
  *          404:
  *              description: User not found
  *              schema:
@@ -231,6 +308,8 @@ router.get('/', authenticateJWT, async (req, res) => {
  *      tags:
  *          - users
  *      summary: Updates a user's information
+ *      security:
+ *          - bearerAuth: []
  *      description: Updates a user's information
  *      parameters:
  *          - name: user fields to change
@@ -243,9 +322,41 @@ router.get('/', authenticateJWT, async (req, res) => {
  *      responses:
  *          200:
  *              description: Successfully updated
- *              content:
- *                  application/json:
- *                      $ref: '#/definitions/User'
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      user:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: integer
+ *                              username:
+ *                                  type: string
+ *                              first_name:
+ *                                  type: string
+ *                              last_name:
+ *                                  type: string
+ *                  example:
+ *                      success: true
+ *                      user:
+ *                          id: 3
+ *                          username: charlie
+ *                          first_name: charlie
+ *                          last_name: ali
+ *          400:
+ *              description: Cannot change password to the current password
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: Cannot change password to the current password
  *          500:
  *              description: Server error
  */
@@ -255,9 +366,9 @@ router.put('/', authenticateJWT, async (req, res) => {
 
     // Make sure to submit the old password and the new password in the client side.
     // Password Validation
-    if (!password) {
-        return res.status(404).json({ success: false, msg: "Please provide current password before updating user details" });
-    }
+    // if (!password) {
+    //     return res.status(404).json({ success: false, msg: "Please provide current password before updating user details" });
+    // }
 
     const prevUser = await User.findById(userId);
     const isSamePassword = utils.validatePassword(password, prevUser.pw_hash, prevUser.pw_salt);
