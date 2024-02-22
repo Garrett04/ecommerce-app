@@ -165,6 +165,8 @@ router.post('/register', async (req, res, next) => {
  *      tags:
  *          - users
  *      summary: Returns user information
+ *      security:
+ *          - bearerAuth: []
  *      description: Returns user information
  *      responses:
  *          200:
@@ -173,6 +175,13 @@ router.post('/register', async (req, res, next) => {
  *                  application/json:
  *                      schema:
  *                          $ref: '#/definitions/User'
+ *          401:
+ *              description: Unauthorized
+ *              content:
+ *                  text/plain:
+ *                      schema:
+ *                          type: string
+ *                          example: Unauthorized                      
  */
 router.get('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;

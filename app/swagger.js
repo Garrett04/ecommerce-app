@@ -15,20 +15,14 @@ const swaggerDefinition = {
             description: 'Dev Server'
         }
     ],
-    components: {
-        securitySchemes: {
-            bearerJWT: {
-                type: 'apiKey',
-                scheme: 'bearer',
-                bearerFormat: 'JWT'
-            },
-            cookieJWT: {
-                type: 'apiKey',
-                in: 'cookie',
-                name: 'access_token'
-            }
+    securityDefinitions: {
+        bearerAuth: {
+            type: 'apiKey',
+            in: 'header',
+            name: 'Authorization',
+            description: "Enter 'Bearer' followed by a space and then your token"
         }
-    }
+    } 
 };
   
 // options for the swagger docs

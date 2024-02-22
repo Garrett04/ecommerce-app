@@ -4,6 +4,13 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
 
 /**
  * @swagger
+ * tags:
+ *  name: orders
+ *  description: The orders managing api
+ */
+
+/**
+ * @swagger
  * definitions:
  *  Order:
  *      properties:
