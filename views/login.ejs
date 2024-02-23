@@ -9,19 +9,7 @@
 <body>
     <h1>Login</h1>
 
-    <ul>
-        <% if(messages.success_msg) { %>
-            <li><%= messages.success_msg %></li>
-        <% } %>
-    </ul>
-
-    <ul>
-        <% if(messages.error) { %>
-            <li><%= messages.error %></li>
-        <% } %>
-    </ul>
-
-    <form action="/users/login" method="POST">
+    <form action="/login" method="POST">
         <div>
             <input type="text" id="username" name="username" placeholder="Username" required>
         </div>
@@ -34,7 +22,7 @@
             <input type="submit" value="Login">
         </div>
 
-        Register an account <a href="/users/register">here</a>
+        Register an account <a href="/register">here</a>
     </form>
 </body>
 </html>
