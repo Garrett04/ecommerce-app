@@ -17,6 +17,8 @@
 
 * [Room for Improvement](#room-for-improvement)
 
+* [Project Takeaways](#project-takeaways)
+
 
 ## ERD Diagram:
 ![e-commerce ERD](diagrams/ecommerce-app%20ERD.png)
