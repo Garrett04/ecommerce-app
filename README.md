@@ -19,7 +19,7 @@
 
 
 ## ERD Diagram:
-
+![e-commerce ERD](diagrams/ecommerce-app ERD.png)
 
 ## General Information:
 - Build a functioning e-commerce REST API using Express, Node.js, and Postgres
