@@ -27,13 +27,13 @@ const swaggerDefinition = {
   
 // options for the swagger docs
 const options = {
-  // import swaggerDefinitions
-  swaggerDefinition: swaggerDefinition,
-  // path to the API docs
-  apis: [
-        './routes/*.js',
-        './routes/user/*.js',
-        './routes/cart/*.js'
+    // import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // path to the API docs
+    apis: [
+          './routes/*.js',
+          './routes/user/*.js',
+          './routes/cart/*.js'
     ],
 };
 

@@ -59,6 +59,8 @@ const Order = require('../../models/Order');
  *      tags:
  *          - cart
  *      summary: Make a payment, create a new order and return it
+ *      security:
+ *          - bearerAuth: []
  *      description: Make a payment and an order
  *      parameters:
  *          - name: cartId
@@ -70,10 +72,45 @@ const Order = require('../../models/Order');
  *            in: body
  *            required: true
  *            schema:
- *              $ref: '#/definitions/Checkout'
+ *                type: object
+ *                properties:
+ *                    payment_method:
+ *                        type: string
+ *                    shipping_address_id:
+ *                        type: integer
+ *                    billing_address_id:
+ *                        type: integer
+ *                example:
+ *                    payment_method: netbanking
+ *                    shipping_address_id: 3
+ *                    billing_address_id: 3
  *      responses:
  *          201:
  *              description: Payment Successful
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      checkout_status:
+ *                          type: string
+ *                          example: success
+ *                      order:
+ *                          $ref: '#/definitions/Order'
+ *          400:
+ *              description: Payment already done
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      success:
+ *                          type: boolean
+ *                      msg:
+ *                          type: string
+ *                  example:
+ *                      success: false
+ *                      msg: Payment already done
+ *          500:
+ *              description: Server error              
  */
 router.post('/', authenticateJWT, authCartAccess, authAddressAccess, async (req, res) => {
     const { cartId } = req.params;

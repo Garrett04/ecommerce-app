@@ -32,7 +32,7 @@ module.exports.authCartAccess = async (req, res, next) => {
     // console.log(hasCartAccess);
 
     if(!hasCartAccess) {
-        return res.status(401).json({ success: false, msg: "Not authorized to cart" });
+        return res.status(403).json({ success: false, msg: "Not authorized to cart" });
     }
 
     next();
