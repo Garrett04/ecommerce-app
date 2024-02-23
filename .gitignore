@@ -23,4 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-*.pem
+id_rsa_priv.pem
+id_rsa_pub.pem
