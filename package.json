@@ -29,5 +29,8 @@
     "pg": "^8.11.3",
     "swagger-jsdoc": "^1.10.3",
     "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
   }
 }

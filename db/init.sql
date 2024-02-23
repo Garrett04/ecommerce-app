@@ -38,15 +38,15 @@ CREATE TABLE "addresses" (
 CREATE TABLE "checkout" (
   "id" int PRIMARY KEY,
   "payment_method" text,
-  "shipping_address_id" text,
-  "billing_address_id" text,
+  "shipping_address_id" int,
+  "billing_address_id" int,
   "subtotal" money,
   "tax" money,
   "shipping_cost" money,
   "total_amount" money,
   "checkout_date" date,
   "checkout_status" text,
-  "cart_id" integer
+  "cart_id" int
 );
 
 CREATE TABLE "orders" (
@@ -60,21 +60,29 @@ CREATE TABLE "orders" (
 CREATE TABLE "carts_products" (
   "cart_id" int,
   "product_id" int,
-  "quantity" int
+  "quantity" int,
+  PRIMARY KEY ("cart_id", "product_id")
 );
 
 CREATE TABLE "categories_products" (
   "category_id" int,
-  "product_id" int
+  "product_id" int,
+  PRIMARY KEY ("category_id", "product_id")
+);
+
+CREATE TABLE "session" (
+  "sid" varchar PRIMARY KEY,
+  "sess" json,
+  "expire" timestamp(6)
 );
 
 ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "addresses" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "checkout" ADD FOREIGN KEY ("shipping_address_id") REFERENCES "addresses" ("id");
+ALTER TABLE "addresses" ADD FOREIGN KEY ("id") REFERENCES "checkout" ("shipping_address_id");
 
-ALTER TABLE "checkout" ADD FOREIGN KEY ("billing_address_id") REFERENCES "addresses" ("id");
+ALTER TABLE "addresses" ADD FOREIGN KEY ("id") REFERENCES "checkout" ("billing_address_id");
 
 ALTER TABLE "checkout" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id");
 
