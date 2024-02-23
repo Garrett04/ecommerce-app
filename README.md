@@ -17,6 +17,10 @@
 
 * [Room for Improvement](#room-for-improvement)
 
+
+## ERD Diagram:
+![[ecommerce-app ERD.png]]
+
 ## General Information:
 - Build a functioning e-commerce REST API using Express, Node.js, and Postgres
 - Allow users to register and log in via the API
