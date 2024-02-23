@@ -82,7 +82,6 @@ PGPASSWORD=
 PGPORT=
   
 # Express server
-PORT=
 SECRET=
 
 # Node.js
