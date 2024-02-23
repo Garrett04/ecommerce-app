@@ -83,7 +83,7 @@ PGPORT=
   
 # Express server
 PORT=
-SESSION_SECRET=
+SECRET=
 
 # Node.js
 NODE_ENV=
