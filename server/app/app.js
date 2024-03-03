@@ -21,7 +21,7 @@ app.use(require('./swagger'));
 
 // SESSION SETUP
 app.use(session({
-    secret: process.env.SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: new pgSession({
