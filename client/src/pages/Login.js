@@ -10,7 +10,7 @@ const Login = () => {
     const [errMsg, setErrMsg] = useState();
     const navigate = useNavigate();
 
-    const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value));
+    const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);
 
     const handleSubmit = async (e) => {
       e.preventDefault();

@@ -1,3 +1,4 @@
+import { decode } from 'punycode';
 import API from './client'
 
 export const register = async (data) => {

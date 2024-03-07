@@ -1,6 +1,7 @@
 import Cart from "./CartButton"
 import SearchBar from "./SearchBar"
 import SignInButton from "./AccountButton"
+import Logout from "./Logout"
 
 const Header = () => {
   return (
@@ -10,6 +11,7 @@ const Header = () => {
       <div className="right">
         <Cart />
         <SignInButton />
+        <Logout />
       </div>
     </div>
   )
