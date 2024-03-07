@@ -1,7 +1,13 @@
 /*Universal*/
 /*CartButton & SignInBtn*/
-.cart, .signIn {
-  max-width: 3rem;
+.header .right {
+  display: flex;
+  gap: 1rem;
+}
+
+div.cart,
+div.signIn {
+  max-width: 4rem;
 }
 
 .cart button img, 
@@ -22,7 +28,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
 
-.header {
+div.header {
   display: flex;
   align-items: center;
   padding: .8rem;
@@ -40,15 +46,26 @@
 }
 
 /*SearchBar*/
-.searchBar {
-  margin: auto;
+div.searchBar {
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
 .searchBar input {
-  width: 60%;
+  width: 45%;
   height: 2rem;
   border-radius: 2rem;
+  font-size: 1rem;
+  border: 1px solid black;
+  padding-left: 1rem;
+  transition: .1s width;
+}
+
+.searchBar input:focus {
+  outline: none;
+  width: 70%;
+  transition: .1s width;
 }
 
 /*CartButton*/
