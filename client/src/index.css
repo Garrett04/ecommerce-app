@@ -1,13 +1,65 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/*Universal*/
+/*CartButton & SignInBtn*/
+.cart, .signIn {
+  max-width: 3rem;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.cart button img, 
+.signIn button img {
+  width: 100%;
+}
+
+.cart button, 
+.signIn button {
+  background-color: white;
+  border: 1px black solid;
+  border-radius: 1rem;
+  padding: .5rem;
+}
+
+/*Root*/
+/*Header*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: .8rem;
+  border-bottom: 2px black solid;
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-family: 'Roboto Slab', sans-serif;
+}
+
+.header span {
+  color: #8E1616;
+  font-family: 'Rock Salt';
+}
+
+/*SearchBar*/
+.searchBar {
+  margin: auto;
+  width: 100%;
+}
+
+.searchBar input {
+  width: 60%;
+  height: 2rem;
+  border-radius: 2rem;
+}
+
+/*CartButton*/
+.cart button:hover {
+  cursor: pointer;
+  background-color: chocolate;
+  transition: .1s background-color;
+}
+
+/*SignInButton*/
+.signIn button:hover { 
+  cursor: pointer;
+  background-color: deepskyblue;
 }
