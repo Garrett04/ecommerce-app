@@ -7,6 +7,7 @@
 
 div.cart,
 div.signIn {
+  width: 3rem;
   max-width: 4rem;
 }
 
@@ -79,4 +80,59 @@ div.searchBar {
 .signIn button:hover { 
   cursor: pointer;
   background-color: deepskyblue;
+}
+
+/*CategoryOptions*/
+
+/*Main*/
+div.main {
+  /* width: 100%; */
+}
+
+/*Banner*/
+div.banner {
+  display: flex;
+  margin: 1rem;
+  gap: 1rem;
+}
+
+.banner img {
+  max-width: 60%;
+  height: auto;
+  border-radius: 1rem;
+  border: 1px solid black;
+}
+
+.banner .account {
+  display: flex;
+  flex-flow: column wrap;
+  width: 100%;
+  background-color: blanchedalmond;
+  border-radius: 1rem;
+  border: 1px solid black;
+  gap: 2rem;
+}
+
+.banner .account button {
+  width: 15rem;
+  max-width: 20rem;
+  padding: 1rem;
+  font-size: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid black;
+  margin: auto;
+  background-color: #A2ED67;
+}
+
+.banner .account button:first-child {
+  margin-bottom: 0;
+}
+
+.banner .account button:last-child {
+  margin-top: 0;
+}
+
+.banner .account button:hover {
+  background-color: darksalmon;
+  cursor: pointer;
 }
