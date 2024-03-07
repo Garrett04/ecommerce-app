@@ -1,0 +1,54 @@
+/*Register Page*/
+.register {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+    border-radius: 1rem;
+    padding: 3.5rem;
+}
+
+.register h1 {
+    font-size: 3.5rem;
+    margin: 2rem 0;
+}
+
+.register form {
+    display: flex;
+    flex-flow: column;
+}
+
+.register form label {
+    font-size: 1.5rem;
+    margin: 0 1rem;
+}
+
+.register form input {
+    margin: 1rem 0;
+    height: 1.5rem;
+    border-radius: .3rem;
+    border: 1px solid black;
+    width: 14rem;
+}
+
+.register form input[type*="submit"] {
+    height: 3rem;
+    width: 15rem;
+    margin: 1rem auto;
+    border-radius: 2rem;
+    border: 1px solid black;
+    background-color: lemonchiffon;
+    font-size: 1.25rem;
+}
+
+.register form input[type*=submit]:hover {
+    background-color:deepskyblue;
+    transition: .2s all;
+    cursor: pointer;
+}
+
+.register p {
+    font-size: 1.25rem;
+    text-align: center;
+}

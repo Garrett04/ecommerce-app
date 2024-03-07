@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './resources/css/reset.css';
 import './index.css';
+import './pages/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
