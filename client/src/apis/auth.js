@@ -10,3 +10,14 @@ export const register = async (data) => {
         throw err.response;
     }
 }
+
+export const login = async (creds) => {
+    try {
+        const response = await API.post('users/login', creds);
+
+        return response.data;
+    } catch (err) {
+        // console.log(err);
+        throw err.response;
+    }
+}

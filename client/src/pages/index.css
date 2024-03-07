@@ -52,3 +52,58 @@
     font-size: 1.25rem;
     text-align: center;
 }
+
+/*Login Page*/
+.login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+    border-radius: 1rem;
+    padding: 3.5rem;
+}
+
+.login h1 {
+    font-size: 3.5rem;
+    margin: 2rem 0;
+}
+
+.login form {
+    display: flex;
+    flex-flow: column;
+}
+
+.login form label {
+    font-size: 1.5rem;
+    margin: 0 1rem;
+}
+
+.login form input {
+    margin: 1rem 0;
+    height: 1.5rem;
+    border-radius: .3rem;
+    border: 1px solid black;
+    width: 14rem;
+}
+
+.login form input[type*="submit"] {
+    height: 3rem;
+    width: 15rem;
+    margin: 1rem auto;
+    border-radius: 2rem;
+    border: 1px solid black;
+    background-color: lemonchiffon;
+    font-size: 1.25rem;
+}
+
+.login form input[type*=submit]:hover {
+    background-color:deepskyblue;
+    transition: .2s all;
+    cursor: pointer;
+}
+
+.login p {
+    font-size: 1.25rem;
+    text-align: center;
+}

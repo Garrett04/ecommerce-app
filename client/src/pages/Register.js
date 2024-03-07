@@ -16,7 +16,9 @@ const Register = () => {
       try {
         console.log(username, password);
         const userData = await register({username, password});
-        // console.log(userData);
+        console.log(userData.token);
+
+        localStorage.setItem('token', userData.token);
 
         navigate('/login');
         

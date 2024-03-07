@@ -111,7 +111,7 @@ router.post('/login', async (req, res, next) => {
     const user = await User.findByUsername(username);
 
     if (!user) {
-        res.status(404).json({ success: false, msg: "User not found" });
+        return res.status(404).json({ success: false, msg: "User not found" });
     }
 
     const isValid = utils.validatePassword(password, user.pw_hash, user.pw_salt);
