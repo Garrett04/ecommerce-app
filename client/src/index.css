@@ -146,6 +146,7 @@ div.banner {
 /*Products*/
 div.products {
   display: flex;
+  flex-flow: column;
   width: 100%;
 }
 
