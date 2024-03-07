@@ -1,11 +1,12 @@
+import { NavLink } from "react-router-dom";
 import accountIcon from "../../resources/images/account.svg";
 
 const SignInButton = () => {
   return (
     <div className="signIn">
-        <button title="Sign in">
+        <NavLink to="/user" title="Sign in" className="accountBtn">
             <img src={accountIcon} alt="Sign In Icon" />
-        </button>
+        </NavLink>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { Link, NavLink } from 'react-router-dom';
 import bannerPromo from '../../resources/images/banner-promo.jpg'
 
 const Banner = () => {
@@ -5,12 +6,12 @@ const Banner = () => {
     <div className="banner">
         <img src={bannerPromo} alt="banner promo" />
         <div className="account">
-            <button>
+            <NavLink to="/register" className="register-btn">
                 Register Account
-            </button>
-            <button>
+            </NavLink>
+            <NavLink to="/login" className="login-btn">
                 Login
-            </button>
+            </NavLink>
         </div>
     </div>
   )

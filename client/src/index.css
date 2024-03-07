@@ -11,18 +11,20 @@ div.signIn {
   max-width: 4rem;
 }
 
-.cart button img, 
-.signIn button img {
+.cartBtn img, 
+.accountBtn img {
   width: 100%;
 }
 
-.cart button, 
-.signIn button {
-  background-color: white;
-  border: 1px black solid;
+.cartBtn,
+.accountBtn {
+  width: 80%;
+  display: inline-block;
+  padding: .3rem;
   border-radius: 1rem;
-  padding: .5rem;
+  border: 1px solid black;
 }
+
 
 /*Root*/
 /*Header*/
@@ -70,14 +72,14 @@ div.searchBar {
 }
 
 /*CartButton*/
-.cart button:hover {
+.cartBtn:hover {
   cursor: pointer;
   background-color: chocolate;
   transition: .1s background-color;
 }
 
-/*SignInButton*/
-.signIn button:hover { 
+/*AccountButton*/
+.accountBtn:hover { 
   cursor: pointer;
   background-color: deepskyblue;
 }
@@ -113,22 +115,26 @@ div.banner {
   gap: 2rem;
 }
 
-.banner .account button {
+.register-btn,
+.login-btn {
   width: 15rem;
   max-width: 20rem;
   padding: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   border-radius: 1rem;
   border: 1px solid black;
   margin: auto;
   background-color: #A2ED67;
+  text-decoration: none;
+  text-align: center;
+  color: black;
 }
 
-.banner .account button:first-child {
+.register-btn {
   margin-bottom: 0;
 }
 
-.banner .account button:last-child {
+.login-btn {
   margin-top: 0;
 }
 
@@ -136,3 +142,16 @@ div.banner {
   background-color: darksalmon;
   cursor: pointer;
 }
+
+/*Products*/
+div.products {
+  display: flex;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  width: 100%;
+  font-size: 2rem;
+}
+

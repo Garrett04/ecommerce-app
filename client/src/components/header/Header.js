@@ -1,6 +1,6 @@
 import Cart from "./CartButton"
 import SearchBar from "./SearchBar"
-import SignInButton from "./SignInButton"
+import SignInButton from "./AccountButton"
 
 const Header = () => {
   return (
