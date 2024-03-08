@@ -3,7 +3,6 @@ import { fetchProducts } from "../../apis/products";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsError, getProductsStatus, selectAllProducts } from "../../features/productsSlice";
 
-
 const Products = () => {
     const products = useSelector(selectAllProducts);
     const productsStatus = useSelector(getProductsStatus);
@@ -17,9 +16,11 @@ const Products = () => {
     }, [productsStatus, dispatch])
 
     const renderProducts = () => {
-      return products.map(product => (
+      return products.map((product) => (
         <div key={product.id}>
+          <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`}/>
           <h3>{product.name}</h3>
+          <h4>{product.price}</h4>
         </div>
       ))
     }
