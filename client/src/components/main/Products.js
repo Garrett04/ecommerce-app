@@ -1,29 +1,22 @@
-import { useEffect, useState } from "react";
-import { getProducts } from "../../apis/products";
+import { useEffect } from "react";
+import { fetchProducts } from "../../apis/products";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsError, getProductsStatus, selectAllProducts } from "../../features/productsSlice";
 
 
 const Products = () => {
-    const [products, setProducts] = useState([]);
-    const [errMsg, setErrMsg] = useState();
+    const products = useSelector(selectAllProducts);
+    const productsStatus = useSelector(getProductsStatus);
+    const productsErr = useSelector(getProductsError);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-      const allProducts = async () => {
-        try {
-          const allProducts = await getProducts();
-          console.log(allProducts);
-          setProducts(allProducts);
-        } catch (err) {
-          if (err.status === 404) {
-            setErrMsg(err.data.msg);
-          }
-        }
+      if (productsStatus === 'idle') {
+        dispatch(fetchProducts());
       }
-      
-      allProducts();
-    }, [])
+    }, [productsStatus, dispatch])
 
-    const renderProducts =  () => {
-      console.log(products);
+    const renderProducts = () => {
       return products.map(product => (
         <div key={product.id}>
           <h3>{product.name}</h3>
@@ -31,13 +24,22 @@ const Products = () => {
       ))
     }
 
+    let content;
+    if (productsStatus === 'pending') {
+      content = 'Loading...';
+    } else if (productsStatus === 'fulfilled') {
+      console.log(products);
+      content = renderProducts();
+    } else if (productsStatus === 'rejected') {
+      content = productsErr;
+    }
+
     return (
       <div className="products">
           <h2>Products</h2>
           <div className="container">
-            {renderProducts()}
+            {content}
           </div>
-          {errMsg}
       </div>
     )
 }
