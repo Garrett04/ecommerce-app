@@ -98,9 +98,14 @@ div.banner {
   gap: 1rem;
 }
 
-.banner img {
-  max-width: 60%;
+.banner .promo {
+  width: 85%;
+  max-width: 85%;
   height: auto;
+}
+
+.banner img {
+  max-width: 100%;
   border-radius: 1rem;
   border: 1px solid black;
 }
@@ -138,7 +143,8 @@ div.banner {
   margin-top: 0;
 }
 
-.banner .account button:hover {
+.register-btn:hover,
+.login-btn:hover {
   background-color: darksalmon;
   cursor: pointer;
 }
@@ -156,3 +162,45 @@ h2 {
   font-size: 2rem;
 }
 
+.productCards {
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.productCard {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: .5rem;
+  padding: 1rem;
+  max-width: 250px;
+  gap: 1rem;
+}
+
+.productCard h3,
+.productCard h4 {
+  font-size: 1.25rem;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.productCard .container {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  max-width: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.productCard .container img {
+  width: 60%;
+  height: auto;
+  max-width: 75%;
+}

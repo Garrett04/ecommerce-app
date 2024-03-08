@@ -4,7 +4,9 @@ import bannerPromo from '../../resources/images/banner-promo.jpg'
 const Banner = () => {
   return (
     <div className="banner">
-        <img src={bannerPromo} alt="banner promo" />
+        <div className="promo">
+          <img src={bannerPromo} alt="banner promo" />
+        </div>
         <div className="account">
             <NavLink to="/register" className="register-btn">
                 Register Account

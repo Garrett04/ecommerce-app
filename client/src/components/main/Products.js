@@ -17,9 +17,11 @@ const Products = () => {
 
     const renderProducts = () => {
       return products.map((product) => (
-        <div key={product.id}>
-          <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`}/>
-          <h3>{product.name}</h3>
+        <div className="productCard" key={product.id}>
+          <div className="container">
+            <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`}/>
+          </div>
+          <h3>{product.name.length > 40 ? `${product.name.substring(0, 40)}...` : product.name}</h3>
           <h4>{product.price}</h4>
         </div>
       ))
@@ -38,7 +40,7 @@ const Products = () => {
     return (
       <div className="products">
           <h2>Products</h2>
-          <div className="container">
+          <div className="productCards">
             {content}
           </div>
       </div>
