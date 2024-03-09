@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { createCart, fetchCarts } from "../../apis/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartsError, getCartsStatus, selectCarts } from "../../features/carts/cartsSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Carts = () => {
@@ -10,6 +10,7 @@ const Carts = () => {
     const cartsStatus = useSelector(getCartsStatus);
     const cartsError = useSelector(getCartsError);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
     const [err, setErrMsg] = useState("");
@@ -34,10 +35,9 @@ const Carts = () => {
     }
 
     useEffect(() => {
-      if (cartsStatus === 'idle') {
-        dispatch(fetchCarts());
-      }
-    }, [cartsStatus, dispatch])
+      // console.log(cartsStatus);
+      dispatch(fetchCarts());
+    }, [dispatch])
 
     const renderCarts = () => {
       return carts.map(cart => (

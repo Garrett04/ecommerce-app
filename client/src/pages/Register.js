@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../apis/auth";
+import { setAuthToken } from "../apis/client";
 
 
 const Register = () => {
@@ -20,7 +21,9 @@ const Register = () => {
 
         localStorage.setItem('token', userData.token);
 
-        navigate('/login');
+        setAuthToken();
+
+        navigate('/');
         
       } catch (err) {
         if (err.status === 409) {

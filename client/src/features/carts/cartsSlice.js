@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createCart, fetchCarts } from "../../apis/cart"
+import axios from "axios"
 
 
 const initialState = {
@@ -18,7 +19,7 @@ const cartsSlice = createSlice({
             })
             .addCase(fetchCarts.fulfilled, (state, action) => {
                 state.status = 'fulfilled';
-                console.log(action.payload);
+                // console.log(action.payload);
                 state.carts = action.payload;
             })
             .addCase(fetchCarts.rejected, (state, action) => {

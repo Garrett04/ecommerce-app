@@ -31,10 +31,17 @@ export const fetchCarts = createAsyncThunk(
     async () => {
         try {
             const response = await API.get('cart');
-            console.log(response.data.carts);
+            // console.log(response);
             return response.data.carts;
+            
         } catch (err) {
-            throw err.response;
+            // console.log(err);
+            if (err.response.status === 401) {
+                // console.log(err.response);
+                throw new Error('Unauthorized');
+            } else {
+                throw err;
+            }
         }
     }
 )

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../apis/auth";
+import { setAuthToken } from "../apis/client";
 
 
 const Login = () => {
@@ -20,6 +21,8 @@ const Login = () => {
         // console.log(user.token);
 
         localStorage.setItem('token', user.token);
+
+        setAuthToken();
 
         navigate('/');
 
