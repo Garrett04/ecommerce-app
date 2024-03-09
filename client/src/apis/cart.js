@@ -45,3 +45,12 @@ export const fetchCarts = createAsyncThunk(
         }
     }
 )
+
+export const addProduct = async (id, data) => {
+    try {
+        const response = await API.post(`cart/${id}`, data);
+        return response.data.cart;
+    } catch (err) {
+        throw err.response;
+    }
+}
