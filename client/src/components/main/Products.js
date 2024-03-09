@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { fetchProducts } from "../../apis/products";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsError, getProductsStatus, selectAllProducts } from "../../features/productsSlice";
+import { getProductsError, getProductsStatus, selectAllProducts } from "../../features/products/productsSlice";
+import { Link } from "react-router-dom";
 
 const Products = () => {
     const products = useSelector(selectAllProducts);
@@ -23,6 +24,7 @@ const Products = () => {
           </div>
           <h3>{product.name.length > 40 ? `${product.name.substring(0, 40)}...` : product.name}</h3>
           <h4>{product.price}</h4>
+          <Link to={`/product/${product.id}`}>View more</Link>
         </div>
       ))
     }

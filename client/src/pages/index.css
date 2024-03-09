@@ -107,3 +107,33 @@
     font-size: 1.25rem;
     text-align: center;
 }
+
+/*Product Page*/
+.product {
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product div {
+    display: flex;
+    flex-direction: column;
+}
+
+.product img {
+    width: 30%;
+    height: auto;
+    margin: auto;
+}
+
+.product h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.product p {
+    font-size: 1.25rem;
+    margin: 1rem 0;
+}

@@ -27,3 +27,16 @@ export const fetchProducts = createAsyncThunk(
         }
     }
 )
+
+export const fetchProductById = createAsyncThunk(
+    'productDetails/fetchProductById',
+    async (productId) => {
+        try {
+            const response = await API.get(`products/${productId}`)
+            console.log(response.data);
+            return response.data.product;
+        } catch (err) {
+            throw err.response;
+        }
+    }
+)

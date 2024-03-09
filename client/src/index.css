@@ -99,25 +99,23 @@ div.banner {
 }
 
 .banner .promo {
-  width: 85%;
-  max-width: 85%;
-  height: auto;
-}
-
-.banner img {
-  max-width: 100%;
-  border-radius: 1rem;
-  border: 1px solid black;
+  flex: 3;
 }
 
 .banner .account {
   display: flex;
   flex-flow: column wrap;
-  width: 100%;
   background-color: blanchedalmond;
   border-radius: 1rem;
   border: 1px solid black;
   gap: 2rem;
+  flex: 2;
+}
+
+.banner img {
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid black;
 }
 
 .register-btn,
