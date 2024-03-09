@@ -16,4 +16,11 @@ export const setAuthToken = () => {
     }
 }
 
+// Checks if user is authenticated
+export const isAuthenticated = () => {
+    if (localStorage.getItem('token')) {
+      return true;
+    }
+}
+
 export default API;
