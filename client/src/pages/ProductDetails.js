@@ -42,7 +42,8 @@ const Product = () => {
     return (
       <div className="product">
         {content}
-      </div>    
+        {/* add functionality to add item to cart later on */}
+      </div>
     )
 }
 

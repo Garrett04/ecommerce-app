@@ -208,6 +208,31 @@ class Cart {
             throw new Error(err);
         }
     }
+
+    /**
+     * Get all carts associated by user Id
+     * 
+     * @param   {String} userId id of user
+     * @return  {Object|null} an object of carts
+     */
+    async find(userId) {
+        try {
+            // pg query statement
+            const statement = `SELECT * FROM carts WHERE user_id = $1`;
+
+            // query database
+            const result = await db.query(statement, [userId]);
+
+            if (result.rows.length > 0) {
+                console.log(result.rows);
+                return result.rows;
+            }
+
+            return null;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Cart();

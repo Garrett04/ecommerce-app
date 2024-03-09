@@ -126,6 +126,19 @@ router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     res.json({ success: true, cart: cart });
 })
 
+// To get all carts by user Id
+router.get('/', authenticateJWT, async (req, res) => {
+    const userId = req.user.id;
+
+    const carts = await Cart.find(userId);
+
+    if (!carts) {
+        return res.status(404).json({ success: false, msg: "No carts found" });
+    }
+
+    res.json({ success: true, carts: carts });
+})
+
 // POST ROUTES
 // To create a new cart associated by user id
 /**

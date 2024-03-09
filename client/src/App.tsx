@@ -1,4 +1,4 @@
-import Carts from './pages/Carts';
+import Carts from './pages/Carts/Carts';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Root from './pages/Root';
@@ -10,14 +10,16 @@ import {
   Route
 } from 'react-router-dom';
 import User from './pages/User';
-import Product from './pages/Product';
+import Product from './pages/ProductDetails';
 import Main from './components/main/Main';
+import CartDetails from './pages/Carts/CartDetails';
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
     <Route path="/" element={ <Root/> }>
-      <Route path="/" element={ <Main/> }/>
+      <Route index path="/" element={ <Main/> }/>
       <Route path="/carts" element={ <Carts/> }/>
+      <Route path="/carts/:id" element={ <CartDetails/> }/>
       <Route path="/user" element={ <User/> }/>
       <Route path="/product/:id" element={ <Product/> }/>
     </Route>
