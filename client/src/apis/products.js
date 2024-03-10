@@ -40,3 +40,16 @@ export const fetchProductById = createAsyncThunk(
         }
     }
 )
+
+export const fetchProductsByCategory = createAsyncThunk(
+    'products/fetchProductsByCategory',
+    async (id) => {
+        try {
+            const response = await API.get(`products/category/${id}`);
+            console.log(response.data);
+            return response.data.products;
+        } catch (err) {
+            throw err.response;
+        }
+    }
+)

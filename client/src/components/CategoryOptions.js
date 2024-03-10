@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategoriesError, getCategoriesStatus, selectCategories } from "../features/categories/categoriesSlice";
 import { useEffect } from "react";
 import { fetchCategories } from "../apis/categories";
+import { fetchProductsByCategory } from "../apis/products";
 
 
 const CategoryOptions = () => {
@@ -16,10 +17,20 @@ const CategoryOptions = () => {
       }
     }, [dispatch]);
 
+    const handleClick = async (categoryId) => {
+      try {
+        dispatch(fetchProductsByCategory(categoryId));
+      } catch (err) {
+        throw err.status;
+      }
+    }
+
     const renderCategories = () => {
       return categories.map(category => (
         <li key={category.id} className="category">
-          {category.name}
+          <button onClick={() => handleClick(category.id)}>
+            {category.name}
+          </button>
         </li>
       ))
     }
