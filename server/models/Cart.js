@@ -111,9 +111,11 @@ class Cart {
 
         // If is_carts_table is false then retrieve from the carts_products table.
         if (!is_carts_table) {
-            statement = `SELECT carts_products.cart_id,
+            statement = `SELECT carts.title AS cart_title,
+                                carts_products.cart_id,
                                 carts.user_id, 
                                 carts.id AS carts_table_id,
+                                products.id AS product_id,
                                 products.name AS product_name, 
                                 carts_products.quantity AS product_quantity, 
                                 products.price AS product_price
@@ -224,7 +226,7 @@ class Cart {
             const result = await db.query(statement, [userId]);
 
             if (result.rows.length > 0) {
-                console.log(result.rows);
+                // console.log(result.rows);
                 return result.rows;
             }
 

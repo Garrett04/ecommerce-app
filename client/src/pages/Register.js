@@ -5,9 +5,9 @@ import { setAuthToken } from "../apis/client";
 
 
 const Register = () => {
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [errMsg, setErrMsg] = useState();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
 
     const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);

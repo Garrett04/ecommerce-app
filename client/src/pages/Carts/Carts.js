@@ -5,7 +5,6 @@ import { getCartsError, getCartsStatus, selectCarts } from "../../features/carts
 import { Link, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../../apis/client";
 
-
 const Carts = () => {
     const carts = useSelector(selectCarts);
     const cartsStatus = useSelector(getCartsStatus);

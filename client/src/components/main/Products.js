@@ -33,7 +33,7 @@ const Products = () => {
     if (productsStatus === 'pending') {
       content = 'Loading...';
     } else if (productsStatus === 'fulfilled') {
-      console.log(products);
+      // console.log(products);
       content = renderProducts();
     } else if (productsStatus === 'rejected') {
       content = productsErr;

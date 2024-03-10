@@ -5,12 +5,13 @@ import { fetchProductById } from "../apis/products";
 import { getProductDetailsStatus, selectProductDetails } from "../features/products/productDetailsSlice";
 import { getProductsError } from "../features/products/productsSlice";
 import { addProduct, fetchCarts } from "../apis/cart";
-import { selectCarts } from "../features/carts/cartsSlice";
+import { getCartsStatus, selectCarts } from "../features/carts/cartsSlice";
 import { isAuthenticated, setAuthToken } from "../apis/client";
 
 
 const Product = () => {
     const carts = useSelector(selectCarts);
+    const cartsStatus = useSelector(getCartsStatus);
     const product = useSelector(selectProductDetails);
     const productDetailsStatus = useSelector(getProductDetailsStatus);
     const productDetailsError = useSelector(getProductsError);
@@ -42,7 +43,7 @@ const Product = () => {
     if (productDetailsStatus === 'pending') {
       content = 'Loading...';
     } else if (productDetailsStatus === 'fulfilled') {
-      console.log(product);
+      // console.log(product);
       content = renderProduct();
     } else if (productDetailsStatus === 'rejected') {
       content = productDetailsError;
@@ -50,7 +51,6 @@ const Product = () => {
 
     useEffect(() => {
       dispatch(fetchCarts()); // Update carts state to display carts
-      setCartId(carts[0].id); // Defaults the select dropdown to the first cart id
     }, [dispatch])
 
     const handleChange = (e) => {

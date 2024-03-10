@@ -3,12 +3,12 @@ import API from './client';
 
 // Fetch cart by cart Id
 export const fetchCartById = createAsyncThunk(
-    'carts/fetchCartById',
+    'cart/fetchCartById',
     async (id) => {
         try {
             const response = await API.get(`cart/${id}`);
             console.log(response.data);
-            return response.data;
+            return response.data.cart;
         } catch (err) {
             throw err.response;
         }
