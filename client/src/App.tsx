@@ -22,8 +22,8 @@ const router = createBrowserRouter( createRoutesFromElements(
       <Route element={<PrivateRoutes/>}>
         <Route path="/carts" element={ <Carts/> }/>
         <Route path="/carts/:id" element={ <CartDetails/> }/>
+        <Route path="/user" element={ <User/> }/>
       </Route>
-      <Route path="/user" element={ <User/> }/>
       <Route path="/product/:id" element={ <Product/> }/>
     </Route>
     <Route path="register" element={ <Register/> }/>

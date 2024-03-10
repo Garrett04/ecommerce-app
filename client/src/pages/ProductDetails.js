@@ -93,8 +93,15 @@ const Product = () => {
               min="1"
               required
             />
-            <select id="cart-title" name='cart-title' value={cartId} onChange={handleChange} required>
-              <option value="" selected="selected" disabled>Select your cart</option>
+            <select 
+              id="cart-title" 
+              defaultValue="" 
+              name='cart-title' 
+              value={cartId} 
+              onChange={handleChange} 
+              required
+            >
+              <option value="" disabled hidden>Select your cart</option>
               {renderCartsOptions()}
             </select>
             <input type="submit" value="Add to cart" />

@@ -362,23 +362,23 @@ router.get('/', authenticateJWT, async (req, res) => {
  */
 router.put('/', authenticateJWT, async (req, res) => {
     const userId = req.user.id;
-    const { username, password, first_name, last_name } = req.body;
+    const { username, oldPassword, newPassword, first_name, last_name } = req.body;
 
     // Make sure to submit the old password and the new password in the client side.
     // Password Validation
-    // if (!password) {
-    //     return res.status(404).json({ success: false, msg: "Please provide current password before updating user details" });
-    // }
 
     const prevUser = await User.findById(userId);
-    const isSamePassword = utils.validatePassword(password, prevUser.pw_hash, prevUser.pw_salt);
+    const isSameOldPassword = utils.validatePassword(oldPassword, prevUser.pw_hash, prevUser.pw_salt);
+    const isSamePassword = utils.validatePassword(newPassword, prevUser.pw_hash, prevUser.pw_salt);
 
     // console.log(isSamePassword);
-    if (isSamePassword) {
-        return res.status(400).json({ success: false, msg: "Cannot change password to the current password" });
+    if (!isSameOldPassword) {
+        return res.status(400).json({ success: false, msg: "Wrong Old Password entered" });
+    } else if (isSamePassword) {
+        return res.status(401).json({ success: false, msg: "Cannot change password to the current password" });
     }
 
-    const newPassword = utils.genPassword(password);
+    const password = utils.genPassword(newPassword);
 
     const data = {
         id: userId,
@@ -386,8 +386,8 @@ router.put('/', authenticateJWT, async (req, res) => {
         username: username ? username : prevUser.username,
         first_name: first_name ? first_name : prevUser.first_name, 
         last_name: last_name ? last_name : prevUser.last_name,
-        pw_hash: newPassword.hash,
-        pw_salt: newPassword.salt
+        pw_hash: password.hash,
+        pw_salt: password.salt
     }
 
     const updatedUser = await User.update(data);
