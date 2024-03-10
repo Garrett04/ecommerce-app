@@ -1,4 +1,4 @@
-import CategoryOptions from "../CategoryOptions"
+import CategoryOptions from "./CategoryOptions"
 import Banner from "./Banner"
 import Products from "./Products"
 

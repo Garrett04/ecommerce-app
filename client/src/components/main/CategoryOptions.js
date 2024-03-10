@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoriesError, getCategoriesStatus, selectCategories } from "../features/categories/categoriesSlice";
+import { getCategoriesError, getCategoriesStatus, selectCategories } from "../../features/categories/categoriesSlice";
 import { useEffect } from "react";
-import { fetchCategories } from "../apis/categories";
-import { fetchProductsByCategory } from "../apis/products";
+import { fetchCategories } from "../../apis/categories";
+import { fetchProducts, fetchProductsByCategory } from "../../apis/products";
 
 
 const CategoryOptions = () => {
@@ -46,6 +46,9 @@ const CategoryOptions = () => {
 
     return (
       <ul className="categories">
+        {categoriesStatus 
+          ? <li className="category"><button onClick={() => dispatch(fetchProducts())}>All Products</button></li>
+          : null}
         {content}
       </ul>    
     );
