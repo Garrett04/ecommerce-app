@@ -11,7 +11,6 @@ import { isAuthenticated, setAuthToken } from "../apis/client";
 
 const Product = () => {
     const carts = useSelector(selectCarts);
-    const cartsStatus = useSelector(getCartsStatus);
     const product = useSelector(selectProductDetails);
     const productDetailsStatus = useSelector(getProductDetailsStatus);
     const productDetailsError = useSelector(getProductsError);
@@ -91,11 +90,11 @@ const Product = () => {
               name="quantity" 
               value={quantity}
               onChange={handleChange}
-              min="0"
+              min="1"
               required
             />
-            <select id="cart-title" name='cart-title' value={cartId} onChange={handleChange}>
-              <option value="default" disabled>Select your cart</option>
+            <select id="cart-title" name='cart-title' value={cartId} onChange={handleChange} required>
+              <option value="" selected="selected" disabled>Select your cart</option>
               {renderCartsOptions()}
             </select>
             <input type="submit" value="Add to cart" />
