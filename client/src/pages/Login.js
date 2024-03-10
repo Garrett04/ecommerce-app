@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../apis/auth";
 import { setAuthToken } from "../apis/client";
@@ -9,7 +9,9 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
+
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);
 
@@ -24,11 +26,18 @@ const Login = () => {
 
         setAuthToken();
 
-        navigate('/');
+        // Checks if the user got redirected to the login page from a protected route
+        // If so then navigate that user back to the same protected route after a successful login
+        // Else back to homepage if user went straight to login route.
+        if (location.state?.from) {
+          navigate(location.state.from);
+        } else {
+          navigate('/');
+        }
 
       } catch (err) {
         // console.log(err);
-        if (err.status === 404) {
+        if (err.status === 404 || err.status === 401) {
           setErrMsg(err.data.msg);
         }
       }
