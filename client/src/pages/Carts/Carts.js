@@ -3,7 +3,7 @@ import { createCart, fetchCarts } from "../../apis/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartsError, getCartsStatus, selectCarts } from "../../features/carts/cartsSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../../apis/client";
+import { isAuthenticated, setAuthToken } from "../../apis/client";
 
 const Carts = () => {
     const carts = useSelector(selectCarts);
@@ -35,13 +35,8 @@ const Carts = () => {
     }
 
     useEffect(() => {
-      // console.log(cartsStatus);
-      if (!isAuthenticated()) {
-        navigate('/login');
-      } else {
-        dispatch(fetchCarts());
-      }
-    }, [navigate, dispatch])
+      dispatch(fetchCarts());
+    }, [dispatch])
 
     const renderCarts = () => {
       return carts.map(cart => (

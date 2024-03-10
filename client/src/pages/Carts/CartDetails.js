@@ -15,16 +15,20 @@ const CartDetails = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      setAuthToken();
       dispatch(fetchCartById(id));
     }, [dispatch, id])
 
     const renderCart = () => {
-      return cart.map(item => (
-        <div key={item.product_id} className="cart-product">
-          <h3>{item.product_name}</h3>
-          <p>{item.product_price}</p>
-          <p>{item.product_quantity}</p>
+      return cart.map(({
+        product_id, 
+        product_name, 
+        product_price, 
+        product_quantity
+      }) => (
+        <div key={product_id} className="cart-product">
+          <h3>{product_name}</h3>
+          <p>{product_price}</p>
+          <p>{product_quantity}</p>
         </div>
       ));
     }
