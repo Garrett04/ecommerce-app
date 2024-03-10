@@ -4,7 +4,6 @@ import { isAuthenticated } from '../../apis/client';
 
 const Banner = () => {
   const renderAccountComponent = () => {
-    console.log(isAuthenticated());
     return (
       <div className="account">
           <NavLink to="/register" className="register-btn">

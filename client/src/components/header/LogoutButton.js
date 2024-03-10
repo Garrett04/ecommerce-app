@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { setAuthToken } from "../../apis/client";
 
 const Logout = () => {
@@ -7,11 +7,10 @@ const Logout = () => {
     const handleClick = () => {
       localStorage.removeItem('token');
       setAuthToken(); // Removes the authorization header
-      navigate('/');
     }; 
 
     return (
-      <button onClick={handleClick}>Logout</button>
+      <a className="logOutBtn" href="/" onClick={handleClick}>Logout</a>
     )
 }
 
