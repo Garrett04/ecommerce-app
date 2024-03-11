@@ -14,6 +14,7 @@ import Product from './pages/ProductDetails';
 import Main from './components/main/Main';
 import CartDetails from './pages/Carts/CartDetails';
 import PrivateRoutes from './utils/PrivateRoutes';
+import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
@@ -22,6 +23,7 @@ const router = createBrowserRouter( createRoutesFromElements(
       <Route element={<PrivateRoutes/>}>
         <Route path="/carts" element={ <Carts/> }/>
         <Route path="/carts/:id" element={ <CartDetails/> }/>
+        <Route path="/checkout-success" element={ <CheckoutSuccess/> }/>
         <Route path="/user" element={ <User/> }/>
       </Route>
       <Route path="/product/:id" element={ <Product/> }/>

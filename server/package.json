@@ -34,5 +34,6 @@
   },
   "devDependencies": {
     "jsdoc": "^4.0.2"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
