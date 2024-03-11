@@ -8,7 +8,7 @@ export const fetchCartById = createAsyncThunk(
         try {
             const response = await API.get(`cart/${id}`);
             console.log(response.data);
-            return response.data.cart;
+            return {data: response.data.data, subtotal: response.data.subtotal};
         } catch (err) {
             throw err.response;
         }

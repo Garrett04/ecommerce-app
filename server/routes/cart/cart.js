@@ -118,12 +118,13 @@ router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
 
     // Calls findById which takes in an is_carts_table boolean value of false indicating to retrieve from the carts_products table
     const cart = await Cart.findById(false, cartId);
+    const subtotal = await Cart.getSubtotal(cartId);
 
     if (!cart) {
         return res.status(404).json({ success: false, msg: "Cart not found" })
     }
 
-    res.json({ success: true, cart: cart });
+    res.json({ success: true, data: cart, subtotal });
 })
 
 // To get all carts by user Id
@@ -138,6 +139,7 @@ router.get('/', authenticateJWT, async (req, res) => {
 
     res.json({ success: true, carts: carts });
 })
+
 
 // POST ROUTES
 // To create a new cart associated by user id

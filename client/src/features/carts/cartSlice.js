@@ -3,7 +3,7 @@ import { fetchCartById } from "../../apis/cart"
 
 
 const initialState = {
-    cart: [],
+    cart: {},
     status: 'idle',
     error: null
 }

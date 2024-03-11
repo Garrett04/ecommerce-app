@@ -19,7 +19,7 @@ const CartDetails = () => {
     }, [dispatch, id])
 
     const renderCart = () => {
-      return cart.map(({
+      return cart.data.map(({
         product_id, 
         product_name, 
         product_price, 
@@ -44,8 +44,9 @@ const CartDetails = () => {
 
     return (
       <div className="cart">
-        <h2>{cartStatus === 'fulfilled' ? cart[0].cart_title : null}</h2>
+        <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
         {content}
+        <h4>Subtotal: {cart.subtotal}</h4>
       </div>
     )
 }

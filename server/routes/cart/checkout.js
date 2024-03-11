@@ -1,8 +1,11 @@
+require('dotenv').config();
 const router = require('express').Router({ mergeParams: true });
 const Cart = require('../../models/Cart');
 const { authenticateJWT, authCartAccess, authAddressAccess } = require('../middlewares/authMiddleware');
 const Checkout = require('../../models/Checkout');
 const Order = require('../../models/Order');
+
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 /**
  * @swagger
@@ -156,6 +159,43 @@ router.post('/', authenticateJWT, authCartAccess, authAddressAccess, async (req,
         checkout_status,
         order: makeOrder 
     });
+})
+
+router.post('/create-checkout-session', async (req, res) => {
+    const { cartId } = req.params;
+    const userId = req.user.id;
+    const { 
+        payment_method,
+        shipping_address_id,
+        billing_address_id 
+    } = req.body;
+
+    const cart_products = await Cart.findById(cartId);
+
+    const line_items = cart_products.map(item => {
+        return {
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: item.product_name,
+                    metadata: {
+                        id: item.product_id
+                    }
+                },
+                unit_amount: item.product_price * 100,
+            },
+            quantity: item.product_quantity
+        }
+    });
+
+    const session = await stripe.checkout.sessions.create({
+        line_items,
+        mode: 'payment',
+        success_url: `http://localhost:3001/checkout-success`,
+        cancel_url: 'http://localhost:3001/cart',
+    })
+
+    res.send({ url: session.url });
 })
 
 module.exports = router;
