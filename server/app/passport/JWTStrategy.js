@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const JwtStrategy = require('passport-jwt').Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const User = require('../models/User');
+const User = require('../../models/User');
 
-const pathToKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
+const pathToKey = path.join(__dirname, '../..', 'id_rsa_pub.pem');
 const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
 
 const options = {
@@ -13,7 +14,7 @@ const options = {
     algorithms: ['RS256']
 }
 
-const strategy = new JwtStrategy(options, async (payload, done) => {
+const jwtStrategy = new JwtStrategy(options, async (payload, done) => {
     try {
         const user = await User.findById(payload.sub);
 
@@ -28,6 +29,8 @@ const strategy = new JwtStrategy(options, async (payload, done) => {
     }
 })
 
+
+
 module.exports = (passport) => {
-    passport.use(strategy);
+    passport.use(jwtStrategy);
 }

@@ -64,3 +64,11 @@ module.exports.authOrderAccess = async (req, res, next) => {
 
     next();
 }
+
+// To check if logged in using google
+module.exports.isLoggedIn = async (req, res, next) => {
+    if (req.user) {
+        return next();
+    }
+    res.sendStatus(401);
+}

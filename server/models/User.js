@@ -119,6 +119,46 @@ class User {
             throw new Error(err);
         }
     }
+
+    /**
+     * Find or create user
+     * 
+     * @param  {Object} data googleId and username of user
+     * @return {Object|null} user object
+     */
+    async findOrCreate(data) {
+        try {
+            // pg query statement for finding by googleId
+            const statement = `SELECT * FROM users WHERE google_id = $1`;
+
+            // query database to find user
+            const user = await db.query(statement, [data.googleId]);
+
+            if (user.rows.length <= 0) {
+                // pg query statement for creating user
+                const statement = `INSERT INTO users (google_id, username)
+                                    VALUES ($1, $2)
+                                    RETURNING *`;
+
+                // query database to create user
+                const result = await db.query(statement, [data.googleId, data.username]);
+                
+                if (result.rows.length > 0) {
+                    // console.log(result.rows[0]);
+                    return result.rows[0];
+                }
+
+                return null;
+            } else {
+                return user;
+            }
+
+
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new User();

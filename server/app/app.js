@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 const passport = require('passport');
 const session = require('express-session');
@@ -34,18 +33,13 @@ app.use(session({
 }));
 
 // PASSPORT AUTHENTICATION
-// Passes the global passport object into the configuration function.
-require('./passport')(passport);
+// Passes the global passport object into the configuration functions.
+require('./passport/JWTStrategy')(passport);
+require('./passport/googleStrategy')(passport);
 
 // Initialization of passport on every request
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ROUTES
-// Import all routes over here
-app.use('/api', require('../routes/index'));
 
-// Server listens on http://localhost:3000
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}.`);
-})
+module.exports = app;

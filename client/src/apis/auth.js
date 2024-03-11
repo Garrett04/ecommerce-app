@@ -2,7 +2,7 @@ import API from './client'
 
 export const register = async (data) => {
     try {
-        const response = await API.post('users/register', data);
+        const response = await API.post('auth/register', data);
 
         return response.data;
 
@@ -13,7 +13,7 @@ export const register = async (data) => {
 
 export const login = async (creds) => {
     try {
-        const response = await API.post('users/login', creds);
+        const response = await API.post('auth/login', creds);
 
         return response.data;
     } catch (err) {
