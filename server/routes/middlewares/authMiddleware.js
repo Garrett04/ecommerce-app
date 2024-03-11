@@ -14,8 +14,11 @@ module.exports.authCartAccess = async (req, res, next) => {
     const userId = req.user.id;
     let hasCartAccess;
 
+    // console.log('from authCartAccess');
+    
     // Retrieving from carts table
     const cart = await Cart.findById(true, cartId);
+
 
     // console.log("cart:", cart);
 

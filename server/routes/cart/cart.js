@@ -117,8 +117,12 @@ router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
 
     // Calls findById which takes in an is_carts_table boolean value of false indicating to retrieve from the carts_products table
+    // console.log("from fetchCartById")
     const cart = await Cart.findById(false, cartId);
+    // console.log("check1");
     const subtotal = await Cart.getSubtotal(cartId);
+    // console.log('check2')
+    
 
     if (!cart) {
         return res.status(404).json({ success: false, msg: "Cart not found" })

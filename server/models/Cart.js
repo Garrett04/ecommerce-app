@@ -133,9 +133,12 @@ class Cart {
             // query database
             const result = await db.query(statement, [cartId]);
 
-            // console.log(result.rows);
+            // console.log(result.rows[0]);
             // console.log(result.rows.length);
-            if (result.rows.length == 1) { // If there's only one row then return that row object.
+            // console.log(statement);
+            // console.log(result.rows.length);
+            if (result.rows.length == 1 && is_carts_table) { // If there's only one row then return that row object.
+                // console.log(result.rows[0])
                 return result.rows[0];
             } else if (result.rows.length > 0) {
                 // console.log(result.rows);
@@ -199,6 +202,8 @@ class Cart {
 
             // query database
             const result = await db.query(statement, [cartId]);
+
+            // console.log("from getSubtotal")
 
             if (result.rows.length > 0) {
                 return result.rows[0].subtotal;

@@ -59,7 +59,7 @@ const CartDetails = () => {
       <div className="cart">
         <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
         {content}
-        <h4>Subtotal: {cart.subtotal}</h4>
+        {cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
         <button onClick={handleCheckout}>
           Checkout
         </button>
