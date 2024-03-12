@@ -12,10 +12,11 @@ const Banner = () => {
   useEffect(() => {
     if (userStatus === 'fulfilled') {
       // console.log(user.token);
-      setAuthToken(user.token);
+      localStorage.setItem('token', user.token);
+      setAuthToken();
       // console.log(isAuthenticated());
     }
-  }, [userStatus, user.token])
+  }, [userStatus])
 
   const renderAccountComponent = () => {
     return (

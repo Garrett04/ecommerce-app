@@ -8,6 +8,7 @@ const PrivateRoutes = () => {
         setAuthToken(); // Sets auth token to the header indicating its present in localStorage
         return <Outlet/>; // Proceeding to the protected route
     } else {
+        console.log(location);
         return <Navigate to="/login" replace state={{ from: location }}/>;
     }
 };

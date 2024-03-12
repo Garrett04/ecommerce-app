@@ -5,9 +5,7 @@ const API = axios.create({
 })
 
 // Checks if token is there in local storage and adds it to axios header
-export const setAuthToken = (authToken) => {
-    localStorage.setItem('token', authToken);
-
+export const setAuthToken = () => {
     const token = localStorage.getItem('token');
 
     if (token) {

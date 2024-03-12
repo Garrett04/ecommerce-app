@@ -37,7 +37,11 @@ export const fetchGoogleUser = createAsyncThunk(
                 }
             });
             console.log(response.data);
-            return { user: response.data.user, token: response.data.token };
+            return { 
+                data: response.data.user, 
+                token: response.data.token,
+                loginMethod: 'google' 
+            };
         } catch (err) {
             throw err.response;
         }
