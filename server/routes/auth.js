@@ -194,7 +194,7 @@ router.post('/register', async (req, res, next) => {
         success: true, 
         user: {
             id: newUser.id,
-            username: newUser.username
+            username: newUser.username,
         }, 
         token: jwt.token, 
         expiresIn: jwt.expires 
@@ -220,11 +220,15 @@ router.get('/login/success', isLoggedIn, (req, res) => {
     // Issuiance of JWT
     const jwt = utils.issueJWT(user);
 
+    console.log(user);
+
     res.status(200).json({
         success: true,
         user: {
             id: user.id,
-            username: user.username
+            username: user.username,
+            first_name: user.first_name,
+            last_name: user.last_name
         },
         token: jwt.token,
         expiresIn: jwt.expires

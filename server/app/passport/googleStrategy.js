@@ -11,8 +11,13 @@ const googleStrategy = new GoogleStrategy({
   async (request, accessToken, refreshToken, profile, done) => {
     try {
         // const user = await User.findById({ googleId: profile.id });
-        console.log(profile);
-        const user = await User.findOrCreate({ googleId: profile.id, username: profile.email  });
+        // console.log(profile);
+        const user = await User.findOrCreate({ 
+            googleId: profile.id, 
+            username: profile.email, 
+            first_name: profile.given_name, 
+            last_name: profile.family_name  
+        });
 
         if (user) {
             return done(null, user);

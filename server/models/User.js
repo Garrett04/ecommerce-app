@@ -136,12 +136,15 @@ class User {
 
             if (user.rows.length <= 0) {
                 // pg query statement for creating user
-                const statement = `INSERT INTO users (google_id, username)
-                                    VALUES ($1, $2)
+                const statement = `INSERT INTO users (google_id, username, first_name, last_name)
+                                    VALUES ($1, $2, $3, $4)
                                     RETURNING *`;
 
+                // values array
+                const values = [data.googleId, data.username, data.first_name, data.last_name]
+
                 // query database to create user
-                const newUser = await db.query(statement, [data.googleId, data.username]);
+                const newUser = await db.query(statement, values);
                 
                 if (newUser.rows.length > 0) {
                     // console.log(result.rows[0]);
