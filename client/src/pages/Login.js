@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { getGoogleUser, login } from "../apis/auth";
+import { login } from "../apis/auth";
 import { setAuthToken } from "../apis/client";
 
 

@@ -5,18 +5,24 @@ const API = axios.create({
 })
 
 // Checks if token is there in local storage and adds it to axios header
-export const setAuthToken = () => {
+export const setAuthToken = (authToken) => {
+    localStorage.setItem('token', authToken);
+
     const token = localStorage.getItem('token');
 
     if (token) {
         API.defaults.headers.common['Authorization'] = token;
-    } else {
-        delete API.defaults.headers.common['Authorization'];
     }
+}
+
+export const removeAuthToken = () => {
+    delete API.defaults.headers.common['Authorization'];
 }
 
 // Checks if user is authenticated
 export const isAuthenticated = () => {
+    // console.log('hello from isAuthenticated');
+    // console.log(localStorage.getItem('token'))
     if (localStorage.getItem('token')) {
       return true;
     }

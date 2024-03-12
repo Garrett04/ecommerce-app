@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../apis/client";
+import { removeAuthToken } from "../../apis/client";
 import { logout } from "../../apis/auth";
 
 const Logout = () => {
     const handleClick = () => {
       localStorage.removeItem('token');
-      setAuthToken(); // Removes the authorization header
+      removeAuthToken(); // Removes the authorization header
       logout();
     }; 
 

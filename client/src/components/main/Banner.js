@@ -1,8 +1,22 @@
 import { NavLink } from 'react-router-dom';
 import bannerPromo from '../../resources/images/banner-promo.jpg'
-import { isAuthenticated } from '../../apis/client';
+import { isAuthenticated, setAuthToken } from '../../apis/client';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getUserStatus, selectUser } from '../../features/user/userSlice';
 
 const Banner = () => {
+  const user = useSelector(selectUser);
+  const userStatus = useSelector(getUserStatus);
+
+  useEffect(() => {
+    if (userStatus === 'fulfilled') {
+      // console.log(user.token);
+      setAuthToken(user.token);
+      // console.log(isAuthenticated());
+    }
+  }, [userStatus, user.token])
+
   const renderAccountComponent = () => {
     return (
       <div className="account">
@@ -21,7 +35,8 @@ const Banner = () => {
         <div className="promo">
           <img src={bannerPromo} alt="banner promo" />
         </div>
-        {!isAuthenticated() ? renderAccountComponent() : null}
+        {/* If userStatus is not fulfilled and isAuthenticated is not true then renders AccountComponent */}
+        {!(userStatus === 'fulfilled') && !isAuthenticated() ? renderAccountComponent() : null}
     </div>
   )
 }
