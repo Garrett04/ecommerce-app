@@ -15,6 +15,11 @@ const Login = () => {
 
     const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);
 
+    const handleClick = async () => {
+      // Redirects user to Google login page
+      window.location.href = "http://localhost:3000/api/auth/google";
+    }
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
@@ -73,6 +78,7 @@ const Login = () => {
           </form>
           {errMsg}
           <p>Do not have a ShopWise Account? <Link to="/register">Register here</Link></p>
+          <p>Other login methods: <button onClick={handleClick}>Google</button></p>
         </div>
     )
 }

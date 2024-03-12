@@ -202,11 +202,6 @@ router.post('/register', async (req, res, next) => {
     // console.log(newUser);
 })
 
-// Testing in the backend
-router.get('/', (req, res) => {
-    res.send('<a href="/api/auth/google">Authenticate with Google</a>')
-})
-
 // Google Auth
 router.get('/google', 
     passport.authenticate('google', { scope: ['email', 'profile'] })
@@ -214,8 +209,8 @@ router.get('/google',
 
 router.get('/google/callback', 
     passport.authenticate('google', {
-        successRedirect: '/api/auth/protected',
-        failureRedirect: '/auth'
+        successRedirect: 'http://localhost:3001/',
+        failureRedirect: 'http://localhost:3001/login'
     })
 )
 
