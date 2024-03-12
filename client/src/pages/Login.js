@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { login } from "../apis/auth";
+import { getGoogleUser, login } from "../apis/auth";
 import { setAuthToken } from "../apis/client";
 
 
@@ -17,7 +17,7 @@ const Login = () => {
 
     const handleClick = async () => {
       // Redirects user to Google login page
-      window.location.href = "http://localhost:3000/api/auth/google";
+      window.open("http://localhost:3000/api/auth/google", "_self")
     }
 
     const handleSubmit = async (e) => {

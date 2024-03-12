@@ -13,7 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS SETUP
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3001",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+}));
 
 // SWAGGER SETUP
 app.use(require('./swagger'));

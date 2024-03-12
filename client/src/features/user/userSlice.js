@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchUserData } from "../../apis/user"
+import { fetchGoogleUser } from "../../apis/auth"
 
 
 const initialState = {
@@ -21,6 +22,18 @@ const userSlice = createSlice({
                 state.user = action.payload;
             })
             .addCase(fetchUserData.rejected, (state, action) => {
+                state.status = 'rejected';
+                state.error = action.error.message;
+            })
+            .addCase(fetchGoogleUser.pending, (state, action) => {
+                state.status = 'pending';
+            })
+            .addCase(fetchGoogleUser.fulfilled, (state, action) => {
+                state.status = 'fulfilled';
+                // console.log(action.payload);
+                state.user = action.payload;
+            })
+            .addCase(fetchGoogleUser.rejected, (state, action) => {
                 state.status = 'rejected';
                 state.error = action.error.message;
             })

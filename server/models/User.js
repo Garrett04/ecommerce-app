@@ -141,19 +141,17 @@ class User {
                                     RETURNING *`;
 
                 // query database to create user
-                const result = await db.query(statement, [data.googleId, data.username]);
+                const newUser = await db.query(statement, [data.googleId, data.username]);
                 
-                if (result.rows.length > 0) {
+                if (newUser.rows.length > 0) {
                     // console.log(result.rows[0]);
-                    return result.rows[0];
+                    return newUser.rows[0];
                 }
 
                 return null;
             } else {
-                return user;
+                return user.rows[0];
             }
-
-
 
         } catch (err) {
             throw new Error(err);

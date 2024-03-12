@@ -210,12 +210,34 @@ router.get('/google',
 router.get('/google/callback', 
     passport.authenticate('google', {
         successRedirect: 'http://localhost:3001/',
-        failureRedirect: 'http://localhost:3001/login'
+        failureRedirect: 'http://localhost:3000/auth/google/login/failure'
     })
 )
 
-router.get('/protected', isLoggedIn, (req, res) => {
-    res.send('Hello from the protected route!');
+router.get('/login/success', isLoggedIn, (req, res) => {
+    const user = req.user;
+
+    // Issuiance of JWT
+    const jwt = utils.issueJWT(user);
+
+    res.status(200).json({
+        success: true,
+        user: {
+            id: user.id,
+            username: user.username
+        },
+        token: jwt.token,
+        expiresIn: jwt.expires
+    })
+})
+
+router.get('/google/logout', isLoggedIn, (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.json({ success: true, msg: "Successfully logged out" });
+    });
 })
 
 module.exports = router;

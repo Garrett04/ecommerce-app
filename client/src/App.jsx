@@ -15,6 +15,10 @@ import Main from './components/main/Main';
 import CartDetails from './pages/Carts/CartDetails';
 import PrivateRoutes from './utils/PrivateRoutes';
 import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
+import { useEffect } from 'react';
+import { fetchGoogleUser } from './apis/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from './features/user/userSlice';
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
@@ -34,6 +38,13 @@ const router = createBrowserRouter( createRoutesFromElements(
 ))
 
 function App() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGoogleUser());
+  }, [dispatch]);
+
   return (
     <RouterProvider router={ router } />
   );

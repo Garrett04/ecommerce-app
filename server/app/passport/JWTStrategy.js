@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const JwtStrategy = require('passport-jwt').Strategy;
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../../models/User');
 
@@ -28,7 +27,6 @@ const jwtStrategy = new JwtStrategy(options, async (payload, done) => {
         done(err, null);
     }
 })
-
 
 
 module.exports = (passport) => {
