@@ -159,7 +159,7 @@ class Address {
             const result = await db.query(statement, [userId]);
 
             if (result.rows.length > 0) {
-                console.log(result.rows);
+                // console.log(result.rows);
                 return result.rows;
             }
             return null;

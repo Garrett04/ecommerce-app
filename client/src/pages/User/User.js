@@ -28,17 +28,11 @@ const User = () => {
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
-      if (e.target.name === 'username') {
-        setUsername(e.target.value);
-      } else if (e.target.name === 'oldPassword') {
-        setOldPassword(e.target.value);
-      } else if (e.target.name === 'newPassword') {
-        setNewPassword(e.target.value);
-      } else if (e.target.name === 'firstName') {
-        setFirstName(e.target.value);
-      } else {
-        setLastName(e.target.value);
-      }
+      if (e.target.name === 'username') setUsername(e.target.value)
+      else if (e.target.name === 'oldPassword') setOldPassword(e.target.value);
+      else if (e.target.name === 'newPassword') setNewPassword(e.target.value);
+      else if (e.target.name === 'firstName') setFirstName(e.target.value);
+      else if (e.target.name === 'lastName') setLastName(e.target.value);
     }
 
     useEffect(() => {
@@ -48,11 +42,11 @@ const User = () => {
     // Update user fields to the current data
     useEffect(() => {
       if (userStatus === 'fulfilled') {
-        setUsername(user.username);
-        setFirstName(user.first_name);
-        setLastName(user.last_name);
+        setUsername(user.username || ""); // If user data is undefined then empty string
+        setFirstName(user.first_name || "");
+        setLastName(user.last_name || "");
       }
-    }, [userStatus])
+    }, [userStatus, user.first_name, user.username, user.last_name])
 
     const handleSubmit = async (e) => {
       e.preventDefault();
