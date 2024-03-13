@@ -3,7 +3,7 @@ import { getAddressesError, getAddressesStatus, selectAddresses } from "../../..
 import { useEffect } from "react";
 import { fetchAddressesByUserId } from "../../../../apis/addresses";
 import { setAuthToken } from "../../../../apis/client";
-import AddAddressForm from "./AddAddressForm";
+import AddAddressForm from "./AddAddressForm/AddAddressForm";
 
 
 const Addresses = () => {
