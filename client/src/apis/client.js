@@ -18,11 +18,17 @@ export const removeAuthToken = () => {
 }
 
 // Checks if user is authenticated
-export const isAuthenticated = () => {
+export const isAuthenticated = (userStatus) => {
     // console.log('hello from isAuthenticated');
     // console.log(localStorage.getItem('token'))
-    if (localStorage.getItem('token')) {
-      return true;
+    // console.log(userStatus);
+
+    // Checks if userStatus from redux store is fulfilled or a token is present in the localStorage
+    // userStatus indicating the dispatch of fetchGoogleUser which when the user is logged in will be fulfilled
+    if (userStatus === 'fulfilled') {
+        return 'google';
+    } else if (localStorage.getItem('token')) {
+      return 'custom';
     }
 }
 

@@ -214,6 +214,7 @@ router.get('/google/callback',
     })
 )
 
+// Returns the google user object, and a JWT token
 router.get('/login/success', isLoggedIn, (req, res) => {
     const user = req.user;
 
@@ -228,7 +229,8 @@ router.get('/login/success', isLoggedIn, (req, res) => {
             id: user.id,
             username: user.username,
             first_name: user.first_name,
-            last_name: user.last_name
+            last_name: user.last_name,
+            login_method: user.login_method
         },
         token: jwt.token,
         expiresIn: jwt.expires

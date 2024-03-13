@@ -16,7 +16,8 @@ const googleStrategy = new GoogleStrategy({
             googleId: profile.id, 
             username: profile.email, 
             first_name: profile.given_name, 
-            last_name: profile.family_name  
+            last_name: profile.family_name,
+            login_method: 'google'
         });
 
         if (user) {

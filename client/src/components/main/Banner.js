@@ -37,7 +37,7 @@ const Banner = () => {
           <img src={bannerPromo} alt="banner promo" />
         </div>
         {/* If userStatus is not fulfilled and isAuthenticated is not true then renders AccountComponent */}
-        {!(userStatus === 'fulfilled') && !isAuthenticated() ? renderAccountComponent() : null}
+        {!isAuthenticated(userStatus) ? renderAccountComponent() : null}
     </div>
   )
 }

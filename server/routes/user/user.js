@@ -105,7 +105,8 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
             id: user.id,
             username: user.username,
             first_name: user.first_name,
-            last_name: user.last_name
+            last_name: user.last_name,
+            login_method: user.login_method
         } 
     });
 })
@@ -172,12 +173,34 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
  */
 router.put('/', authenticateJWT, isLoggedIn, async (req, res) => {
     const userId = req.user.id;
-    const { username, oldPassword, newPassword, first_name, last_name } = req.body;
+    const { username, oldPassword, newPassword, first_name, last_name, login_method } = req.body;
+    const prevUser = await User.findById(userId);
 
+    // for google users
+    if (login_method === 'google') {
+        const data = {
+            id: userId,
+            username: username ? username : prevUser.username,
+            first_name: first_name ? first_name : prevUser.first_name, 
+            last_name: last_name ? last_name : prevUser.last_name,
+        }
+
+        const updatedUser = await User.update(data);
+
+        return res.json({ 
+            success: true, 
+            user: { 
+                id: updatedUser.id,
+                username: updatedUser.username,
+                first_name: updatedUser.first_name,
+                last_name: updatedUser.last_name
+            } 
+        });
+    }
+
+    // for custom login users
     // Make sure to submit the old password and the new password in the client side.
     // Password Validation
-
-    const prevUser = await User.findById(userId);
     const isSameOldPassword = utils.validatePassword(oldPassword, prevUser.pw_hash, prevUser.pw_salt);
     const isSamePassword = utils.validatePassword(newPassword, prevUser.pw_hash, prevUser.pw_salt);
 

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getUserError, getUserStatus, selectUser } from "../features/user/userSlice";
 import { useEffect, useState } from "react";
 import { fetchUserData, updateUser } from "../apis/user";
+import { isAuthenticated } from "../apis/client";
 
 
 const User = () => {
@@ -59,7 +60,8 @@ const User = () => {
           oldPassword,
           newPassword,
           first_name: firstName,
-          last_name: lastName
+          last_name: lastName,
+          login_method: user.login_method
         })
 
         // Once updated successfully display a message and set the state back to initial
@@ -82,6 +84,41 @@ const User = () => {
     }
 
     const renderUserData = () => {
+      // if user.login_method is google then return a form to only update username, first name and last name.
+      if (user.login_method === 'google') {
+        return (
+          <form action="/api/users" method="PUT" onSubmit={handleSubmit}>
+            <label htmlFor="username">Username: </label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              value={username} 
+              onChange={handleChange}
+              readOnly={readOnly}
+            />
+            <label htmlFor="firstName">First name: </label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              value={firstName}
+              onChange={handleChange}
+              readOnly={readOnly}
+            />
+            <label htmlFor="lastName">Last name: </label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={lastName}
+              onChange={handleChange}
+              readOnly={readOnly}
+            />
+            <input type="submit" value="Update Personal Details" hidden={!toggleVisibility}/>
+          </form>
+        )
+      }
       return (
         <form action="/api/users" method="PUT" onSubmit={handleSubmit}>
           <label htmlFor="username">Username: </label>
@@ -121,7 +158,7 @@ const User = () => {
             readOnly={readOnly}
             required
           />
-          <label htmlFor="newPassword">New Password</label>
+          <label htmlFor="newPassword">New Password: </label>
           <input
             type="password"
             id="newPassword"
