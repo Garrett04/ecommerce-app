@@ -48,6 +48,7 @@ const Addresses = () => {
 
     return (
         <div className="addresses">
+            <h2>Addresses</h2>
             <ul>
                 {content}
             </ul>

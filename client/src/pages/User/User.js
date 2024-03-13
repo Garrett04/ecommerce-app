@@ -185,6 +185,7 @@ const User = () => {
 
     return (
       <div className="user">
+        <h2>User Information</h2>
         {userContent}
         {msg}
         <button onClick={handleClick} hidden={toggleVisibility}>Change Personal Details</button>
@@ -192,4 +193,5 @@ const User = () => {
       </div>
     )
 }
-export default User
+
+export default User;
