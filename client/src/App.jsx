@@ -9,7 +9,7 @@ import {
   createRoutesFromElements,
   Route
 } from 'react-router-dom';
-import User from './pages/User';
+import User from './pages/User/User';
 import Product from './pages/ProductDetails';
 import Main from './components/main/Main';
 import CartDetails from './pages/Carts/CartDetails';

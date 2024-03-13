@@ -11,6 +11,7 @@ class Checkout {
     async processPayment(data) {
         // pg query statement
         const statement = `INSERT INTO checkout (
+                                id,
                                 payment_method, 
                                 shipping_address_id, 
                                 billing_address_id,
@@ -29,14 +30,16 @@ class Checkout {
                                 $5,
                                 $6,
                                 $7,
-                                CURRENT_DATE,
                                 $8,
-                                $9
+                                CURRENT_DATE,
+                                $9,
+                                $10
                             )
                             RETURNING *`;
         
         // destructuring of data
         const {
+            id,
             cartId, 
             payment_method,
             shipping_address_id,
@@ -48,6 +51,7 @@ class Checkout {
 
         // values array to insert to the statement
         const values = [ 
+            id,
             payment_method, 
             shipping_address_id, 
             billing_address_id, 
@@ -74,6 +78,14 @@ class Checkout {
             throw new Error(err);
         }
     }
+
+    // /**
+    //  * Add new checkout with Stripe session id and more details to checkout database
+    //  * 
+    //  * @param  {String} sessionId id of Stripe session
+    //  * @return {null}
+    //  */
+    // async 
 
     /**
      * Check if payment already exists by cart id

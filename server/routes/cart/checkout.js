@@ -203,7 +203,39 @@ router.post('/create-checkout-session', authenticateJWT, authCartAccess, async (
 
     // console.log(session.url);
 
+    console.log(session);
+
+    const newPaymentInfo = {
+        id: session.id,
+        cartId,
+        payment_method,
+        shipping_address_id,
+        billing_address_id 
+    }
+
+    const makePayment = await Checkout.processPayment(newPaymentInfo);
+
     res.send({url: session.url});
+})
+
+router.post('/checkout-success', authenticateJWT, authCartAccess, async (req, res) => {
+
+    const newPaymentInfo = {
+        id: session.id
+    }
+
+    // use stripe to get payment
+    const makePayment = await Checkout.processPayment(newPaymentInfo);
+
+    const {
+        id,
+        checkout_status
+    } = makePayment;
+
+    const makeOrder = await Order.create({ 
+        user_id: userId, 
+        checkout_id: id 
+    });
 })
 
 module.exports = router;

@@ -46,6 +46,7 @@ module.exports.authAddressAccess = async (req, res, next) => {
 
     const addressExists = await Address.findByUserId(userId);
     
+    // some error might happen here when creating addresses, updating or anything else
     if (!addressExists) {
         return res.status(401).json({ success: false, msg: "Not authorized to use address" });
     }

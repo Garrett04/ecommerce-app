@@ -146,7 +146,7 @@ class Address {
      * Retrieve address by user id
      * 
      * @param  {String} userId id of user
-     * @return {Boolean} true/false if address exists or not respectively
+     * @return {Array|null} an array of addresses  
      */
     async findByUserId(userId) {
         try {
@@ -159,9 +159,10 @@ class Address {
             const result = await db.query(statement, [userId]);
 
             if (result.rows.length > 0) {
-                return true;
+                console.log(result.rows);
+                return result.rows;
             }
-            return false;
+            return null;
         } catch (err) {
             throw new Error(err);
         }

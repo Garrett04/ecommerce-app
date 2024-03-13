@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getUserError, getUserStatus, selectUser } from "../features/user/userSlice";
+import { getUserError, getUserStatus, selectUser } from "../../features/user/userSlice";
 import { useEffect, useState } from "react";
-import { fetchUserData, updateUser } from "../apis/user";
-import { isAuthenticated } from "../apis/client";
+import { fetchUserData, updateUser } from "../../apis/user";
+import { isAuthenticated } from "../../apis/client";
+import { fetchAddressesByUserId } from "../../apis/addresses";
+import Addresses from "../../components/main/user/Addresses";
 
 
 const User = () => {
@@ -178,20 +180,21 @@ const User = () => {
       setReadOnly(false);
     }
 
-    let content;
+    let userContent;
     if (userStatus === 'pending') {
-      content = 'Loading...'
+      userContent = 'Loading...'
     } else if (userStatus === 'fulfilled') {
-      content = renderUserData();
+      userContent = renderUserData();
     } else if (userStatus === 'rejected') {
-      content = userError;
+      userContent = userError;
     }
 
     return (
       <div className="user">
-        {content}
+        {userContent}
         {msg}
         <button onClick={handleClick} hidden={toggleVisibility}>Change Personal Details</button>
+        <Addresses />
       </div>
     )
 }

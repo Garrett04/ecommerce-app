@@ -1,14 +1,25 @@
 const router = require('express').Router({ mergeParams: true });
-const { authenticateJWT, authAddressAccess } = require('../middlewares/authMiddleware');
+const { authenticateJWT, authAddressAccess, isLoggedIn } = require('../middlewares/authMiddleware');
 const Address = require('../../models/Address');
 
 /**
  * @swagger
  * tags:
- *      name: address
+ *      name: addresses
  *      description: The address managing api
  */
 
+router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
+    const userId = req.user.id;
+
+    const addresses = await Address.findByUserId(userId);
+
+    if (!addresses) {
+        return res.status(404).json({ success: false, msg: "No addresses found" });
+    }
+
+    res.json({ success: true, addresses });
+})
 
 /**
  * @swagger
@@ -82,7 +93,7 @@ const Address = require('../../models/Address');
 // To add user address
 /**
  * @swagger
- * /api/users/address/add-address:
+ * /api/users/addresses/add-address:
  *  post:
  *      tags:
  *          - address
@@ -127,7 +138,7 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
 
 /**
  * @swagger
- * /api/users/address/{addressId}:
+ * /api/users/addresses/{addressId}:
  *  delete:
  *      tags:
  *          - address
@@ -193,7 +204,7 @@ router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res
 
 /**
  * @swagger
- * /api/users/address/{addressId}:
+ * /api/users/addresses/{addressId}:
  *  put:
  *      tags:
  *          - address
