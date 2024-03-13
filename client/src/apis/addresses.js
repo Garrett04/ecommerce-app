@@ -19,3 +19,15 @@ export const fetchAddressesByUserId = createAsyncThunk(
         }
     }
 )
+
+export const createAddress = async (data) => {
+    try {
+        const response = await API.post('users/addresses/add-address', (data), {
+            withCredentials: true
+        });
+
+        return response.data.address;
+    } catch (err) {
+        throw err.response;
+    }
+}

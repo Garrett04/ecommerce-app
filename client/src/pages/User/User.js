@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchUserData, updateUser } from "../../apis/user";
 import { isAuthenticated } from "../../apis/client";
 import { fetchAddressesByUserId } from "../../apis/addresses";
-import Addresses from "../../components/main/user/Addresses";
+import Addresses from "../../components/main/user/addresses/Addresses";
 
 
 const User = () => {

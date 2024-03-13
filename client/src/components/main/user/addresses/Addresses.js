@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getAddressesError, getAddressesStatus, selectAddresses } from "../../../features/user/addressesSlice";
+import { getAddressesError, getAddressesStatus, selectAddresses } from "../../../../features/user/addressesSlice";
 import { useEffect } from "react";
-import { fetchAddressesByUserId } from "../../../apis/addresses";
-import { setAuthToken } from "../../../apis/client";
+import { fetchAddressesByUserId } from "../../../../apis/addresses";
+import { setAuthToken } from "../../../../apis/client";
+import AddAddressForm from "./AddAddressForm";
 
 
 const Addresses = () => {
@@ -50,6 +51,7 @@ const Addresses = () => {
             <ul>
                 {content}
             </ul>
+            <AddAddressForm />
         </div>
     )
 }
