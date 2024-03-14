@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createAddress, fetchAddressesByUserId } from "../../../../../apis/addresses";
 import { useDispatch } from "react-redux";
 import AddressDropdown from "./AddressDropdown";
+import { fetchUserData } from "../../../../../apis/user";
 
 
 const AddAddressForm = ({
@@ -37,6 +38,7 @@ const AddAddressForm = ({
             setMsg("Successfully created new address");
 
             dispatch(fetchAddressesByUserId()); // To update addresses state
+            dispatch(fetchUserData());
 
         } catch (err) {
             throw err.status;
@@ -51,6 +53,8 @@ const AddAddressForm = ({
             city: "",
             postal_code: ""
         })
+
+        setDisabled(true);
     }
     
 

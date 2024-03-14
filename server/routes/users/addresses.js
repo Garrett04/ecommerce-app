@@ -1,6 +1,7 @@
 const router = require('express').Router({ mergeParams: true });
 const { authenticateJWT, authAddressAccess, isLoggedIn } = require('../middlewares/authMiddleware');
 const Address = require('../../models/Address');
+const User = require('../../models/User');
 
 /**
  * @swagger
@@ -263,7 +264,7 @@ router.delete('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, asy
  *              description: Unauthorized
  */
 // PUT ROUTES
-router.put('/:addressId', authenticateJWT, authAddressAccess, async (req, res) => {
+router.put('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
     
     const data = {
@@ -278,6 +279,44 @@ router.put('/:addressId', authenticateJWT, authAddressAccess, async (req, res) =
     }
 
     res.json({ success: true, address: updatedAddress });
+})
+
+// To update default_shipping_address_id or default_billing_address_id in the addresses table
+router.put('/update-default-address/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async (req, res) => {
+    const userId = req.user.id;
+    const { addressId } = req.params;
+    // Holds the value of which address is to be default either default-shipping-address or default-billing-address
+    const { option } = req.body;
+
+    // console.log(option);
+
+    const prevUser = await User.findById(userId);
+
+    let data;
+    if (option === 'default-shipping-address') {
+        data = {
+            userId,
+            default_shipping_address_id: addressId,
+            // Ensuring this is kept as previous setting
+            default_billing_address_id: prevUser.default_billing_address_id,
+        }
+    } else if (option === 'default-billing-address') {
+        data = {
+            userId,
+            default_billing_address_id: addressId,
+            // Ensuring this is kept as previous setting
+            default_shipping_address_id: prevUser.default_shipping_address_id
+        }
+    }
+
+    // console.log(data);
+    const updatedAddress = await User.updateDefaults(data);
+
+    if (!updatedAddress) {
+        return res.status(404).json({ success: false, msg: "Address not found" });
+    }
+
+    res.json({ success: true, address: updatedAddress })
 })
 
 module.exports = router;

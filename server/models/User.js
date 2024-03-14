@@ -160,6 +160,42 @@ class User {
             throw new Error(err);
         }
     }
+
+    /**
+     * Update default_shipping_address_id or billing_address_id in users table
+     * 
+     * @param  {String} data id of user, default_shipping_address_id and default_billing_address_id
+     * @return {Object|null} object of address 
+     */
+    async updateDefaults(data) {
+        try {
+            // pg query statement
+            const statement = `UPDATE users
+                                SET default_shipping_address_id = $2,
+                                    default_billing_address_id = $3
+                                WHERE id = $1
+                                RETURNING *`;
+
+            // values array
+            const values = [
+                data.userId, 
+                data.default_shipping_address_id, 
+                data.default_billing_address_id
+            ];
+
+            // query database
+            const result = await db.query(statement, values);
+
+            if (result.rows.length > 0) {
+                // console.log(result.rows[0]);
+                return result.rows[0];
+            }
+
+            return null;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new User();

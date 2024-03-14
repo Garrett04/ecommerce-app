@@ -106,7 +106,9 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
             username: user.username,
             first_name: user.first_name,
             last_name: user.last_name,
-            login_method: user.login_method
+            login_method: user.login_method,
+            default_shipping_address_id: user.default_shipping_address_id,
+            default_billing_address_id: user.default_billing_address_id,
         } 
     });
 })

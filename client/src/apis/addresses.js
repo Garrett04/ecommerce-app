@@ -58,3 +58,19 @@ export const deleteAddress = async (id) => {
         throw err.response.data.msg;
     }
 }
+
+// To update the default_shipping_address_id or default_billing_address_id in the addresses table
+export const updateDefaultAddress = async (id, option) => {
+    try {
+        const response = await API.put(`users/addresses/update-default-address/${id}`, (option), {
+            withCredentials: true
+        })
+
+        console.log(response.data);
+
+        return response.data.address;
+
+    } catch (err) {
+        throw err.response.data.msg;
+    }
+}
