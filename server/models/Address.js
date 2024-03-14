@@ -167,6 +167,31 @@ class Address {
             throw new Error(err);
         }
     }
+
+    /**
+     * Retrieve address by address id
+     * 
+     * @param  {String} addressId id of address
+     * @return {Object|null} an object of the address
+     */
+    async find(addressId) {
+        try {
+            // pg query statement
+            const statement = `SELECT * FROM addresses
+                                WHERE id = $1`
+
+            // query database
+            const result = await db.query(statement, [addressId]);
+
+            if (result.rows.length > 0) {
+                console.log(result.rows[0]);
+                return result.rows[0];
+            }
+            return null;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Address();

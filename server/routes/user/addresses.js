@@ -9,6 +9,7 @@ const Address = require('../../models/Address');
  *      description: The address managing api
  */
 
+// Gets all addresses by user id
 router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
     const userId = req.user.id;
 
@@ -20,6 +21,18 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
 
     res.json({ success: true, addresses });
 })
+
+// // Fetch an address by address id
+// router.get('/:addressId', authenticateJWT, isLoggedIn, async (req, res) => {
+//     const { addressId } = req.params;
+//     const address = await Address.find(addressId);
+
+//     if (!address) {
+//         return res.status(404).json({ success: false, msg: "Address not found" })
+//     }
+
+//     res.json({ success: true, address });
+// })
 
 /**
  * @swagger
@@ -186,7 +199,7 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
  *              description: Unauthorized
  */
 // To delete user address
-router.delete('/:addressId', authenticateJWT, authAddressAccess, async (req, res) => {
+router.delete('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
 
     const deletedAddressId = await Address.delete(addressId);

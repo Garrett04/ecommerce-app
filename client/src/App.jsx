@@ -15,6 +15,7 @@ import Main from './components/main/Main';
 import CartDetails from './pages/Carts/CartDetails';
 import PrivateRoutes from './utils/PrivateRoutes';
 import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
+import UpdateAddressForm from './components/main/user/addresses/AddressForms/UpdateAddressForm';
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
@@ -25,6 +26,7 @@ const router = createBrowserRouter( createRoutesFromElements(
         <Route path="/carts/:id" element={ <CartDetails/> }/>
         <Route path="/checkout-success" element={ <CheckoutSuccess/> }/>
         <Route path="/user" element={ <User/> }/>
+        <Route path="/user/edit-address/:id" element={ <UpdateAddressForm/> }/>
       </Route>
       <Route path="/product/:id" element={ <Product/> }/>
     </Route>

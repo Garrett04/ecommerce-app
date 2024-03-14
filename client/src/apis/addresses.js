@@ -20,6 +20,8 @@ export const fetchAddressesByUserId = createAsyncThunk(
     }
 )
 
+// export const fetchAddress
+
 export const createAddress = async (data) => {
     try {
         const response = await API.post('users/addresses/add-address', (data), {
@@ -32,13 +34,26 @@ export const createAddress = async (data) => {
     }
 }
 
-export const updateAddress = async (data) => {
+export const updateAddress = async (id, data) => {
     try {
-        const response = await API.put('users/addresses', (data), {
+        const response = await API.put(`users/addresses/${id}`, (data), {
             withCredentials: true
         })
 
         return response.data.address;
+    } catch (err) {
+        throw err.response.data.msg;
+    }
+}
+
+export const deleteAddress = async (id) => {
+    try {
+        const response = await API.delete(`users/addresses/${id}`, {
+            withCredentials: true
+        })
+        
+        return response.data.msg;
+
     } catch (err) {
         throw err.response.data.msg;
     }

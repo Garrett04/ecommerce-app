@@ -236,6 +236,6 @@ router.put('/', authenticateJWT, isLoggedIn, async (req, res) => {
     });
 })
 
-router.use('/addresses', require('./address'));
+router.use('/addresses', require('./addresses'));
 
 module.exports = router;

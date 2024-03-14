@@ -66,4 +66,5 @@ const CartDetails = () => {
       </div>
     )
 }
-export default CartDetails
+
+export default CartDetails;

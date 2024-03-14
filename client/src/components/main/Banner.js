@@ -16,7 +16,7 @@ const Banner = () => {
       setAuthToken();
       // console.log(isAuthenticated());
     }
-  }, [userStatus])
+  }, [userStatus, user.token])
 
   const renderAccountComponent = () => {
     return (

@@ -203,17 +203,17 @@ router.post('/create-checkout-session', authenticateJWT, authCartAccess, async (
 
     // console.log(session.url);
 
-    console.log(session);
+    // console.log(session);
 
-    const newPaymentInfo = {
-        id: session.id,
-        cartId,
-        payment_method,
-        shipping_address_id,
-        billing_address_id 
-    }
+    // const newPaymentInfo = {
+    //     id: session.id,
+    //     cartId,
+    //     payment_method,
+    //     shipping_address_id,
+    //     billing_address_id 
+    // }
 
-    const makePayment = await Checkout.processPayment(newPaymentInfo);
+    // const makePayment = await Checkout.processPayment(newPaymentInfo);
 
     res.send({url: session.url});
 })

@@ -35,6 +35,7 @@ const userSlice = createSlice({
             })
             .addCase(fetchGoogleUser.rejected, (state, action) => {
                 state.status = 'rejected';
+                // console.log("check1", action.error);
                 state.error = action.error.message;
             })
     }

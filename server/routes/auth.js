@@ -221,7 +221,7 @@ router.get('/login/success', isLoggedIn, (req, res) => {
     // Issuiance of JWT
     const jwt = utils.issueJWT(user);
 
-    console.log(user);
+    // console.log(user);
 
     res.status(200).json({
         success: true,

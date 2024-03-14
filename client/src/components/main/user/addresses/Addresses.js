@@ -1,15 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAddressesError, getAddressesStatus, selectAddresses } from "../../../../features/user/addressesSlice";
-import { useEffect } from "react";
-import { fetchAddressesByUserId } from "../../../../apis/addresses";
-import { setAuthToken } from "../../../../apis/client";
-import AddAddressForm from "./AddAddressForm/AddAddressForm";
+import { useEffect, useState } from "react";
+import { fetchAddressesByUserId, updateAddress } from "../../../../apis/addresses";
+import AddAddressForm from "./AddressForms/AddAddressForm";
+import { Link, NavLink } from "react-router-dom";
+import DeleteAddressButton from "./DeleteAddressButton";
 
 
 const Addresses = () => {
     const addresses = useSelector(selectAddresses);
     const addressesStatus = useSelector(getAddressesStatus);
     const addressesError = useSelector(getAddressesError);
+    const [msg, setMsg] = useState("");
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,6 +36,8 @@ const Addresses = () => {
                 {state}
                 {postal_code}
                 {country}
+                <NavLink to={`edit-address/${id}`}>Edit Address</NavLink>
+                <DeleteAddressButton id={id} setMsg={setMsg} />
             </li>
         ))
     }
@@ -52,7 +57,8 @@ const Addresses = () => {
             <ul>
                 {content}
             </ul>
-            <AddAddressForm />
+            <AddAddressForm setMsg={setMsg} />
+            {msg}
         </div>
     )
 }

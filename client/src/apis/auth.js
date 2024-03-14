@@ -29,12 +29,8 @@ export const fetchGoogleUser = createAsyncThunk(
     async () => {
         try { 
             // console.log('check1')
-            const response = await axios.get('http://localhost:3000/api/auth/login/success', {
+            const response = await API.get('auth/login/success', {
                 withCredentials: true,
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                }
             });
             console.log(response.data);
             return { 
@@ -42,7 +38,8 @@ export const fetchGoogleUser = createAsyncThunk(
                 token: response.data.token, 
             };
         } catch (err) {
-            throw err.response;
+            // console.log(err);
+            throw err.message;
         }
     }
 ) 
@@ -60,12 +57,8 @@ export const fetchGoogleUser = createAsyncThunk(
 
 export const logout = async () => {
     try {
-        const response = await axios.get('http://localhost:3000/api/auth/google/logout', {
-            withCredentials: true,
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
+        const response = await API.get('auth/google/logout', {
+            withCredentials: true
         });
         console.log("check 2", response.data);
         return response.data;

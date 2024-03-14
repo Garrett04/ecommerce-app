@@ -5,6 +5,7 @@ import { fetchUserData, updateUser } from "../../apis/user";
 import { isAuthenticated } from "../../apis/client";
 import { fetchAddressesByUserId } from "../../apis/addresses";
 import Addresses from "../../components/main/user/addresses/Addresses";
+import { Outlet } from "react-router-dom";
 
 
 const User = () => {
