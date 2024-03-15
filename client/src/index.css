@@ -25,7 +25,6 @@ div.signIn {
   border: 1px solid black;
 }
 
-
 /*Root*/
 /*Header*/
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
@@ -36,6 +35,7 @@ div.header {
   align-items: center;
   padding: .8rem;
   border-bottom: 2px black solid;
+  justify-content: space-between;
 }
 
 .header h1 {

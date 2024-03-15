@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <div className="header">
       <h1><a href="/"><span>S</span>hop<span>W</span>ise</a></h1>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <div className="right">
         <Cart />
         <SignInButton />
