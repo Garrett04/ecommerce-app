@@ -5,6 +5,7 @@ const { authenticateJWT, authCartAccess, authAddressAccess, isLoggedIn } = requi
 const Checkout = require('../../models/Checkout');
 const Order = require('../../models/Order');
 const User = require('../../models/User');
+const Address = require('../../models/Address');
 
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
@@ -88,13 +89,37 @@ router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAcc
     // To get user's default shipping and billing address id 
     const user = await User.findById(userId);
 
+    // To get all the address details from the id of the default addresses
+    const shipping_address = await Address.find(user.default_shipping_address_id);
+    const billing_address = await Address.find(user.default_billing_address_id);
+
+    // To store the shipping address in an object format
+    const shipping_address_data = {
+        address_line1: shipping_address.address_line1,
+        address_line2: shipping_address.address_line2,
+        country: shipping_address.country,
+        state: shipping_address.state,
+        city: shipping_address.city,
+        postal_code: shipping_address.postal_code
+    }
+
+    // To store the billing address in an object format
+    const billing_address_data = {
+        address_line1: billing_address.address_line1,
+        address_line2: billing_address.address_line2,
+        country: billing_address.country,
+        state: billing_address.state,
+        city: billing_address.city,
+        postal_code: billing_address.postal_code
+    }
+
     const data = {
         sessionId: session.id,
         cartId,
         checkout_status: session.payment_status,
         payment_method: "card",
-        shipping_address_id: user.default_shipping_address_id,
-        billing_address_id: user.default_billing_address_id, 
+        shipping_address: shipping_address_data,
+        billing_address: billing_address_data
     }
 
     const makePayment = await Checkout.processPayment(data);

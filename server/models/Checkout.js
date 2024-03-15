@@ -12,8 +12,8 @@ class Checkout {
         // pg query statement
         const statement = `INSERT INTO checkout (
                                 payment_method, 
-                                shipping_address_id, 
-                                billing_address_id,
+                                shipping_address, 
+                                billing_address,
                                 subtotal,
                                 total_amount,
                                 checkout_date,
@@ -38,8 +38,8 @@ class Checkout {
             cartId, 
             payment_method,
             checkout_status,
-            shipping_address_id,
-            billing_address_id,
+            shipping_address,
+            billing_address,
             sessionId
         } = data;
 
@@ -49,8 +49,8 @@ class Checkout {
         // values array to insert to the statement
         const values = [ 
             payment_method, 
-            shipping_address_id, 
-            billing_address_id, 
+            shipping_address, 
+            billing_address, 
             subtotal,
             subtotal, // let total_amount be the subtotal since for now since no tax and shipping_cost is present
             checkout_status, // "unpaid" || "paid" || "failed"
