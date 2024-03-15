@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import API from "../../apis/client";
 
@@ -6,6 +6,7 @@ const CheckoutSuccess = () => {
     const { id } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const session_id = searchParams.get('session_id');
+    const [orderId, setOrderId] = useState(null)
 
     useEffect(() => {
         // when user is redirected to payment success page it will change checkout_status to paid in checkout table
@@ -15,7 +16,7 @@ const CheckoutSuccess = () => {
                   withCredentials: true
               });
               console.log("check2", response.data);
-              return response.data;
+              setOrderId(response.data.order.id);
           } catch (err) {
               throw err.response;
           }
@@ -27,7 +28,7 @@ const CheckoutSuccess = () => {
       <div className="checkout-success">
           <h2>Payment Successful</h2>
           <Link to="/">Go back to home page</Link>
-          <Link to={`/orders/${id}`}>Track your order</Link>
+          <Link to={`/orders/${orderId}`}>Track your order</Link>
       </div>
     )
 }
