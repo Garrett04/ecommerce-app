@@ -37,10 +37,10 @@ const CartDetails = () => {
 
     const handleCheckout = async () => {
       try {
-        const url = await createCheckoutSession(id);
+        const checkoutSession = await createCheckoutSession(id);
 
         // Redirect to stripe payment page
-        window.location.href = url;
+        window.location.href = checkoutSession.url;
       } catch (err) {
         throw err.status;
       }

@@ -24,7 +24,7 @@ const router = createBrowserRouter( createRoutesFromElements(
       <Route element={<PrivateRoutes/>}>
         <Route path="/carts" element={ <Carts/> }/>
         <Route path="/carts/:id" element={ <CartDetails/> }/>
-        <Route path="/checkout-success" element={ <CheckoutSuccess/> }/>
+        <Route path="/carts/:id/checkout/checkout-success" element={ <CheckoutSuccess/> }/>
         <Route path="/user" element={ <User/> }/>
         <Route path="/user/edit-address/:id" element={ <UpdateAddressForm/> }/>
       </Route>

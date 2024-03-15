@@ -11,39 +11,36 @@ class Checkout {
     async processPayment(data) {
         // pg query statement
         const statement = `INSERT INTO checkout (
-                                id,
                                 payment_method, 
                                 shipping_address_id, 
                                 billing_address_id,
                                 subtotal,
-                                tax,
-                                shipping_cost,
                                 total_amount,
                                 checkout_date,
                                 checkout_status,
-                                cart_id
+                                cart_id,
+                                stripe_session_id
                             ) VALUES (
                                 $1,
                                 $2,
                                 $3,
                                 $4,
                                 $5,
+                                CURRENT_DATE,
                                 $6,
                                 $7,
-                                $8,
-                                CURRENT_DATE,
-                                $9,
-                                $10
+                                $8
                             )
                             RETURNING *`;
         
         // destructuring of data
         const {
-            id,
             cartId, 
             payment_method,
+            checkout_status,
             shipping_address_id,
-            billing_address_id
+            billing_address_id,
+            sessionId
         } = data;
 
         const subtotal = await Cart.getSubtotal(cartId);
@@ -51,16 +48,14 @@ class Checkout {
 
         // values array to insert to the statement
         const values = [ 
-            id,
             payment_method, 
             shipping_address_id, 
             billing_address_id, 
-            subtotal, 
-            null, // for now let tax be null
-            null, // let shipping_cost be null
+            subtotal,
             subtotal, // let total_amount be the subtotal since for now since no tax and shipping_cost is present
-            "success", // "pending" || "success" || "failed"
-            cartId
+            checkout_status, // "unpaid" || "paid" || "failed"
+            cartId,
+            sessionId
         ];
 
         try {
@@ -79,13 +74,35 @@ class Checkout {
         }
     }
 
-    // /**
-    //  * Add new checkout with Stripe session id and more details to checkout database
-    //  * 
-    //  * @param  {String} sessionId id of Stripe session
-    //  * @return {null}
-    //  */
-    // async 
+    /**
+     * Update payment status in checkout table
+     * 
+     * @param  {Object} data an object containing the status of stripe payment and stripe session id
+     * @return {Object|null} an object of updated checkout
+     */
+    async updateCheckoutStatus (data) {
+        try {
+            // pg query statement
+            const statement = `UPDATE checkout
+                                SET checkout_status = $2
+                                WHERE stripe_session_id = $1
+                                RETURNING *`;
+
+            // values array
+            const values = [data.stripe_session_id, data.checkout_status];
+
+            // query database
+            const result = await db.query(statement, values);
+
+            if (result.rows.length > 0) {
+                return result.rows[0];
+            } 
+
+            return null;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 
     /**
      * Check if payment already exists by cart id
