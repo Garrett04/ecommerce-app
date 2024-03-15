@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Order = require('../models/Order');
-const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddleware');
+const { authenticateJWT, authOrderAccess, isLoggedIn } = require('./middlewares/authMiddleware');
 
 /**
  * @swagger
@@ -95,7 +95,7 @@ const { authenticateJWT, authOrderAccess } = require('./middlewares/authMiddlewa
  *          401:
  *              description: Unauthorized
  */
-router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
+router.get('/', authenticateJWT, isLoggedIn, authOrderAccess, async (req, res) => {
     const userId = req.user.id;
     
     const orders = await Order.find(userId);
@@ -152,7 +152,7 @@ router.get('/', authenticateJWT, authOrderAccess, async (req, res) => {
  *          401:
  *              description: Unauthorized
  */
-router.get('/:orderId', authenticateJWT, authOrderAccess, async (req, res) => {
+router.get('/:orderId', authenticateJWT, isLoggedIn, authOrderAccess, async (req, res) => {
     const { orderId } = req.params;
 
     const order = await Order.findById(orderId);

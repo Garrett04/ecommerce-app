@@ -1,13 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getCartError, getCartStatus, selectCart } from "../../features/carts/cartSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
 import { useNavigate, useParams } from "react-router-dom";
 import { setAuthToken } from "../../apis/client";
 import { createCheckoutSession } from "../../apis/checkout";
+import { getUserStatus, selectUser } from "../../features/user/userSlice";
+import { fetchUserData } from "../../apis/user";
 
 
 const CartDetails = () => {
+    const user = useSelector(selectUser);
+    const userStatus = useSelector(getUserStatus);
+
+    const [msg, setMsg] = useState("");
+    const [disabled, setDisabled] = useState(false);
+
     const cart = useSelector(selectCart);
     const cartStatus = useSelector(getCartStatus);
     const cartError = useSelector(getCartError);
@@ -19,6 +27,10 @@ const CartDetails = () => {
     useEffect(() => {
       dispatch(fetchCartById(id));
     }, [dispatch, id])
+
+    useEffect(() => {
+      dispatch(fetchUserData());
+    }, [dispatch]);
 
     const renderCart = () => {
       return cart.data.map(({
@@ -55,12 +67,23 @@ const CartDetails = () => {
       content = cartError;
     }
 
+    useEffect(() => {
+      // If user's default billing and shipping address are not set
+      // then display a message
+      // and disable the checkout button
+      if (userStatus === 'fulfilled' && (!user.default_billing_address_id && !user.default_shipping_address_id)) {
+        setMsg("Please set default billing address and shipping address.");
+        setDisabled(true);
+      }
+    }, [userStatus, user.default_billing_address_id, user.default_shipping_address_id])
+
     return (
       <div className="cart">
         <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
         {content}
         {cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
-        <button onClick={handleCheckout}>
+        {msg}
+        <button onClick={handleCheckout} disabled={disabled}>
           Checkout
         </button>
       </div>

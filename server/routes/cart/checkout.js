@@ -54,114 +54,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
  */
 
 // POST ROUTES
-// To validate if cart exists, then process the payment 
-// and ensure payment details submitted are accurate.
-/**
- * @swagger
- * /api/cart/{cartId}/checkout:
- *  post:
- *      tags:
- *          - cart
- *      summary: Make a payment, create a new order and return it
- *      security:
- *          - bearerAuth: []
- *      description: Make a payment and an order
- *      parameters:
- *          - name: cartId
- *            in: path
- *            description: Cart ID
- *            required: true
- *          - name: checkout
- *            description: checkout object
- *            in: body
- *            required: true
- *            schema:
- *                type: object
- *                properties:
- *                    payment_method:
- *                        type: string
- *                    shipping_address_id:
- *                        type: integer
- *                    billing_address_id:
- *                        type: integer
- *                example:
- *                    payment_method: netbanking
- *                    shipping_address_id: 3
- *                    billing_address_id: 3
- *      responses:
- *          201:
- *              description: Payment Successful
- *              schema:
- *                  type: object
- *                  properties:
- *                      success:
- *                          type: boolean
- *                      checkout_status:
- *                          type: string
- *                          example: success
- *                      order:
- *                          $ref: '#/definitions/Order'
- *          400:
- *              description: Payment already done
- *              schema:
- *                  type: object
- *                  properties:
- *                      success:
- *                          type: boolean
- *                      msg:
- *                          type: string
- *                  example:
- *                      success: false
- *                      msg: Payment already done
- *          500:
- *              description: Server error              
- */
-router.post('/', authenticateJWT, authCartAccess, authAddressAccess, async (req, res) => {
-    const { cartId } = req.params;
-    const userId = req.user.id;
-    const { 
-        payment_method,
-        shipping_address_id,
-        billing_address_id 
-    } = req.body;
-
-    const paymentExists = await Checkout.checkPaymentExists(cartId);
-
-    // console.log(paymentExists);
-
-    if (paymentExists) {
-        return res.status(400).json({ success: false, msg: "Payment already done" });
-    }
-    
-    const newPaymentInfo = {
-        cartId,
-        payment_method,
-        shipping_address_id,
-        billing_address_id 
-    }
-
-    const makePayment = await Checkout.processPayment(newPaymentInfo);
-
-    const {
-        id,
-        checkout_status
-    } = makePayment;
-
-    const makeOrder = await Order.create({ 
-        user_id: userId, 
-        checkout_id: id 
-    });
-
-    // console.log(makePayment);
-
-    // console.log(cart);
-    res.status(201).json({ 
-        success: true, 
-        checkout_status,
-        order: makeOrder 
-    });
-})
-
+// To validate if cart exists, then process the payment using Stripe.
 router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
@@ -212,6 +105,7 @@ router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAcc
 })
 
 // To update checkout status and make an order using a query param which holds the stripe session_id
+// Then return a 200 if successful with a checkout object and order object.
 router.put('/checkout-success', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
     const userId = req.user.id;
     const { session_id } = req.query;
