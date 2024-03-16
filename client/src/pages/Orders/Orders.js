@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getOrdersError, getOrdersStatus, selectOrders } from "../../features/orders/ordersSlice"
 import { useEffect } from "react";
 import { fetchOrders } from "../../apis/orders";
+import { Link } from "react-router-dom";
 
 
 const Orders = () => {
@@ -26,6 +27,7 @@ const Orders = () => {
             <li key={id}>
                 Status: {order_status} Order Date: {order_date}
                 Cart Title: {cart_title}
+                <Link to={`${id}`}>View order</Link>
             </li>
         ))
     }

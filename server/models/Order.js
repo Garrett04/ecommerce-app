@@ -55,7 +55,7 @@ class Order {
                                     title AS cart_title
                                 FROM orders, carts
                                 WHERE orders.cart_id = carts.id
-                                AND orders.user_id = $1`;
+                                    AND orders.user_id = $1`;
 
             // query database
             const result = await db.query(statement, [userId]);
@@ -80,15 +80,25 @@ class Order {
     async findById(orderId) {
         try {
             // pg query statement
-            const statement = `SELECT *
-                                FROM orders
-                                WHERE id = $1`;
+            const statement = `SELECT orders.id AS order_id,
+                                    order_status,
+                                    orders.cart_id,
+                                    name AS product_name,
+                                    price AS product_price,
+                                    quantity AS product_quantity,
+                                    title AS cart_title,
+                                    product_id
+                                FROM carts_products, products, carts, orders
+                                WHERE carts_products.product_id = products.id
+                                    AND carts_products.cart_id = carts.id
+                                    AND carts.id = orders.cart_id
+                                    AND orders.id = $1`;
 
             // query database
             const result = await db.query(statement, [orderId]);
 
             if (result.rows.length > 0) {
-                return result.rows[0];
+                return result.rows;
             }
 
             return null;

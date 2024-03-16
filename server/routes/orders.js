@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const Cart = require('../models/Cart');
 const Order = require('../models/Order');
 const { authenticateJWT, authOrderAccess, isLoggedIn } = require('./middlewares/authMiddleware');
 
@@ -163,7 +164,11 @@ router.get('/:orderId', authenticateJWT, isLoggedIn, authOrderAccess, async (req
         return res.status(404).json({ success: false, msg: "No order found by order id" });
     }
 
-    res.json({ success: true, order: order });
+    // Get the subtotal by putting in the cart_id from the orders table rows. 
+    // selecting the first row since all will be the same
+    const total_amount = await Cart.getSubtotal(order[0].cart_id);
+
+    res.json({ success: true, order: order, total_amount: total_amount });
 })
 
 module.exports = router;

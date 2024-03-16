@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "./client";
 
 export const fetchOrders = createAsyncThunk(
-    'orders/fetchOrder',
+    'orders/fetchOrders',
     async () => {
         try {
             const response = await API.get('orders', {
@@ -16,15 +16,15 @@ export const fetchOrders = createAsyncThunk(
     }
 )
 
-export const fetchOrdersById = createAsyncThunk(
-    'orders/fetchOrdersById',
+export const fetchOrderById = createAsyncThunk(
+    'order/fetchOrderById',
     async (id) => {
         try {
             const response = await API.get(`orders/${id}`, {
                 withCredentials: true
             });
             console.log(response.data);
-            return response.data.order;
+            return { data: response.data.order, total_amount: response.data.total_amount };
         } catch (err) {
             throw err.response.data.msg;
         }
