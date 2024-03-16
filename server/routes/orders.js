@@ -107,7 +107,10 @@ router.get('/', authenticateJWT, isLoggedIn, authOrderAccess, async (req, res) =
 
     // console.log(orders);
 
-    res.json({ success: true, orders: orders });
+    res.json({ 
+        success: true, 
+        orders: orders
+    });
 })
 
 /**
@@ -171,8 +174,8 @@ router.get('/:orderId', authenticateJWT, isLoggedIn, authOrderAccess, async (req
     res.json({ 
         success: true, 
         order: order, 
-        total_amount: order[0].total_amount,
-        order_status: order[0].order_status
+        total_amount: total_amount,
+        order_status: order_status
     });
 })
 

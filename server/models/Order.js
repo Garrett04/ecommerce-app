@@ -51,10 +51,12 @@ class Order {
             const statement = `SELECT orders.id,
                                     TO_CHAR(order_date, 'DD-MM-YYYY HH24:MI:SS') AS order_date, 
                                     order_status,
-                                    cart_id,
-                                    title AS cart_title
-                                FROM orders, carts
+                                    orders.cart_id,
+                                    title AS cart_title,
+                                    checkout.total_amount
+                                FROM orders, carts, checkout
                                 WHERE orders.cart_id = carts.id
+                                    AND orders.checkout_id = checkout.id
                                     AND orders.user_id = $1`;
 
             // query database
