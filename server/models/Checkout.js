@@ -26,7 +26,7 @@ class Checkout {
                                 $3,
                                 $4,
                                 $5,
-                                CURRENT_DATE,
+                                CURRENT_TIMESTAMP,
                                 $6,
                                 $7,
                                 $8

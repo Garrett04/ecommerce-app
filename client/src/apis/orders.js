@@ -9,7 +9,7 @@ export const fetchOrders = createAsyncThunk(
                 withCredentials: true
             });
             console.log(response.data);
-            return response.data;
+            return response.data.orders;
         } catch (err) {
             throw err.response.data.msg;
         }
@@ -24,7 +24,7 @@ export const fetchOrdersById = createAsyncThunk(
                 withCredentials: true
             });
             console.log(response.data);
-            return response.data;
+            return response.data.order;
         } catch (err) {
             throw err.response.data.msg;
         }

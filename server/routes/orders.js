@@ -104,6 +104,8 @@ router.get('/', authenticateJWT, isLoggedIn, authOrderAccess, async (req, res) =
         return res.status(404).json({ success: false, msg: "No orders found by user id" });
     }
 
+    // console.log(orders);
+
     res.json({ success: true, orders: orders });
 })
 

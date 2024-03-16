@@ -71,7 +71,7 @@ const CartDetails = () => {
       // If user's default billing and shipping address are not set
       // then display a message
       // and disable the checkout button
-      if (userStatus === 'fulfilled' && (!user.default_billing_address_id && !user.default_shipping_address_id)) {
+      if (userStatus === 'fulfilled' && (!user.default_billing_address_id || !user.default_shipping_address_id)) {
         setMsg("Please set default billing address and shipping address.");
         setDisabled(true);
       }

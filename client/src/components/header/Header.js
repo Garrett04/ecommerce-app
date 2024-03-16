@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar"
 import SignInButton from "./AccountButton"
 import Logout from "./LogoutButton"
 import { Link } from "react-router-dom"
+import ViewOrdersButton from "./ViewOrdersButton"
 
 const Header = () => {
   return (
@@ -11,6 +12,7 @@ const Header = () => {
       {/* <SearchBar /> */}
       <div className="right">
         <Cart />
+        <ViewOrdersButton />
         <SignInButton />
         <Logout />
       </div>

@@ -132,6 +132,7 @@ router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAcc
 // To update checkout status and make an order using a query param which holds the stripe session_id
 // Then return a 200 if successful with a checkout object and order object.
 router.put('/checkout-success', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
+    const { cartId } = req.params;
     const userId = req.user.id;
     const { session_id } = req.query;
 
@@ -157,7 +158,8 @@ router.put('/checkout-success', authenticateJWT, isLoggedIn, authCartAccess, asy
 
     const makeOrder = await Order.create({ 
         user_id: userId, 
-        checkout_id: updatedCheckoutStatus.id
+        checkout_id: updatedCheckoutStatus.id,
+        cart_id: cartId
     });
 
     res.status(200).json({ success: true, checkout: updatedCheckoutStatus, order: makeOrder });
