@@ -63,6 +63,7 @@ router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAcc
     const cart_products = await Cart.findById(false, cartId);
 
     const line_items = cart_products.map(item => {
+        const price_in_cents = Math.round(parseFloat(item.product_price.replace('$', '')) * 100); // Converting dollars to cents
         return {
             price_data: {
                 currency: 'usd',
@@ -72,7 +73,7 @@ router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAcc
                         id: item.product_id
                     }
                 },
-                unit_amount: item.product_price.replace('$', '') * 100, // Removing dollar sign
+                unit_amount: price_in_cents, 
             },
             quantity: item.product_quantity
         }

@@ -2,7 +2,8 @@ const router = require('express').Router();
 const Cart = require('../../models/Cart');
 const { 
     authenticateJWT, 
-    authCartAccess
+    authCartAccess,
+    isLoggedIn
 } = require('../middlewares/authMiddleware');
 
 /**
@@ -60,6 +61,21 @@ const {
  */
 
 // GET ROUTES
+// To get all carts by user Id
+router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
+    const userId = req.user.id;
+
+    const carts = await Cart.find(userId); 
+    console.log(carts);
+
+    if (!carts) {
+        return res.status(404).json({ success: false, msg: "No carts found" });
+    }
+
+    res.json({ success: true, carts: carts });
+})
+
+
 // To get cart by its id
 /**
  * @swagger
@@ -113,7 +129,7 @@ const {
  *                      success: false
  *                      msg: User not authorized to cart
  */
-router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+router.get('/:cartId', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
 
     // Calls findById which takes in an is_carts_table boolean value of false indicating to retrieve from the carts_products table
@@ -129,19 +145,6 @@ router.get('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
     }
 
     res.json({ success: true, data: cart, subtotal });
-})
-
-// To get all carts by user Id
-router.get('/', authenticateJWT, async (req, res) => {
-    const userId = req.user.id;
-
-    const carts = await Cart.find(userId);
-
-    if (!carts) {
-        return res.status(404).json({ success: false, msg: "No carts found" });
-    }
-
-    res.json({ success: true, carts: carts });
 })
 
 

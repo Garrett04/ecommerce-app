@@ -39,12 +39,14 @@ const Carts = () => {
     }, [dispatch])
 
     const renderCarts = () => {
-      return carts.map(cart => (
-        <div key={cart.id}>
-          <h3>{cart.title}</h3>
-          <Link to={`/carts/${cart.id}`}>View cart</Link>
-        </div>
-      ))
+      if (cartsStatus === 'fulfilled') {
+        return carts.map(cart => (
+          <div key={cart.id}>
+            <h3>{cart.title}</h3>
+            <Link to={`/carts/${cart.id}`}>View cart</Link>
+          </div>
+        ))
+      }
     }
 
     let content;
@@ -59,7 +61,7 @@ const Carts = () => {
     return (
       <div className="carts">
         <h2>All Carts</h2>
-        {content}
+        {cartsStatus === 'fulfilled' ? content : null}
         <form action="/api/cart/" method="POST" onSubmit={handleSubmit}>
           <label htmlFor="title">Cart Title: </label>
           <input 

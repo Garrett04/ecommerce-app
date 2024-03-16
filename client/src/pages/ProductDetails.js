@@ -4,13 +4,19 @@ import { useEffect, useState } from "react";
 import { fetchProductById } from "../apis/products";
 import { getProductDetailsStatus, selectProductDetails } from "../features/products/productDetailsSlice";
 import { getProductsError } from "../features/products/productsSlice";
-import { addProduct, fetchCarts } from "../apis/cart";
+import { addProduct, checkProductExistsInCart, fetchCartById, fetchCarts } from "../apis/cart";
 import { getCartsStatus, selectCarts } from "../features/carts/cartsSlice";
-import { isAuthenticated, setAuthToken } from "../apis/client";
+import API, { isAuthenticated, setAuthToken } from "../apis/client";
+import { getCartStatus, selectCart } from "../features/carts/cartSlice";
 
 
 const Product = () => {
     const carts = useSelector(selectCarts);
+    const cartsStatus = useSelector(getCartsStatus);
+
+    const cartDetails = useSelector(selectCart); 
+    const cartStatus = useSelector(getCartStatus); 
+
     const product = useSelector(selectProductDetails);
     const productDetailsStatus = useSelector(getProductDetailsStatus);
     const productDetailsError = useSelector(getProductsError);
@@ -25,6 +31,7 @@ const Product = () => {
     useEffect(() => {
       setAuthToken();
       dispatch(fetchProductById(id));
+      dispatch(fetchCarts()); // Update carts state to display carts
     }, [dispatch, id])
 
     const renderProduct = () => {
@@ -48,15 +55,12 @@ const Product = () => {
       content = productDetailsError;
     }
 
-    useEffect(() => {
-      dispatch(fetchCarts()); // Update carts state to display carts
-    }, [dispatch])
-
     const handleChange = (e) => {
-      if (e.target.name === 'quantity') {
-        setQuantity(e.target.value)
-      } else if (e.target.name === 'cart-title') {
-        setCartId(e.target.value)
+      const { name, value } = e.target;
+      if (name === 'quantity') {
+        setQuantity(value)
+      } else if (name === 'cart-title') {
+        setCartId(value)
       }
     }
 
@@ -67,23 +71,55 @@ const Product = () => {
         console.log(cartId, id, quantity)
         const cart = await addProduct(cartId, { productId: id, quantity });
         setMsg("Product added to cart!");
+        
+        dispatch(fetchCarts()); // To update cart options again
+        setCartId(""); // To update the select dropdown value
       } catch (err) {
         setMsg(err.response.msg);
       }
     }
 
     const renderCartsOptions = () => {
-      return carts.map(cart => (
-        <option key={cart.id} value={cart.id}>
-          {cart.title}
-        </option>
-      ))
+      // If productsDetailsStatus and cartsStatus has been fulfilled then do this
+      if (cartsStatus === 'fulfilled') {
+        return carts.map((cart) => {
+          // checks if cart.product_ids array has the same product_id as the current product id
+          const productExists = cart.product_ids.some(product_id => product_id === parseInt(id));
+          console.log(productExists);
+
+          // if its true then return option element with disabled as true 
+          // so that the user can't add the same product to the cart again
+          if (productExists) {
+            return (
+              <option 
+                key={cart.id} 
+                value={cart.id} 
+                disabled={true}
+              >
+                {cart.title}
+              </option>
+            )
+            // Else return option element with disabled as false 
+            // so that user can add the product to their cart.
+          } else {
+            return (
+              <option 
+                key={cart.id} 
+                value={cart.id} 
+                disabled={false}
+              >
+                {cart.title}
+              </option>
+            )
+          }
+        })
+      }
     }
 
     const renderForm = () => {
       if (isAuthenticated()) {
         return (
-          <form action={`/api/cart/${cartId}`} method="POST" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <input 
               type="number" 
               id="quantity" 

@@ -6,7 +6,9 @@ export const fetchCartById = createAsyncThunk(
     'cart/fetchCartById',
     async (id) => {
         try {
-            const response = await API.get(`cart/${id}`);
+            const response = await API.get(`cart/${id}`, {
+                withCredentials: true
+            });
             console.log(response.data);
             return {data: response.data.data, subtotal: response.data.subtotal};
         } catch (err) {
@@ -30,7 +32,9 @@ export const fetchCarts = createAsyncThunk(
     'carts/fetchCarts',
     async () => {
         try {
-            const response = await API.get('cart');
+            const response = await API.get('cart', {
+                withCredentials: true
+            });
             // console.log(response);
             return response.data.carts;
             

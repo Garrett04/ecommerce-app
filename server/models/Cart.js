@@ -219,13 +219,19 @@ class Cart {
     /**
      * Get all carts associated by user Id
      * 
-     * @param   {String} userId id of user
+     * @param   {String} String an object containing get_products_ids a boolean and user id 
      * @return  {Object|null} an object of carts
      */
     async find(userId) {
         try {
-            // pg query statement
-            const statement = `SELECT * FROM carts WHERE user_id = $1`;
+            const statement = `SELECT carts.id, 
+                                    carts.title,
+                                    ARRAY_AGG(products.id) AS product_ids
+                                FROM carts
+                                LEFT JOIN carts_products ON carts.id = carts_products.cart_id
+                                LEFT JOIN products ON carts_products.product_id = products.id
+                                WHERE user_id = $1
+                                GROUP BY carts.id`;
 
             // query database
             const result = await db.query(statement, [userId]);

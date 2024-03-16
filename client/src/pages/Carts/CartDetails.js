@@ -86,12 +86,13 @@ const CartDetails = () => {
     const renderDefaultAddress = (default_address) => {
       if (addressesStatus === 'fulfilled') {
         return default_address.map(({
+          id,
           address_line1,
           address_line2,
           country,
           postal_code
         }) => (
-          <div>
+          <div key={id}>
             {address_line1}
             {address_line2}
             {country}

@@ -10,7 +10,7 @@ module.exports.authenticateJWT = (req, res, next) => {
 
 // Checks if user is authorized before accessing carts_products.
 module.exports.authCartAccess = async (req, res, next) => {
-    const { cartId } = req.params;
+    const cartId = req.params.cartId || req.query.cart_id;
     const userId = req.user.id;
     let hasCartAccess;
 

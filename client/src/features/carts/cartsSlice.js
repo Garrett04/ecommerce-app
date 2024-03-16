@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createCart, fetchCarts } from "../../apis/cart"
-import axios from "axios"
+import { fetchCarts } from "../../apis/cart"
 
 
 const initialState = {
