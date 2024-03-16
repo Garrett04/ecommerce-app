@@ -87,11 +87,13 @@ class Order {
                                     price AS product_price,
                                     quantity AS product_quantity,
                                     title AS cart_title,
-                                    product_id
-                                FROM carts_products, products, carts, orders
+                                    product_id,
+                                    checkout.total_amount
+                                FROM carts_products, products, carts, orders, checkout
                                 WHERE carts_products.product_id = products.id
                                     AND carts_products.cart_id = carts.id
                                     AND carts.id = orders.cart_id
+                                    AND orders.checkout_id = checkout.id
                                     AND orders.id = $1`;
 
             // query database

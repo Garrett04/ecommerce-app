@@ -24,7 +24,11 @@ export const fetchOrderById = createAsyncThunk(
                 withCredentials: true
             });
             console.log(response.data);
-            return { data: response.data.order, total_amount: response.data.total_amount };
+            return { 
+                data: response.data.order, 
+                total_amount: response.data.total_amount,
+                order_status: response.data.order_status 
+            };
         } catch (err) {
             throw err.response.data.msg;
         }

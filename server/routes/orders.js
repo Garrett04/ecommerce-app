@@ -164,11 +164,16 @@ router.get('/:orderId', authenticateJWT, isLoggedIn, authOrderAccess, async (req
         return res.status(404).json({ success: false, msg: "No order found by order id" });
     }
 
-    // Get the subtotal by putting in the cart_id from the orders table rows. 
+    // Get the total_amount and order_status by putting in the cart_id from the orders table rows. 
     // selecting the first row since all will be the same
-    const total_amount = await Cart.getSubtotal(order[0].cart_id);
+    const { total_amount, order_status } = order[0];
 
-    res.json({ success: true, order: order, total_amount: total_amount });
+    res.json({ 
+        success: true, 
+        order: order, 
+        total_amount: order[0].total_amount,
+        order_status: order[0].order_status
+    });
 })
 
 module.exports = router;

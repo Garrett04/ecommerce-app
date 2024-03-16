@@ -45,7 +45,7 @@ const OrderDetails = () => {
         content = renderOrderDetails();
         total_amount = order.total_amount;
         // Since all will be equal to the same value
-        order_status = order.data[0].order_status;
+        order_status = order.order_status;
     } else if (orderStatus === 'rejected') {
         content = orderError;
     }
