@@ -374,6 +374,30 @@ router.put('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
 })
 
 // DELETE ROUTES
+// Removes product from cart
+router.delete('/:cartId', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
+    const { cartId } = req.params;
+    const { product_id } = req.query;
+
+    const data = {
+        cartId,
+        product_id
+    }
+
+    const deletedCart = await Cart.removeProduct(data);
+
+    console.log(deletedCart);
+
+    if (!deletedCart) {
+        return res.status(404).json({ success: false, msg: "cart/product id does not exist" });
+    }
+
+    res.json({ 
+        success: true, 
+        deletedCart
+    })
+})
+
 // To delete cart
 /**
  * @swagger
@@ -430,6 +454,8 @@ router.delete('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
 
     res.status(200).json({ success: true, msg: "Cart deleted successfully", cart_id: deletedCart.id });
 })
+
+
 
 router.use('/:cartId/checkout', require('./checkout'));
 

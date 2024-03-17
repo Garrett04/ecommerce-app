@@ -9,6 +9,7 @@ import { getUserStatus, selectUser } from "../../features/user/userSlice";
 import { fetchUserData } from "../../apis/user";
 import { getAddressesStatus, selectAddresses } from "../../features/user/addressesSlice";
 import { fetchAddressesByUserId } from "../../apis/addresses";
+import DeleteCartItemButton from "../../components/main/carts/DeleteCartItemButton";
 
 
 const CartDetails = () => {
@@ -18,6 +19,7 @@ const CartDetails = () => {
     const addressesStatus = useSelector(getAddressesStatus);
 
     const [msg, setMsg] = useState("");
+    const [deletedCartItemMsg, setDeletedCartItemMsg] = useState("");
     const [disabled, setDisabled] = useState(false);
 
     const cart = useSelector(selectCart);
@@ -51,6 +53,10 @@ const CartDetails = () => {
           <h3>{product_name}</h3>
           <p>Price: {product_price}</p>
           <p>Quantity: {product_quantity}</p>
+          <DeleteCartItemButton 
+            product_id={product_id}
+            setDeletedCartItemMsg={setDeletedCartItemMsg} 
+          />
         </div>
       ));
     }
@@ -116,6 +122,7 @@ const CartDetails = () => {
       <div className="cart">
         <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
         {content}
+        {deletedCartItemMsg}
         Default Shipping Address: {renderDefaultAddress(default_shipping_address)}
         Default Billing Address: {renderDefaultAddress(default_billing_address)}
         {cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}

@@ -246,6 +246,36 @@ class Cart {
             throw new Error(err);
         }
     }
+
+    /**
+     * Remove product from cart by cart id and product id
+     * 
+     * @param  {Object} data an object containing the cart_id and product_id
+     * @return {String|null} returns the deleted cart id
+     */
+    async removeProduct(data) {
+        try {
+            // pg query statement
+            const statement = `DELETE FROM carts_products
+                                WHERE cart_id = $1
+                                AND product_id = $2
+                                RETURNING *`;
+
+            // values array
+            const values = [data.cartId, data.product_id];
+
+            // query database
+            const result = await db.query(statement, values);
+
+            if (result.rows.length > 0) {
+                return result.rows;
+            } 
+
+            return null;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Cart();

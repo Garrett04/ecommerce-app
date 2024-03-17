@@ -58,3 +58,17 @@ export const addProduct = async (id, data) => {
         throw err.response;
     }
 }
+
+export const removeProduct = async (id, product_id) => {
+    try {
+        const response = await API.delete(`cart/${id}?product_id=${product_id}`, {
+            withCredentials: true
+        })
+
+        console.log(response.data);
+
+        return response.data.deletedCart;
+    } catch (err) {
+        throw err.response.data.msg;
+    }
+}
