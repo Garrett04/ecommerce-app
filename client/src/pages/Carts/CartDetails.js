@@ -36,11 +36,8 @@ const CartDetails = () => {
 
     useEffect(() => {
       dispatch(fetchUserData());
-    }, [dispatch]);
-
-    useEffect(() => {
       dispatch(fetchAddressesByUserId());
-    }, [dispatch])
+    }, [dispatch]);
 
     const renderCart = () => {
       return cart.data.map(({

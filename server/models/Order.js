@@ -111,6 +111,32 @@ class Order {
             throw new Error(err);
         }
     }
+
+    /**
+     * Find order by stripe_session_id which is linked to checkout table
+     * 
+     * @param  {String} session_id id of stripe session
+     * @return {Object|null}
+     */
+    async findOrderBySessionId(session_id) {
+        try {
+            // pg query statement
+            const statement = `SELECT orders.id AS order_id
+                                FROM orders, checkout
+                                WHERE orders.checkout_id = checkout.id
+                                    AND checkout.stripe_session_id = $1`;
+
+            // query database
+            const result = await db.query(statement, [session_id]);
+
+            if (result.rows.length > 0) {
+                return result.rows[0];
+            }
+            return null;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Order();

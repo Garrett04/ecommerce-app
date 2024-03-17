@@ -12,13 +12,15 @@ const CheckoutSuccess = () => {
         // when user is redirected to payment success page it will change checkout_status to paid in checkout table
        const updateCheckoutStatus = async () => {
           try {
-              const response = await API.put(`cart/${id}/checkout/checkout-success?session_id=${session_id}`, {
+              const response = await API.put(
+                `cart/${id}/checkout/checkout-success?session_id=${session_id}`, {
                   withCredentials: true
               });
               console.log("check2", response.data);
               setOrderId(response.data.order.id);
           } catch (err) {
-              throw err.response;
+              // if the order already exists then just set the orderId 
+              setOrderId(err.response.data.orderId);
           }
         }
         updateCheckoutStatus();

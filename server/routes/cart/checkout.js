@@ -137,6 +137,18 @@ router.put('/checkout-success', authenticateJWT, isLoggedIn, authCartAccess, asy
     const userId = req.user.id;
     const { session_id } = req.query;
 
+    // checking if order exists by session_id
+    const orderExists = await Order.findOrderBySessionId(session_id);
+
+    // if order exists then return a false message with the order
+    if (orderExists) {
+        return res.status(400).json({ 
+            success: false, 
+            orderId: orderExists.order_id,
+            msg: "Order already exists" 
+        });    
+    }
+
     // Retrieve stripe session to check if payment is done
     // console.log(session_id)
     const session = await stripe.checkout.sessions.retrieve(session_id);
