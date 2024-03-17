@@ -86,7 +86,7 @@ const Product = () => {
         return carts.map((cart) => {
           // checks if cart.product_ids array has the same product_id as the current product id
           const productExists = cart.product_ids.some(product_id => product_id === parseInt(id));
-          console.log(productExists);
+          // console.log(productExists);
 
           // if its true then return option element with disabled as true 
           // so that the user can't add the same product to the cart again

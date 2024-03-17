@@ -1,4 +1,3 @@
-import axios from 'axios';
 import API from './client'
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -16,7 +15,6 @@ export const register = async (data) => {
 export const login = async (creds) => {
     try {
         const response = await API.post('auth/login', creds);
-
         return response.data;
     } catch (err) {
         // console.log(err);

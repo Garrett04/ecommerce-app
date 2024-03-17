@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../features/user/userSlice";
 import { selectAddresses } from "../../../../features/user/addressesSlice";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchUserData } from "../../../../apis/user";
 
 
 const DefaultAddresses = ({
@@ -11,11 +12,7 @@ const DefaultAddresses = ({
 }) => {
     const user = useSelector(selectUser);
     const addresses = useSelector(selectAddresses);
-
-    // const [msg, setMsg] = useState({
-    //     defaultShippingAddress: "",
-    //     defaultBillingAddress: "",
-    // });
+    const dispatch = useDispatch();
 
     const [msg, setMsg] = useState();
 
@@ -23,41 +20,53 @@ const DefaultAddresses = ({
     const [defaultBillingAddressMsg, setDefaultBillingAddressMsg] = useState();
 
     useEffect(() => {
-        if (!user.default_shipping_address_id && !user.default_billing_address_id) {
-            if (page === 'CartDetails') {
-                setMsg(
-                    <p>
-                        No default billing and shipping address provided. Please add them. Go to <Link to="/user">User page</Link>
-                    </p>
-                );
-                setDisabled(true);
-            } else {
-                setMsg(<p>No default billing and shipping address provided. Please add them.</p>);
-            }
-        } else if (!user.default_shipping_address_id) {
-            if (page === 'CartDetails') {
-                setDefaultShippingAddressMsg(
-                    <p>
-                        No default Shipping Address added. Please add one. Go to <Link to="/user">User page</Link>
-                    </p>
-                );
-                setDisabled(true)    
-            } else {
-                setDefaultShippingAddressMsg(<p>No default Shipping Address added. Please add one.</p>);
-            }  
-        } else if (!user.default_billing_address_id) {
-            if (page === 'CartDetails') {
-                setDefaultBillingAddressMsg(
-                    <p>
-                        No default Billing Address added. Please add one. Go to <Link to="/user">User page</Link>
-                    </p>
-                )
-                setDisabled(true);
-            } else {
-                setDefaultBillingAddressMsg(<p>No default Billing Address added. Please add one.</p>)
+        // console.log(user.data);
+        if (!user.data) {
+            if (!user.default_shipping_address_id && !user.default_billing_address_id) {
+                if (page === 'CartDetails') {
+                    console.log('check1');
+                    setMsg(
+                        <p>
+                            No default billing and shipping address provided. Please add them. Go to <Link to="/user">User page</Link>
+                        </p>
+                    );
+                    setDisabled(true);
+                } else {
+                    setMsg(<p>No default billing and shipping address provided. Please add them.</p>);
+                }
+            } else if (!user.default_shipping_address_id) {
+                if (page === 'CartDetails') {
+                    console.log('check2');
+                    setDefaultShippingAddressMsg(
+                        <p>
+                            No default Shipping Address added. Please add one. Go to <Link to="/user">User page</Link>
+                        </p>
+                    );
+                    setDisabled(true)    
+                } else {
+                    setDefaultShippingAddressMsg(<p>No default Shipping Address added. Please add one.</p>);
+                }  
+            } else if (!user.default_billing_address_id) {
+                if (page === 'CartDetails') {
+                    console.log('check3');
+                    setDefaultBillingAddressMsg(
+                        <p>
+                            No default Billing Address added. Please add one. Go to <Link to="/user">User page</Link>
+                        </p>
+                    )
+                    setDisabled(true);
+                } else {
+                    setDefaultBillingAddressMsg(<p>No default Billing Address added. Please add one.</p>)
+                }
             }
         }
-    }, [setMsg, setDisabled, user.default_shipping_address_id, user.default_billing_address_id])
+    }, [
+        setMsg, 
+        setDisabled, 
+        page,
+        user.default_shipping_address_id, 
+        user.default_billing_address_id
+    ])
 
     // A function to render a default address based on an option
     // option can be either 'shipping' or 'billing'

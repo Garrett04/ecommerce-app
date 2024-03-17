@@ -4,6 +4,8 @@ import Products from "./Products"
 import { useDispatch} from "react-redux";
 import { useEffect } from "react";
 import { fetchGoogleUser } from "../../apis/auth";
+import { fetchUserData } from "../../apis/user";
+import { setAuthToken } from "../../apis/client";
 
 const Main = () => {
   const dispatch = useDispatch();

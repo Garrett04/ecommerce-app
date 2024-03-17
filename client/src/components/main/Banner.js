@@ -10,7 +10,8 @@ const Banner = () => {
   const userStatus = useSelector(getUserStatus);
 
   useEffect(() => {
-    if (userStatus === 'fulfilled') {
+    // Checks if it is a google user
+    if (userStatus === 'fulfilled' && user.data?.login_method === 'google') {
       // console.log(user.token);
       localStorage.setItem('token', user.token);
       setAuthToken();

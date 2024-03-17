@@ -109,7 +109,7 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
             login_method: user.login_method,
             default_shipping_address_id: user.default_shipping_address_id,
             default_billing_address_id: user.default_billing_address_id,
-        } 
+        }
     });
 })
 

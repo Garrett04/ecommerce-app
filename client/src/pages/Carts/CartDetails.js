@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartError, getCartStatus, selectCart } from "../../features/carts/cartSlice";
 import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { createCheckoutSession } from "../../apis/checkout";
 import { getUserStatus, selectUser } from "../../features/user/userSlice";
 import { fetchUserData } from "../../apis/user";
@@ -85,9 +85,10 @@ const CartDetails = () => {
           ...prevMsg,
           noCartItems:
           <p>
-            Please add items to cart. Go to <Link to='/'>Home page</Link>
+            Please add items to cart. Go to <Link to={'/'}>Home page</Link>
           </p>
         }));
+        // console.log('hello')
         setDisabled(true);
       }
     }, [
