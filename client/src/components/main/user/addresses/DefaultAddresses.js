@@ -2,36 +2,62 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../../../features/user/userSlice";
 import { selectAddresses } from "../../../../features/user/addressesSlice";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
-const DefaultAddresses = () => {
+const DefaultAddresses = ({
+    page,
+    setDisabled
+}) => {
     const user = useSelector(selectUser);
     const addresses = useSelector(selectAddresses);
 
-    const [msg, setMsg] = useState({
-        defaultShippingAddress: "",
-        defaultBillingAddress: "",
-    });
+    // const [msg, setMsg] = useState({
+    //     defaultShippingAddress: "",
+    //     defaultBillingAddress: "",
+    // });
+
+    const [msg, setMsg] = useState();
+
+    const [defaultShippingAddressMsg, setDefaultShippingAddressMsg] = useState();
+    const [defaultBillingAddressMsg, setDefaultBillingAddressMsg] = useState();
 
     useEffect(() => {
         if (!user.default_shipping_address_id && !user.default_billing_address_id) {
-            setMsg({ 
-                ...msg, 
-                defaultBillingAddress: "No default Billing Address added. Please add one.", 
-                defaultShippingAddress: "No default Shipping Address added. Please add one."
-            });
+            if (page === 'CartDetails') {
+                setMsg(
+                    <p>
+                        No default billing and shipping address provided. Please add them. Go to <Link to="/user">User page</Link>
+                    </p>
+                );
+                setDisabled(true);
+            } else {
+                setMsg(<p>No default billing and shipping address provided. Please add them.</p>);
+            }
         } else if (!user.default_shipping_address_id) {
-            setMsg({
-                ...msg, 
-                defaultShippingAddress: "No default Shipping Address added. Please add one."
-            })
+            if (page === 'CartDetails') {
+                setDefaultShippingAddressMsg(
+                    <p>
+                        No default Shipping Address added. Please add one. Go to <Link to="/user">User page</Link>
+                    </p>
+                );
+                setDisabled(true)    
+            } else {
+                setDefaultShippingAddressMsg(<p>No default Shipping Address added. Please add one.</p>);
+            }  
         } else if (!user.default_billing_address_id) {
-            setMsg({ 
-                ...msg, 
-                defaultBillingAddress: "No default Billing Address added. Please add one."
-            })
+            if (page === 'CartDetails') {
+                setDefaultBillingAddressMsg(
+                    <p>
+                        No default Billing Address added. Please add one. Go to <Link to="/user">User page</Link>
+                    </p>
+                )
+                setDisabled(true);
+            } else {
+                setDefaultBillingAddressMsg(<p>No default Billing Address added. Please add one.</p>)
+            }
         }
-    }, [setMsg, user.default_shipping_address_id, user.default_billing_address_id])
+    }, [setMsg, setDisabled, user.default_shipping_address_id, user.default_billing_address_id])
 
     // A function to render a default address based on an option
     // option can be either 'shipping' or 'billing'
@@ -51,16 +77,22 @@ const DefaultAddresses = () => {
                 state,
                 city,
                 postal_code,
-            }) => (
-                <li key={id}>
-                    {address_line_1}
-                    {address_line_2}
-                    {country}
-                    {state}
-                    {city}
-                    {postal_code}
-                </li>
-            ))
+            }) => {
+
+                return (
+                    <div key={`shippingAddressId-${id}`}>
+                        <h3>Default Shipping Address: </h3>
+                        <li>
+                            {address_line_1}
+                            {address_line_2}
+                            {country}
+                            {state}
+                            {city}
+                            {postal_code}
+                        </li>
+                    </div>
+                )
+            })
         } else if (option === 'billing') {
             return default_billing_address.map(({
                 id,
@@ -70,29 +102,33 @@ const DefaultAddresses = () => {
                 state,
                 city,
                 postal_code,
-            }) => (
-                <li key={id}>
-                    {address_line_1}
-                    {address_line_2}
-                    {country}
-                    {state}
-                    {city}
-                    {postal_code}
-                </li>
-            ))
+            }) => {
+                return (
+                    <div key={`billingAddressId-${id}`}>
+                        <h3>Default Billing Address: </h3>
+                        <li>
+                            {address_line_1}
+                            {address_line_2}
+                            {country}
+                            {state}
+                            {city}
+                            {postal_code}
+                        </li>
+                    </div>
+                )
+            })
         }
     }
 
     return (
         <>
-            <h3>Default Shipping Address:</h3> 
+            {msg}
             <ul>
-                {msg.defaultShippingAddress}
+                {defaultShippingAddressMsg}
                 {renderDefaultAddress('shipping')}
             </ul>
-            <h3>Default Billing Address:</h3> 
             <ul>
-                {msg.defaultBillingAddress}
+                {defaultBillingAddressMsg}
                 {renderDefaultAddress('billing')}
             </ul>
         </>

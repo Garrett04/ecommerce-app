@@ -73,6 +73,7 @@ const Product = () => {
         setMsg("Product added to cart!");
         
         dispatch(fetchCarts()); // To update cart options again
+        dispatch(fetchCartById(cartId)); // To update cart state
         setCartId(""); // To update the select dropdown value
       } catch (err) {
         setMsg(err.response.msg);

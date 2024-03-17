@@ -2,14 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartError, getCartStatus, selectCart } from "../../features/carts/cartSlice";
 import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
-import { useNavigate, useParams } from "react-router-dom";
-import { setAuthToken } from "../../apis/client";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { createCheckoutSession } from "../../apis/checkout";
 import { getUserStatus, selectUser } from "../../features/user/userSlice";
 import { fetchUserData } from "../../apis/user";
 import { getAddressesStatus, selectAddresses } from "../../features/user/addressesSlice";
 import { fetchAddressesByUserId } from "../../apis/addresses";
 import DeleteCartItemButton from "../../components/main/carts/DeleteCartItemButton";
+import DefaultAddresses from "../../components/main/user/addresses/DefaultAddresses";
 
 
 const CartDetails = () => {
@@ -18,26 +18,26 @@ const CartDetails = () => {
     const addresses = useSelector(selectAddresses);
     const addressesStatus = useSelector(getAddressesStatus);
 
-    const [msg, setMsg] = useState("");
+    const [msg, setMsg] = useState({
+      noCartItems: "",
+      noDefaultAddresses: ""
+    });
+
     const [deletedCartItemMsg, setDeletedCartItemMsg] = useState("");
     const [disabled, setDisabled] = useState(false);
 
     const cart = useSelector(selectCart);
     const cartStatus = useSelector(getCartStatus);
     const cartError = useSelector(getCartError);
-    const navigate = useNavigate();
 
     const { id } = useParams();
     const dispatch = useDispatch();
 
     useEffect(() => {
       dispatch(fetchCartById(id));
-    }, [dispatch, id])
-
-    useEffect(() => {
       dispatch(fetchUserData());
       dispatch(fetchAddressesByUserId());
-    }, [dispatch]);
+    }, [dispatch, id])
 
     const renderCart = () => {
       return cart.data.map(({
@@ -77,53 +77,31 @@ const CartDetails = () => {
     } else if (cartStatus === 'rejected') {
       content = cartError;
     }
-
-    let default_billing_address, default_shipping_address;
-    // If addressesStatus has been fulfilled then filter for that default address
-    if (addressesStatus === 'fulfilled') {
-      default_billing_address = addresses.filter(address => address.id === user.default_billing_address_id);
-      default_shipping_address = addresses.filter(address => address.id === user.default_shipping_address_id);
-    }
-
-    // to render a default address
-    const renderDefaultAddress = (default_address) => {
-      if (addressesStatus === 'fulfilled') {
-        return default_address.map(({
-          id,
-          address_line1,
-          address_line2,
-          country,
-          postal_code
-        }) => (
-          <div key={id}>
-            {address_line1}
-            {address_line2}
-            {country}
-            {postal_code}
-          </div>
-        ));
-      }
-    }
   
     useEffect(() => {
-      // If user's default billing and shipping address are not set
-      // then display a message
-      // and disable the checkout button
-      if (userStatus === 'fulfilled' && (!user.default_billing_address_id || !user.default_shipping_address_id)) {
-        setMsg("Please set default billing address and shipping address.");
+      // Handling case where there's nothing in cart then disable checkout button
+      if (cartStatus === 'rejected') {
+        setMsg(prevMsg => ({
+          ...prevMsg,
+          noCartItems:
+          <p>
+            Please add items to cart. Go to <Link to='/'>Home page</Link>
+          </p>
+        }));
         setDisabled(true);
       }
-    }, [userStatus, user.default_billing_address_id, user.default_shipping_address_id])
+    }, [
+      cartStatus
+    ])
 
     return (
       <div className="cart">
         <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
         {content}
         {deletedCartItemMsg}
-        Default Shipping Address: {renderDefaultAddress(default_shipping_address)}
-        Default Billing Address: {renderDefaultAddress(default_billing_address)}
+        {userStatus === 'fulfilled' ? <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} /> : null}
         {cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
-        {msg}
+        {msg.noCartItems}
         <button onClick={handleCheckout} disabled={disabled}>
           Checkout
         </button>
