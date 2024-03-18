@@ -5,9 +5,7 @@ export const fetchOrders = createAsyncThunk(
     'orders/fetchOrders',
     async () => {
         try {
-            const response = await API.get('orders', {
-                withCredentials: true
-            });
+            const response = await API.get('orders');
             console.log(response.data);
             return response.data.orders;
         } catch (err) {
@@ -20,9 +18,7 @@ export const fetchOrderById = createAsyncThunk(
     'order/fetchOrderById',
     async (id) => {
         try {
-            const response = await API.get(`orders/${id}`, {
-                withCredentials: true
-            });
+            const response = await API.get(`orders/${id}`);
             console.log(response.data);
             return { 
                 data: response.data.order, 

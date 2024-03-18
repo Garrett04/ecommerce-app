@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const utils = require('../../lib/utils');
 const User = require('../../models/User');
-const { authenticateJWT, isLoggedIn } = require('../middlewares/authMiddleware');
+const { isAuthenticated } = require('../middlewares/authMiddleware');
 const passport = require('passport');
 
 /**
@@ -90,7 +90,7 @@ const passport = require('passport');
  *          401:
  *              description: Unauthorized       
  */
-router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
+router.get('/', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const user = await User.findById(userId);
@@ -173,7 +173,7 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
  *          500:
  *              description: Server error
  */
-router.put('/', authenticateJWT, isLoggedIn, async (req, res) => {
+router.put('/', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
     const { username, oldPassword, newPassword, first_name, last_name, login_method } = req.body;
     const prevUser = await User.findById(userId);

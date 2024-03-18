@@ -22,7 +22,7 @@ const googleStrategy = new GoogleStrategy({
 
         if (user) {
             console.log(user);
-            return done(null, user.id);
+            return done(null, user);
         }
 
     } catch (err) {
@@ -30,6 +30,14 @@ const googleStrategy = new GoogleStrategy({
     }
   }
 );
+
+passport.serializeUser((user, done) => {
+    return done(null, user);
+})
+
+passport.deserializeUser((user, done) => {
+    return done(null, user);
+})
 
 module.exports = (passport) => {
     passport.use(googleStrategy);

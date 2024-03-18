@@ -25,9 +25,9 @@ const options = {
 
 const jwtStrategy = new JwtStrategy(options, async (payload, done) => {
     try {
-        console.log("hello");
+        // console.log("hello");
         const user = await User.findById(payload.sub);
-        console.log("hello", user);
+        // console.log("hello", user);
 
         if (!user) {
             return done(null, false);

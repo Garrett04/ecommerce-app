@@ -6,9 +6,7 @@ export const fetchCartById = createAsyncThunk(
     'cart/fetchCartById',
     async (id) => {
         try {
-            const response = await API.get(`cart/${id}`, {
-                withCredentials: true
-            });
+            const response = await API.get(`cart/${id}`);
             console.log(response.data);
             return {data: response.data.data, subtotal: response.data.subtotal};
         } catch (err) {
@@ -32,9 +30,7 @@ export const fetchCarts = createAsyncThunk(
     'carts/fetchCarts',
     async () => {
         try {
-            const response = await API.get('cart', {
-                withCredentials: true
-            });
+            const response = await API.get('cart');
             // console.log(response);
             return response.data.carts;
             
@@ -61,9 +57,7 @@ export const addProduct = async (id, data) => {
 
 export const removeProduct = async (id, product_id) => {
     try {
-        const response = await API.delete(`cart/${id}?product_id=${product_id}`, {
-            withCredentials: true
-        })
+        const response = await API.delete(`cart/${id}?product_id=${product_id}`)
 
         console.log(response.data);
 

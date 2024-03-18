@@ -5,9 +5,7 @@ export const fetchAddressesByUserId = createAsyncThunk(
     'addresses/fetchAddressesByUserId',
     async () => {
         try {
-            const response = await API.get('users/addresses', {
-                withCredentials: true
-            });
+            const response = await API.get('users/addresses');
             
             return response.data.addresses;
 
@@ -24,9 +22,7 @@ export const fetchAddressesByUserId = createAsyncThunk(
 
 export const createAddress = async (data) => {
     try {
-        const response = await API.post('users/addresses/add-address', (data), {
-            withCredentials: true
-        });
+        const response = await API.post('users/addresses/add-address', (data));
 
         return response.data.address;
     } catch (err) {
@@ -36,9 +32,7 @@ export const createAddress = async (data) => {
 
 export const updateAddress = async (id, data) => {
     try {
-        const response = await API.put(`users/addresses/${id}`, (data), {
-            withCredentials: true
-        })
+        const response = await API.put(`users/addresses/${id}`, (data))
 
         return response.data.address;
     } catch (err) {
@@ -48,9 +42,7 @@ export const updateAddress = async (id, data) => {
 
 export const deleteAddress = async (id) => {
     try {
-        const response = await API.delete(`users/addresses/${id}`, {
-            withCredentials: true
-        })
+        const response = await API.delete(`users/addresses/${id}`)
         
         return response.data.msg;
 
@@ -62,9 +54,7 @@ export const deleteAddress = async (id) => {
 // To update the default_shipping_address_id or default_billing_address_id in the addresses table
 export const updateDefaultAddress = async (id, option) => {
     try {
-        const response = await API.put(`users/addresses/update-default-address/${id}`, (option), {
-            withCredentials: true
-        })
+        const response = await API.put(`users/addresses/update-default-address/${id}`, (option))
 
         console.log(response.data);
 

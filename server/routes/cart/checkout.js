@@ -1,7 +1,7 @@
 require('dotenv').config();
 const router = require('express').Router({ mergeParams: true });
 const Cart = require('../../models/Cart');
-const { authenticateJWT, authCartAccess, authAddressAccess, isLoggedIn } = require('../middlewares/authMiddleware');
+const { isAuthenticated, authCartAccess, authAddressAccess } = require('../middlewares/authMiddleware');
 const Checkout = require('../../models/Checkout');
 const Order = require('../../models/Order');
 const User = require('../../models/User');
@@ -56,7 +56,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 // POST ROUTES
 // To validate if cart exists, then process the payment using Stripe.
-router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
+router.post('/create-checkout-session', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
 
@@ -132,7 +132,7 @@ router.post('/create-checkout-session', authenticateJWT, isLoggedIn, authCartAcc
 
 // To update checkout status and make an order using a query param which holds the stripe session_id
 // Then return a 200 if successful with a checkout object and order object.
-router.put('/checkout-success', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
+router.put('/checkout-success', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
     const { session_id } = req.query;

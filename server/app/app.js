@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const pool = require('../db/config');
-const { authenticateJWT } = require('../routes/middlewares/authMiddleware');
+const { isAuthenticated } = require('../routes/middlewares/authMiddleware');
 
 // just like body-parser middleware
 app.use(express.json());
@@ -26,18 +26,19 @@ app.use(cors({
 app.use(require('./swagger'));
 
 // SESSION SETUP
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//     store: new pgSession({
-//         pool,
-//         tableName: 'session'
-//     }),
-//     cookie: {
-//         maxAge: 1000 * 60 * 60 * 24 // 1 day (1 day * 24 hr/1 day * 60 min/1 hr
-//     }
-// }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: new pgSession({
+        pool,
+        tableName: 'session'
+    }),
+    cookie: {
+        maxAge: 30000,
+        httpOnly: true
+    }
+}));
 
 // PASSPORT AUTHENTICATION
 // Passes the global passport object into the configuration functions.
@@ -45,7 +46,8 @@ require('./passport/JWTStrategy')(passport);
 require('./passport/googleStrategy')(passport);
 
 // Initialization of passport on every request
-passport.initialize();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 module.exports = app;

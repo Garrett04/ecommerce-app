@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const { isLoggedIn, authenticateJWT, isAuthenticated } = require('./middlewares/authMiddleware');
+const { isAuthenticated } = require('./middlewares/authMiddleware');
 const User = require('../models/User');
 const utils = require('../lib/utils');
 
@@ -229,18 +229,10 @@ router.get('/google/callback',
 )
 
 // Returns the google user object, and a JWT token
-router.get('/login/success', isLoggedIn, async (req, res) => {
+router.get('/login/success', isAuthenticated, async (req, res) => {
     const user = req.user;
 
-    // Issuiance of JWT
-    const token = utils.issueJWT(user);
-
-    // console.log(user);
-
-    res.cookie('accessToken', token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
-    })
+    console.log('hello')
 
     const userDetails = await User.findById(user.id);
 
@@ -258,7 +250,7 @@ router.get('/login/success', isLoggedIn, async (req, res) => {
     })
 })
 
-router.get('/google/logout', isLoggedIn, (req, res, next) => {
+router.get('/google/logout', isAuthenticated, (req, res, next) => {
     req.logout((err) => {
         if (err) {
             return next(err);

@@ -45,7 +45,7 @@ export const fetchGoogleUser = createAsyncThunk(
 ) 
 
 
-// export const isLoggedIn = async () => {
+// export const isAuthenticated = async () => {
 //     try {
 //         console.log('check4');
 //         const response = await API.get('auth/google/login/success');

@@ -5,8 +5,15 @@ const Address = require('../../models/Address');
 
 // To authenticate the request using JWT strategy
 // If authentication suceeds, user's information (i.e id) will be attached to the req.user property.
-module.exports.authenticateJWT = (req, res, next) => {
-    passport.authenticate('jwt', { session: false })(req, res, next)
+module.exports.isAuthenticated = (req, res, next) => {
+    // console.log("hello from isAuthenticated");
+    // Checks if there is a user session object i.e from google then proceed to next 
+    // else check for jwt token
+    if (req.user) {
+        next();
+    } else {
+        passport.authenticate('jwt', { session: false })(req, res, next)
+    }
 }
 
 // Checks if user is authorized before accessing carts_products.
@@ -68,9 +75,11 @@ module.exports.authOrderAccess = async (req, res, next) => {
 }
 
 // To check if logged in using google
-module.exports.isLoggedIn = async (req, res, next) => {
-    if (req.user) {
-        return next();
-    }
-    res.sendStatus(401);
-}
+// module.exports.isAuthenticated = async (req, res, next) => {
+//     console.log("check1 from isAuthenticated")
+//     console.log(req.user);
+//     if (req.user) {
+//         return next();
+//     }
+//     res.sendStatus(401);
+// }

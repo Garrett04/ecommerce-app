@@ -1,5 +1,5 @@
 const router = require('express').Router({ mergeParams: true });
-const { authenticateJWT, authAddressAccess, isLoggedIn } = require('../middlewares/authMiddleware');
+const { isAuthenticated, authAddressAccess } = require('../middlewares/authMiddleware');
 const Address = require('../../models/Address');
 const User = require('../../models/User');
 
@@ -11,7 +11,7 @@ const User = require('../../models/User');
  */
 
 // Gets all addresses by user id
-router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
+router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const addresses = await Address.findByUserId(userId);
@@ -24,7 +24,7 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
 })
 
 // // Fetch an address by address id
-// router.get('/:addressId', authenticateJWT, isLoggedIn, async (req, res) => {
+// router.get('/:addressId', isAuthenticated, isAuthenticated, async (req, res) => {
 //     const { addressId } = req.params;
 //     const address = await Address.find(addressId);
 
@@ -135,7 +135,7 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
  *          401:
  *              description: Unauthorized
  */
-router.post('/add-address', authenticateJWT, async (req, res) => {
+router.post('/add-address', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const data = {
@@ -200,7 +200,7 @@ router.post('/add-address', authenticateJWT, async (req, res) => {
  *              description: Unauthorized
  */
 // To delete user address
-router.delete('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async (req, res) => {
+router.delete('/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
 
     const deletedAddressId = await Address.delete(addressId);
@@ -264,7 +264,7 @@ router.delete('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, asy
  *              description: Unauthorized
  */
 // PUT ROUTES
-router.put('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async (req, res) => {
+router.put('/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
     
     const data = {
@@ -282,7 +282,7 @@ router.put('/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async 
 })
 
 // To update default_shipping_address_id or default_billing_address_id in the addresses table
-router.put('/update-default-address/:addressId', authenticateJWT, isLoggedIn, authAddressAccess, async (req, res) => {
+router.put('/update-default-address/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, async (req, res) => {
     const userId = req.user.id;
     const { addressId } = req.params;
     // Holds the value of which address is to be default either default-shipping-address or default-billing-address

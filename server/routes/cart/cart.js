@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const Cart = require('../../models/Cart');
 const { 
-    authenticateJWT, 
-    authCartAccess,
-    isLoggedIn
+    isAuthenticated, 
+    authCartAccess
 } = require('../middlewares/authMiddleware');
 
 /**
@@ -62,7 +61,7 @@ const {
 
 // GET ROUTES
 // To get all carts by user Id
-router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
+router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const carts = await Cart.find(userId); 
@@ -129,7 +128,7 @@ router.get('/', authenticateJWT, isLoggedIn, async (req, res) => {
  *                      success: false
  *                      msg: User not authorized to cart
  */
-router.get('/:cartId', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
+router.get('/:cartId', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
 
     // Calls findById which takes in an is_carts_table boolean value of false indicating to retrieve from the carts_products table
@@ -197,7 +196,7 @@ router.get('/:cartId', authenticateJWT, isLoggedIn, authCartAccess, async (req, 
  *          500:
  *              description: Server error
  */
-router.post('/', authenticateJWT, async (req, res) => {
+router.post('/', isAuthenticated, async (req, res) => {
     const { title } = req.body;
     const userId = req.user.id;
     // console.log(userId);
@@ -278,7 +277,7 @@ router.post('/', authenticateJWT, async (req, res) => {
  *                      msg: User not authorized to cart
  */
 // To add product to cart associated by cart id
-router.post('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+router.post('/:cartId', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const { productId, quantity } = req.body;
 
@@ -358,7 +357,7 @@ router.post('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
  *              500:
  *                  description: Server error  
  */
-router.put('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+router.put('/:cartId', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const { title } = req.body;
 
@@ -375,7 +374,7 @@ router.put('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
 
 // DELETE ROUTES
 // Removes product from cart
-router.delete('/:cartId', authenticateJWT, isLoggedIn, authCartAccess, async (req, res) => {
+router.delete('/:cartId', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const { product_id } = req.query;
 
@@ -445,7 +444,7 @@ router.delete('/:cartId', authenticateJWT, isLoggedIn, authCartAccess, async (re
  *              401:
  *                  description: Unauthorized
  */
-router.delete('/:cartId', authenticateJWT, authCartAccess, async (req, res) => {
+router.delete('/:cartId', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     
     const deletedCart = await Cart.delete(cartId);
