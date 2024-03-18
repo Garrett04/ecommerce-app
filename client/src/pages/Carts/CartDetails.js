@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
 import { Link, useParams } from "react-router-dom";
 import { createCheckoutSession } from "../../apis/checkout";
-import { getUserStatus, selectUser } from "../../features/user/userSlice";
+import { getUserStatus } from "../../features/user/userSlice";
 import { fetchUserData } from "../../apis/user";
-import { getAddressesStatus, selectAddresses } from "../../features/user/addressesSlice";
 import { fetchAddressesByUserId } from "../../apis/addresses";
 import DeleteCartItemButton from "../../components/main/carts/DeleteCartItemButton";
 import DefaultAddresses from "../../components/main/user/addresses/DefaultAddresses";
@@ -89,7 +88,7 @@ const CartDetails = () => {
 
     return (
       <div className="cart">
-        <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
+        <h2>{cartStatus === 'fulfilled' && cart ? cart.data[0].cart_title : null}</h2>
         {content}
         {deletedCartItemMsg}
         {cartStatus === 'fulfilled' && cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}

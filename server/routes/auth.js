@@ -101,7 +101,7 @@ router.post('/login', async (req, res, next) => {
         // Set JWT token in an HTTPonly cookie
         res.cookie('accessToken', token, {
             httpOnly: true,
-            maxAge: jwt.decode(expires) * 1000, // 1 day
+            maxAge: 1000 * 60 * 60 * 24, // 1 day
         });
 
         res.json({ 
@@ -200,11 +200,11 @@ router.post('/register', async (req, res, next) => {
     const newUser = await User.create({ username, hash, salt });
     
     // Issuance of token
-    const { token, expires } = utils.issueJWT(newUser);
+    const { token } = utils.issueJWT(newUser);
 
     res.cookie('accessToken', token, {
         httpOnly: true,
-        maxAge: jwt.decode(expires) * 1000, 
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
     })
 
     res.json({ 

@@ -1,7 +1,9 @@
 import { useCallback, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../apis/auth";
-import { setAuthToken } from "../apis/client";
+import { fetchAuthenticationStatus } from "../apis/client";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../features/auth/authSlice";
 
 
 const Register = () => {
@@ -9,20 +11,18 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        console.log(username, password);
         const userData = await register({username, password});
-        console.log(userData.token);
 
-        localStorage.setItem('token', userData.token);
-
-        setAuthToken();
-
+        dispatch(fetchAuthenticationStatus());
+        
         navigate('/');
         
       } catch (err) {
@@ -31,6 +31,7 @@ const Register = () => {
           setErrMsg(err.data.msg);
         } else {
           console.error('Registration failed:', err.message);
+          setErrMsg(err.data.msg);
         }
       }
     }

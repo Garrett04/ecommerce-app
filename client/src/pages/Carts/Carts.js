@@ -3,17 +3,15 @@ import { createCart, fetchCarts } from "../../apis/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartsError, getCartsStatus, selectCarts } from "../../features/carts/cartsSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { isAuthenticated, setAuthToken } from "../../apis/client";
 
 const Carts = () => {
     const carts = useSelector(selectCarts);
     const cartsStatus = useSelector(getCartsStatus);
     const cartsError = useSelector(getCartsError);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
-    const [err, setErrMsg] = useState("");
+    const [errMsg, setErrMsg] = useState("");
 
     const handleChange = (e) => {
       setTitle(e.target.value);
@@ -24,13 +22,10 @@ const Carts = () => {
       
       try {
         const newCart = await createCart({title});
-        console.log(newCart);
 
         dispatch(fetchCarts()); // Once created it will dispatch fetchCarts again to update state
       } catch (err) {
-        if (err.status === 404) {
-          setErrMsg(err.data.msg);
-        }
+        setErrMsg(err);
       }
     }
 
@@ -61,8 +56,8 @@ const Carts = () => {
     return (
       <div className="carts">
         <h2>All Carts</h2>
-        {cartsStatus === 'fulfilled' ? content : null}
-        <form action="/api/cart/" method="POST" onSubmit={handleSubmit}>
+        {content}
+        <form onSubmit={handleSubmit}>
           <label htmlFor="title">Cart Title: </label>
           <input 
             type="text" 
@@ -74,6 +69,7 @@ const Carts = () => {
           />
           <input type="submit" value="Create Cart"/>
         </form>
+        {errMsg}
       </div>
     )
 }

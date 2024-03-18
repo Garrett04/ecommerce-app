@@ -96,7 +96,7 @@ const { isAuthenticated, authOrderAccess } = require('./middlewares/authMiddlewa
  *          401:
  *              description: Unauthorized
  */
-router.get('/', isAuthenticated, isAuthenticated, authOrderAccess, async (req, res) => {
+router.get('/', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
     
     const orders = await Order.find(userId);
@@ -158,7 +158,7 @@ router.get('/', isAuthenticated, isAuthenticated, authOrderAccess, async (req, r
  *          401:
  *              description: Unauthorized
  */
-router.get('/:orderId', isAuthenticated, isAuthenticated, authOrderAccess, async (req, res) => {
+router.get('/:orderId', isAuthenticated, async (req, res) => {
     const { orderId } = req.params;
 
     const order = await Order.findById(orderId);

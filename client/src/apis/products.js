@@ -1,19 +1,6 @@
 import API from './client';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-// export const getProducts = async () => {
-//     try {
-//         const response = await API.get('products');
-
-//         // console.log(response.data);
-
-//         return response.data.products;
-
-//     } catch (err) {
-//         throw err.response;
-//     }
-// }
-
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async () => {
@@ -46,7 +33,7 @@ export const fetchProductsByCategory = createAsyncThunk(
     async (id) => {
         try {
             const response = await API.get(`products/category/${id}`);
-            console.log(response.data);
+            // console.log(response.data);
             return response.data.products;
         } catch (err) {
             throw err.response;

@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const register = async (data) => {
     try {
         const response = await API.post('auth/register', data);
-
+        console.log(response.data);
         return response.data;
 
     } catch (err) {
@@ -14,9 +14,7 @@ export const register = async (data) => {
 
 export const login = async (creds) => {
     try {
-        const response = await API.post('auth/login', creds, {
-            withCredentials: true
-        });
+        const response = await API.post('auth/login', creds);
         return response.data;
     } catch (err) {
         // console.log(err);
@@ -43,17 +41,6 @@ export const fetchGoogleUser = createAsyncThunk(
         }
     }
 ) 
-
-
-// export const isAuthenticated = async () => {
-//     try {
-//         console.log('check4');
-//         const response = await API.get('auth/google/login/success');
-//         return response.data.success;
-//     } catch (err) {
-//         throw err.response;
-//     }
-// }
 
 export const logout = async () => {
     try {

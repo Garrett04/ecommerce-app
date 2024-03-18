@@ -36,12 +36,8 @@ export const fetchCarts = createAsyncThunk(
             
         } catch (err) {
             // console.log(err);
-            if (err.response.status === 401) {
-                // console.log(err.response);
-                throw new Error('Unauthorized');
-            } else {
-                throw err;
-            }
+            console.error(err);
+            throw err.response.data.msg;
         }
     }
 )

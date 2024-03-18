@@ -7,7 +7,7 @@ export const fetchUserData = createAsyncThunk(
         try {
             const response = await API.get('users');
     
-            console.log(response.data);
+            // console.log(response.data);
     
             return response.data.user;
     
@@ -21,7 +21,7 @@ export const updateUser = async (data) => {
     try {
         const response = await API.put('users', data);
 
-        console.log(response.data);
+        // console.log(response.data);
 
         return response.data.user;
     } catch (err) {

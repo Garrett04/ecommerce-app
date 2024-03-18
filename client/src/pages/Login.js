@@ -30,11 +30,6 @@ const Login = () => {
       try {
         const user = await login({ username, password });
 
-        // console.log(user.token);
-
-        // localStorage.setItem('token', user.token);
-
-        // setAuthToken();
         dispatch(fetchAuthenticationStatus());
 
         // Checks if the user got redirected to the login page from a protected route

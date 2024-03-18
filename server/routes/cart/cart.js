@@ -128,7 +128,7 @@ router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
  *                      success: false
  *                      msg: User not authorized to cart
  */
-router.get('/:cartId', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
+router.get('/:cartId', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
 
     // Calls findById which takes in an is_carts_table boolean value of false indicating to retrieve from the carts_products table
@@ -138,7 +138,6 @@ router.get('/:cartId', isAuthenticated, isAuthenticated, authCartAccess, async (
     const subtotal = await Cart.getSubtotal(cartId);
     // console.log('check2')
     
-
     if (!cart) {
         return res.status(404).json({ success: false, msg: "Cart not found" })
     }
