@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartError, getCartStatus, selectCart } from "../../features/carts/cartSlice";
 import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { createCheckoutSession } from "../../apis/checkout";
 import { getUserStatus, selectUser } from "../../features/user/userSlice";
 import { fetchUserData } from "../../apis/user";
@@ -13,15 +13,9 @@ import DefaultAddresses from "../../components/main/user/addresses/DefaultAddres
 
 
 const CartDetails = () => {
-    const user = useSelector(selectUser);
     const userStatus = useSelector(getUserStatus);
-    const addresses = useSelector(selectAddresses);
-    const addressesStatus = useSelector(getAddressesStatus);
 
-    const [msg, setMsg] = useState({
-      noCartItems: "",
-      noDefaultAddresses: ""
-    });
+    const [noCartItemsMsg, setNoCartItemsMsg] = useState("");
 
     const [deletedCartItemMsg, setDeletedCartItemMsg] = useState("");
     const [disabled, setDisabled] = useState(false);
@@ -81,13 +75,11 @@ const CartDetails = () => {
     useEffect(() => {
       // Handling case where there's nothing in cart then disable checkout button
       if (cartStatus === 'rejected') {
-        setMsg(prevMsg => ({
-          ...prevMsg,
-          noCartItems:
+        setNoCartItemsMsg(
           <p>
             Please add items to cart. Go to <Link to={'/'}>Home page</Link>
           </p>
-        }));
+        );
         // console.log('hello')
         setDisabled(true);
       }
@@ -100,9 +92,9 @@ const CartDetails = () => {
         <h2>{cartStatus === 'fulfilled' ? cart.data[0].cart_title : null}</h2>
         {content}
         {deletedCartItemMsg}
+        {cartStatus === 'fulfilled' && cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
+        {noCartItemsMsg}
         {userStatus === 'fulfilled' ? <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} /> : null}
-        {cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
-        {msg.noCartItems}
         <button onClick={handleCheckout} disabled={disabled}>
           Checkout
         </button>

@@ -22,16 +22,18 @@ const Banner = () => {
   // }, [userStatus, user.token])
 
   const renderAccountComponent = () => {
-    return (
-      <div className="account">
-          <NavLink to="/register" className="register-btn">
-              Register Account
-          </NavLink>
-          <NavLink to="/login" className="login-btn">
-              Login
-          </NavLink>
-      </div>
-    ) 
+    if (!isAuthenticated) {
+      return (
+        <div className="account">
+            <NavLink to="/register" className="register-btn">
+                Register Account
+            </NavLink>
+            <NavLink to="/login" className="login-btn">
+                Login
+            </NavLink>
+        </div>
+      )
+    }
   }
 
   return (
@@ -39,8 +41,7 @@ const Banner = () => {
         <div className="promo">
           <img src={bannerPromo} alt="banner promo" />
         </div>
-        {/* If userStatus is not fulfilled and isAuthenticated is not true then renders AccountComponent */}
-        {!isAuthenticated ? renderAccountComponent() : null}
+        {renderAccountComponent()}
     </div>
   )
 }

@@ -57,9 +57,7 @@ export const fetchGoogleUser = createAsyncThunk(
 
 export const logout = async () => {
     try {
-        const response = await API.get('auth/google/logout', {
-            withCredentials: true
-        });
+        const response = await API.post('auth/logout');
         console.log("check 2", response.data);
         return response.data;
     } catch (err) {

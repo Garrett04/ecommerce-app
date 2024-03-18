@@ -3,6 +3,7 @@ const passport = require('passport');
 const { isAuthenticated } = require('./middlewares/authMiddleware');
 const User = require('../models/User');
 const utils = require('../lib/utils');
+const jwt = require('jsonwebtoken');
 
 /**
  * @swagger
@@ -95,12 +96,12 @@ router.post('/login', async (req, res, next) => {
         // console.log(user);
 
         // Issuance of JWT
-        const token = utils.issueJWT(user);
+        const { token, expires } = utils.issueJWT(user);
 
         // Set JWT token in an HTTPonly cookie
-        res.cookie('accessToken', token.token, {
+        res.cookie('accessToken', token, {
             httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 24, // 1 day
+            maxAge: jwt.decode(expires) * 1000, // 1 day
         });
 
         res.json({ 
@@ -197,11 +198,13 @@ router.post('/register', async (req, res, next) => {
     }
 
     const newUser = await User.create({ username, hash, salt });
-    const jwt = utils.issueJWT(newUser);
+    
+    // Issuance of token
+    const { token, expires } = utils.issueJWT(newUser);
 
-    res.cookie('accessToken', jwt.token, {
+    res.cookie('accessToken', token, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24, 
+        maxAge: jwt.decode(expires) * 1000, 
     })
 
     res.json({ 
@@ -209,9 +212,7 @@ router.post('/register', async (req, res, next) => {
         user: {
             id: newUser.id,
             username: newUser.username,
-        }, 
-        token: jwt.token, 
-        expiresIn: jwt.expires 
+        }
     })
     // console.log(newUser);
 })
@@ -250,13 +251,23 @@ router.get('/login/success', isAuthenticated, async (req, res) => {
     })
 })
 
-router.get('/google/logout', isAuthenticated, (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        res.json({ success: true, msg: "Successfully logged out" });
-    });
+// Logs out the user
+router.post('/logout', isAuthenticated, (req, res, next) => {
+    // checks if user has accessToken cookie then log out that user.
+    if (req.cookies && req.cookies.accessToken) {
+        res.clearCookie('accessToken');
+        return res.json({ success: true, msg: "Successfully logged out" });
+    }
+
+    // checks for if its a Google user then log out that user.
+    if (req.user) {
+        req.logout((err) => {
+            if (err) {
+                return next(err);
+            }
+            return res.json({ success: true, msg: "Successfully logged out" });
+        });
+    }
 })
 
 // Check if user is authenticated
