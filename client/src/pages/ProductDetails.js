@@ -8,14 +8,14 @@ import { addProduct, checkProductExistsInCart, fetchCartById, fetchCarts } from 
 import { getCartsStatus, selectCarts } from "../features/carts/cartsSlice";
 import API, { isAuthenticated, setAuthToken } from "../apis/client";
 import { getCartStatus, selectCart } from "../features/carts/cartSlice";
+import { selectIsAuthenticated } from "../features/auth/authSlice";
 
 
 const Product = () => {
     const carts = useSelector(selectCarts);
     const cartsStatus = useSelector(getCartsStatus);
 
-    const cartDetails = useSelector(selectCart); 
-    const cartStatus = useSelector(getCartStatus); 
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     const product = useSelector(selectProductDetails);
     const productDetailsStatus = useSelector(getProductDetailsStatus);
@@ -29,7 +29,7 @@ const Product = () => {
     const { id } = useParams();
 
     useEffect(() => {
-      setAuthToken();
+      // setAuthToken();
       dispatch(fetchProductById(id));
       dispatch(fetchCarts()); // Update carts state to display carts
     }, [dispatch, id])
@@ -118,7 +118,7 @@ const Product = () => {
     }
 
     const renderForm = () => {
-      if (isAuthenticated()) {
+      if (isAuthenticated) {
         return (
           <form onSubmit={handleSubmit}>
             <input 

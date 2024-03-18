@@ -18,6 +18,9 @@ import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
 import UpdateAddressForm from './components/main/user/addresses/AddressForms/UpdateAddressForm';
 import Orders from './pages/Orders/Orders';
 import OrderDetails from './pages/Orders/OrderDetails';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchAuthenticationStatus } from './apis/client';
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
@@ -40,6 +43,12 @@ const router = createBrowserRouter( createRoutesFromElements(
 ))
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAuthenticationStatus());
+  }, [dispatch])
+
   return (
     <RouterProvider router={ router } />
   );

@@ -10,10 +10,15 @@ module.exports.isAuthenticated = (req, res, next) => {
     // Checks if there is a user session object i.e from google then proceed to next 
     // else check for jwt token
     if (req.user) {
-        next();
-    } else {
-        passport.authenticate('jwt', { session: false })(req, res, next)
-    }
+        return next();
+    } 
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err || !user) {
+            return res.json({ success: false, authenticated: false });
+        }
+        req.user = user;
+        return next();
+    })(req, res, next)
 }
 
 // Checks if user is authorized before accessing carts_products.

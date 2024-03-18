@@ -32,7 +32,7 @@ export const fetchGoogleUser = createAsyncThunk(
             const response = await API.get('auth/login/success', {
                 withCredentials: true,
             });
-            console.log(response.data);
+            // console.log(response.data);
             return { 
                 data: response.data.user, 
                 token: response.data.token, 

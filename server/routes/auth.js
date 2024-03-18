@@ -259,4 +259,9 @@ router.get('/google/logout', isAuthenticated, (req, res, next) => {
     });
 })
 
+// Check if user is authenticated
+router.get('/check-authentication', isAuthenticated, (req, res) => {
+    res.json({ success: true, authenticated: true })
+})
+
 module.exports = router;
