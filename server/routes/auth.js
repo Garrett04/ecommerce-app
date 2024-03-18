@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const { isLoggedIn, authenticateJWT } = require('./middlewares/authMiddleware');
+const { isLoggedIn, authenticateJWT, isAuthenticated } = require('./middlewares/authMiddleware');
 const User = require('../models/User');
 const utils = require('../lib/utils');
 
@@ -89,17 +89,26 @@ router.post('/login', async (req, res, next) => {
 
     const isValid = utils.validatePassword(password, user.pw_hash, user.pw_salt);
 
+    // if password is valid then issue a JWT token 
     if (isValid) {
 
-        const tokenObject = utils.issueJWT(user);
+        // console.log(user);
+
+        // Issuance of JWT
+        const token = utils.issueJWT(user);
+
+        // Set JWT token in an HTTPonly cookie
+        res.cookie('accessToken', token.token, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24, // 1 day
+        });
+
         res.json({ 
             success: true, 
             user: {
                 id: user.id,
                 username: user.username
-            }, 
-            token: tokenObject.token, 
-            expiresIn: tokenObject.expires 
+            }
         });
 
     } else {
@@ -190,6 +199,11 @@ router.post('/register', async (req, res, next) => {
     const newUser = await User.create({ username, hash, salt });
     const jwt = utils.issueJWT(newUser);
 
+    res.cookie('accessToken', jwt.token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24, 
+    })
+
     res.json({ 
         success: true, 
         user: {
@@ -202,7 +216,7 @@ router.post('/register', async (req, res, next) => {
     // console.log(newUser);
 })
 
-// Google Auth
+// Google OAuth2
 router.get('/google', 
     passport.authenticate('google', { scope: ['email', 'profile'] })
 )
@@ -210,7 +224,7 @@ router.get('/google',
 router.get('/google/callback', 
     passport.authenticate('google', {
         successRedirect: 'http://localhost:3001/',
-        failureRedirect: 'http://localhost:3000/auth/google/login/failure'
+        failureRedirect: 'http://localhost:3001/login'
     })
 )
 
@@ -219,9 +233,14 @@ router.get('/login/success', isLoggedIn, async (req, res) => {
     const user = req.user;
 
     // Issuiance of JWT
-    const jwt = utils.issueJWT(user);
+    const token = utils.issueJWT(user);
 
     // console.log(user);
+
+    res.cookie('accessToken', token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    })
 
     const userDetails = await User.findById(user.id);
 
@@ -235,9 +254,7 @@ router.get('/login/success', isLoggedIn, async (req, res) => {
             default_shipping_address_id: userDetails.default_shipping_address_id,
             default_billing_address_id: userDetails.default_billing_address_id,
             login_method: userDetails.login_method
-        },
-        token: jwt.token,
-        expiresIn: jwt.expires
+        }
     })
 })
 

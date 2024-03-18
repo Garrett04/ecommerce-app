@@ -3,7 +3,8 @@ const Cart = require('../../models/Cart');
 const Order = require('../../models/Order');
 const Address = require('../../models/Address');
 
-// Checks if user is authorized before proceeding to the requested route.
+// To authenticate the request using JWT strategy
+// If authentication suceeds, user's information (i.e id) will be attached to the req.user property.
 module.exports.authenticateJWT = (req, res, next) => {
     passport.authenticate('jwt', { session: false })(req, res, next)
 }
