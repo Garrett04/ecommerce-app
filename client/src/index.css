@@ -367,6 +367,7 @@ h2 {
   }
 
   .banner .account {
+    --s: 45px;
     border-radius: 1rem;
     gap: 1rem;
   }

@@ -79,7 +79,8 @@ const Login = () => {
           </form>
           {errMsg}
           <p>Do not have a ShopWise Account? <Link to="/register">Register here</Link></p>
-          <p>Other login methods: <GoogleButton onClick={handleClick}/></p>
+          <p>Other login methods</p>
+          <GoogleButton className="googleButton" onClick={handleClick}/>
         </div>
     )
 }
