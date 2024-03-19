@@ -3,6 +3,7 @@ import { getCategoriesError, getCategoriesStatus, selectCategories } from "../..
 import { useEffect } from "react";
 import { fetchCategories } from "../../apis/categories";
 import { fetchProducts, fetchProductsByCategory } from "../../apis/products";
+import { DNA, LineWave } from "react-loader-spinner";
 
 
 const CategoryOptions = () => {
@@ -37,7 +38,7 @@ const CategoryOptions = () => {
 
     let content;
     if (categoriesStatus === 'pending') {
-      content = 'Loading...';
+      content = <DNA wrapperStyle={{ margin: 'auto', marginTop: '-1rem' }} />;
     } else if (categoriesStatus === 'fulfilled') {
       content = renderCategories();
     } else if (categoriesStatus === 'rejected') {
@@ -46,7 +47,7 @@ const CategoryOptions = () => {
 
     return (
       <ul className="categories">
-        {categoriesStatus 
+        {categoriesStatus === 'fulfilled'
           ? <li className="category"><button onClick={() => dispatch(fetchProducts())}>All Products</button></li>
           : null}
         {content}

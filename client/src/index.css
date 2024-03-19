@@ -5,6 +5,39 @@
   gap: 1rem;
 }
 
+.header span.logo {
+  color: #8E1616;
+  font-family: 'Rock Salt';
+}
+
+/*Root*/
+/*Header*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+
+div.header {
+  display: flex;
+  align-items: center;
+  padding: .8rem;
+  border-bottom: 2px black solid;
+  justify-content: space-between;
+}
+
+.header .desktop  {
+  font-size: 3rem;
+  font-family: 'Roboto Slab', sans-serif;
+}
+
+.header h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header .mobile {
+  display: none;
+}
+
+/*CartButton and AccountButton*/
 div.cart,
 div.signIn {
   width: 3rem;
@@ -25,57 +58,6 @@ div.signIn {
   border: 1px solid black;
 }
 
-/*Root*/
-/*Header*/
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
-
-div.header {
-  display: flex;
-  align-items: center;
-  padding: .8rem;
-  border-bottom: 2px black solid;
-  justify-content: space-between;
-}
-
-.header h1 {
-  font-size: 3rem;
-  font-family: 'Roboto Slab', sans-serif;
-}
-
-.header h1 a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.header span {
-  color: #8E1616;
-  font-family: 'Rock Salt';
-}
-
-/*SearchBar*/
-div.searchBar {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.searchBar input {
-  width: 45%;
-  height: 2rem;
-  border-radius: 2rem;
-  font-size: 1rem;
-  border: 1px solid black;
-  padding-left: 1rem;
-  transition: .1s width;
-}
-
-.searchBar input:focus {
-  outline: none;
-  width: 70%;
-  transition: .1s width;
-}
-
 /*CartButton*/
 .cartBtn:hover {
   cursor: pointer;
@@ -90,6 +72,28 @@ div.searchBar {
 }
 
 /*CategoryOptions*/
+.categories {
+  display: flex;
+  overflow-x: auto;
+  gap: .5rem;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.categories .category {
+  margin-top: .3rem;
+}
+
+.categories .category button {
+  width: 14rem;
+  height: 2.75rem;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+}
+
+.categories .category button:hover {
+  cursor: pointer;
+}
 
 /*Main*/
 div.main {
@@ -105,6 +109,16 @@ div.banner {
 
 .banner .promo {
   flex: 3;
+}
+
+.banner .promo {
+  background-image: url('./resources/images/banner-promo.jpg');
+  height: 12rem;
+  border-radius: 1rem;
+  border: 1px solid black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /*from animated.css-pattern.com*/
@@ -166,33 +180,27 @@ div.banner {
 
 .banner .account {
   display: flex;
-  flex-flow: column wrap;
-  /* background-color: blanchedalmond; */
+  flex-flow: column;
   border-radius: 1rem;
   border: 1px solid black;
   gap: 2rem;
   flex: 2;
-}
-
-.banner img {
-  width: 100%;
-  border-radius: 1rem;
-  border: 1px solid black;
+  
 }
 
 .register-btn,
 .login-btn {
   width: 15rem;
-  max-width: 20rem;
-  padding: 1rem;
   font-size: 1.5rem;
   border-radius: 1rem;
+  height: auto;
+  padding: 1rem;
   border: 1px solid black;
-  margin: auto;
   background-color: #A2ED67;
   text-decoration: none;
   text-align: center;
   color: black;
+  margin: auto;
 }
 
 .register-btn {
@@ -240,6 +248,8 @@ h2 {
   padding: 1rem;
   max-width: 250px;
   gap: 1rem;
+  background: white;
+  color: black;
 }
 
 .productCard h3,
@@ -263,4 +273,130 @@ h2 {
   width: 60%;
   height: auto;
   max-width: 75%;
+}
+
+/*Mobile viewport*/
+@media only screen and (max-width: 480px) {
+  /*Header*/
+  div.header {
+    display: flex;
+    align-items: center;
+    padding: .5rem .6rem;
+    border-bottom: 2px black solid;
+    justify-content: space-between;
+  }
+  
+  .header .desktop {
+    display: none;
+  }
+
+  .header .mobile {
+    display: block;
+  }
+
+  .header .mobile a {
+    text-decoration: none;
+    color: inherit;
+    font-size: .9rem;
+  }
+
+  .header .mobile h1 {
+    color: #8E1616;
+    font-size: 2rem;
+    margin-bottom: .4rem;
+    text-align: center;
+    font-family: 'Rock Salt';
+  }
+  
+  /*CartButton and accountBtn*/
+  div.cart,
+  div.signIn {
+    width: 2.35rem;
+    max-width: 4rem;
+  }
+
+  .cartBtn img, 
+  .accountBtn img {
+    width: 100%;
+  }
+
+  .cartBtn,
+  .accountBtn {
+    width: 80%;
+    display: inline-block;
+    padding: .3rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+  }
+
+  .cartBtn:hover {
+    cursor: pointer;
+    background-color: chocolate;
+    transition: .1s background-color;
+  }
+  
+  .accountBtn:hover { 
+    cursor: pointer;
+    background-color: deepskyblue;
+  }
+  
+  /*CategoryOptions*/
+  .categories {
+    display: flex;
+    overflow-x: auto;
+    gap: .5rem;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+  }
+  
+  .categories .category {
+    margin-top: .3rem;
+  }
+  
+  .categories .category button {
+    width: auto;
+    height: 2rem;
+    font-size: .9rem;
+    text-wrap: nowrap;
+  }
+
+  /*Main*/
+  /*Banner*/
+  .banner .promo {
+    height: 10rem;
+  }
+
+  .banner .account {
+    border-radius: 1rem;
+    gap: 1rem;
+  }
+
+  .register-btn,
+  .login-btn {
+    width: 6rem;
+    font-size: 1rem;
+    border: 1px solid black;
+    background-color: #A2ED67;
+    padding: .6rem;
+  }
+
+  /*Products*/
+  div.products {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  .productCard {
+    max-width: 8.5rem;
+  }
+
+  .productCard h3,
+  .productCard h4 {
+    font-size: 1.15rem;
+  }
 }

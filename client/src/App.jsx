@@ -50,7 +50,7 @@ function App() {
   }, [dispatch])
 
   return (
-    <RouterProvider router={ router } />
+      <RouterProvider router={ router } />
   );
 }
 

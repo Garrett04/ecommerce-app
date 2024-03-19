@@ -75,6 +75,7 @@ const Product = () => {
         dispatch(fetchCarts()); // To update cart options again
         dispatch(fetchCartById(cartId)); // To update cart state
         setCartId(""); // To update the select dropdown value
+
       } catch (err) {
         setMsg(err.response.msg);
       }
@@ -141,6 +142,7 @@ const Product = () => {
               <option value="" disabled hidden>Select your cart</option>
               {renderCartsOptions()}
             </select>
+            {msg}
             <input type="submit" value="Add to cart" />
           </form>
         )
@@ -151,7 +153,6 @@ const Product = () => {
       <div className="product">
         {content}
         {renderForm()}
-        {msg}
       </div>
     )
 }

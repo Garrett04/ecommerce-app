@@ -5,6 +5,7 @@ import { login } from "../apis/auth";
 import { fetchAuthenticationStatus, setAuthToken } from "../apis/client";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsAuthenticatedStatus, selectIsAuthenticated } from "../features/auth/authSlice";
+import GoogleButton from "react-google-button";
 
 
 const Login = () => {
@@ -78,7 +79,7 @@ const Login = () => {
           </form>
           {errMsg}
           <p>Do not have a ShopWise Account? <Link to="/register">Register here</Link></p>
-          <p>Other login methods: <button onClick={handleClick}>Google</button></p>
+          <p>Other login methods: <GoogleButton onClick={handleClick}/></p>
         </div>
     )
 }

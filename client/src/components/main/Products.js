@@ -3,6 +3,7 @@ import { fetchProducts } from "../../apis/products";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsError, getProductsStatus, selectAllProducts } from "../../features/products/productsSlice";
 import { Link } from "react-router-dom";
+import { LineWave } from "react-loader-spinner";
 
 const Products = () => {
     const products = useSelector(selectAllProducts);
@@ -31,7 +32,7 @@ const Products = () => {
 
     let content;
     if (productsStatus === 'pending') {
-      content = 'Loading...';
+      content = <LineWave wrapperStyle={{ margin: 'auto' }} />;
     } else if (productsStatus === 'fulfilled') {
       // console.log(products);
       content = renderProducts();

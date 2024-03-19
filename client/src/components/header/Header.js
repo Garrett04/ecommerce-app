@@ -8,7 +8,17 @@ import ViewOrdersButton from "./ViewOrdersButton"
 const Header = () => {
   return (
     <div className="header">
-      <h1><a href="/"><span>S</span>hop<span>W</span>ise</a></h1>
+      <h1 className="desktop">
+        <a href="/">
+          <span className="logo">S</span>hop<span className="logo">W</span>ise
+        </a>
+      </h1>
+      <div className="mobile">
+        <a href="/">
+          <h1>SW</h1>
+          <span className="logo">S</span>hop<span className="logo">W</span>ise
+        </a>
+      </div>
       {/* <SearchBar /> */}
       <div className="right">
         <Cart />
