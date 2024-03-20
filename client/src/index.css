@@ -329,7 +329,9 @@ h2 {
   
   /*CartButton and accountBtn*/
   div.cart,
-  div.signIn {
+  div.signIn,
+  div.view-orders,
+  div.logout {
     width: 2.35rem;
     max-width: 4rem;
   }

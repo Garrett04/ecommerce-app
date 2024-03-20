@@ -24,7 +24,7 @@ const Logout = () => {
         {isAuthenticated 
         && 
         <div className="logout">
-          <NavLink className="logOutBtn" to="/" onClick={handleClick}>
+          <NavLink className="logOutBtn" title="Logout" to="/" onClick={handleClick}>
             <img src={logoutIcon} alt="logout icon" />
           </NavLink>
         </div>}
