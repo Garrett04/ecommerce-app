@@ -9,6 +9,7 @@ import { fetchUserData } from "../../apis/user";
 import { fetchAddressesByUserId } from "../../apis/addresses";
 import DeleteCartItemButton from "../../components/main/carts/DeleteCartItemButton";
 import DefaultAddresses from "../../components/main/user/addresses/DefaultAddresses";
+import { LineWave } from "react-loader-spinner";
 
 
 const CartDetails = () => {
@@ -64,7 +65,7 @@ const CartDetails = () => {
 
     let content;
     if (cartStatus === 'pending') {
-      content = 'Loading...'
+      content = <LineWave wrapperStyle={{ display: 'flex', margin: 'auto' }} />;
     } else if (cartStatus === 'fulfilled') {
       content = renderCart();
     } else if (cartStatus === 'rejected') {
@@ -79,7 +80,6 @@ const CartDetails = () => {
             Please add items to cart. Go to <Link to={'/'}>Home page</Link>
           </p>
         );
-        // console.log('hello')
         setDisabled(true);
       }
     }, [
@@ -87,16 +87,18 @@ const CartDetails = () => {
     ])
 
     return (
-      <div className="cart">
+      <div className="cart-details">
         <h2>{cartStatus === 'fulfilled' && cart ? cart.data[0].cart_title : null}</h2>
         {content}
         {deletedCartItemMsg}
-        {cartStatus === 'fulfilled' && cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
-        {noCartItemsMsg}
-        {userStatus === 'fulfilled' ? <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} /> : null}
-        <button onClick={handleCheckout} disabled={disabled}>
-          Checkout
-        </button>
+        <div className="cart-details-bottom">
+          {cartStatus === 'fulfilled' && cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
+          {noCartItemsMsg}
+          {userStatus === 'fulfilled' ? <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} /> : null}
+          <button onClick={handleCheckout} disabled={disabled}>
+            Checkout
+          </button>
+        </div>
       </div>
     )
 }

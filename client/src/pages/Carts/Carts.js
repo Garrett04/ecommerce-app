@@ -3,6 +3,7 @@ import { createCart, fetchCarts } from "../../apis/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartsError, getCartsStatus, selectCarts } from "../../features/carts/cartsSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { LineWave } from "react-loader-spinner";
 
 const Carts = () => {
     const carts = useSelector(selectCarts);
@@ -46,7 +47,7 @@ const Carts = () => {
 
     let content;
     if (cartsStatus === 'pending') {
-      content = 'Loading...';
+      content = <LineWave />;
     } else if (cartsStatus === 'fulfilled') {
       content = renderCarts();
     } else if (cartsStatus === 'rejected') {
@@ -66,6 +67,7 @@ const Carts = () => {
             value={title} 
             onChange={handleChange}
             placeholder="Cart Title"
+            required
           />
           <input type="submit" value="Create Cart"/>
         </form>

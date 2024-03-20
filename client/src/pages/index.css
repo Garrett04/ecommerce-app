@@ -405,6 +405,112 @@ form.address-update-form {
     cursor: pointer;
 }
 
+/*Carts Page*/
+.carts {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 1rem;
+    margin: .75rem;
+}
+
+.carts div {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    font-size: 1.25rem;
+}
+
+.carts form {
+    display: flex;
+    margin: 1rem 0;
+    align-items: center;
+    gap: .5rem;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.carts form label {
+    font-size: 1.25rem;
+}
+
+.carts form input {
+    font-size: 1rem;
+    height: 1.25rem;
+}
+
+.carts form input[type*=submit] {
+    border-radius: .5rem;
+    border: 1px solid black;
+    height: 1.5rem;
+}
+
+.carts form input[type*=submit]:hover {
+    background-color: cornsilk;
+    transition: background-color .1s;
+    cursor: pointer;
+}
+
+/*CartDetails Page*/
+.cart-details {
+    display: flex;
+    flex-flow: column wrap;
+    text-align: center;
+    margin: .75rem;
+}
+
+.cart-details .cart-product {
+    margin: .65rem;
+}
+
+.cart-details .cart-product button.delete-cart-item {
+    padding: .5rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    background-color:salmon;
+    margin-top: .75rem;
+}
+
+.cart-details .cart-product button.delete-cart-item:hover {
+    background-color: red;
+    cursor: pointer;
+    border-radius: .5rem;
+    transition: background-color .1s, border-radius .1s;
+}
+
+.cart-details-bottom {
+    display: flex;
+    flex-flow: column;
+    gap: .75rem;
+    align-items: center;
+    background-color: antiquewhite;
+    padding: 1rem 0;
+    border-radius: 1rem;
+    margin-top: .5rem;
+}
+
+.cart-details-bottom h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.cart-details-bottom h3 {
+    font-weight: bold;
+    margin: .5rem 0;
+}
+
+.cart-details-bottom button {
+    width: 15rem;
+    height: 2.5rem;
+    border-radius: .5rem;
+    font-size: 1rem;
+}
+
+.cart-details-bottom button:hover {
+    background-color: chartreuse;
+    transition: background-color .1s;
+    cursor: pointer;
+}
+
 /*Mobile viewport*/
 @media only screen and (max-width: 480px) {
     /*Register Page*/
@@ -528,7 +634,4 @@ form.address-update-form {
         flex-flow: column wrap;
         align-content: center;
     }
-    
-    /*Update Address Form*/
-
 }
