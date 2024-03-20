@@ -5,6 +5,8 @@ import { getUserStatus } from "../../features/user/userSlice";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { NavLink } from "react-router-dom";
 
+import logoutIcon from '../../resources/images/logout.svg'
+
 const Logout = () => {
     const userStatus = useSelector(getUserStatus);
     const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -19,7 +21,13 @@ const Logout = () => {
 
     return (
       <>
-        {isAuthenticated ? <NavLink className="logOutBtn" to="/" onClick={handleClick}>Logout</NavLink> : null}
+        {isAuthenticated 
+        && 
+        <div className="logout">
+          <NavLink className="logOutBtn" to="/" onClick={handleClick}>
+            <img src={logoutIcon} alt="logout icon" />
+          </NavLink>
+        </div>}
       </>
     )
 }

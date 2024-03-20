@@ -41,20 +41,26 @@ div.header {
   display: none;
 }
 
-/*CartButton and AccountButton*/
+/*CartButton, AccountButton, ViewOrdersButton, and LogoutButton*/
 div.cart,
-div.signIn {
+div.signIn,
+div.view-orders,
+div.logout {
   width: 3rem;
   max-width: 4rem;
 }
 
 .cartBtn img, 
-.accountBtn img {
+.accountBtn img,
+.view-orders-button img,
+.logOutBtn img {
   width: 100%;
 }
 
 .cartBtn,
-.accountBtn {
+.accountBtn,
+.view-orders-button,
+.logOutBtn {
   width: 80%;
   display: inline-block;
   padding: .3rem;
@@ -62,17 +68,26 @@ div.signIn {
   border: 1px solid black;
 }
 
-/*CartButton*/
-.cartBtn:hover {
+/*CartButton and ViewOrdersButton*/
+.cartBtn:hover,
+.view-orders-button:hover {
   cursor: pointer;
-  background-color: chocolate;
+  background-color:darkolivegreen;
   transition: .1s background-color;
 }
 
 /*AccountButton*/
 .accountBtn:hover { 
   cursor: pointer;
-  background-color: deepskyblue;
+  background-color: darkgoldenrod;
+  transition: background-color .1s;
+}
+
+/*LogoutButton*/
+.logOutBtn:hover {
+  cursor: pointer;
+  background-color: darkred;
+  transition: background-color .1s;
 }
 
 /*CategoryOptions*/
