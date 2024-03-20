@@ -8,6 +8,7 @@ import DeleteAddressButton from "./DeleteAddressButton";
 import DefaultAddressButton from "./DefaultAddressButton";
 import { getUserStatus, selectUser } from "../../../../features/user/userSlice";
 import DefaultAddresses from "./DefaultAddresses";
+import { LineWave } from "react-loader-spinner";
 
 
 const Addresses = () => {
@@ -36,53 +37,64 @@ const Addresses = () => {
             country
         }) => (
             <li key={id}>
-                {address_line1}
-                {address_line2}
-                {city}
-                {state}
-                {postal_code}
-                {country}
-                <NavLink to={`edit-address/${id}`}>Edit Address</NavLink>
-
-                <DefaultAddressButton 
-                    name={"default-shipping-address"} 
-                    id={id}
-                >
-                    Add Default Shipping Address
-                </DefaultAddressButton>
-
-                <DefaultAddressButton 
-                    name={"default-billing-address"}
-                    id={id}
-                >
-                    Add Default Billing Address
-                </DefaultAddressButton>
-                
-                <DeleteAddressButton id={id} setMsg={setMsg} />
+                <p>
+                    Address Line 1: {address_line1}
+                    <br/>
+                    Address Line 2: {address_line2}
+                    <br/>
+                    City: {city}
+                    <br/>
+                    State: {state}
+                    <br/>
+                    Postal Code: {postal_code}
+                    <br/>
+                    Country: {country}
+                    <br/>
+                    <div>
+                        <DefaultAddressButton 
+                            name={"default-shipping-address"} 
+                            id={id}
+                        >
+                            Add Default Shipping Address
+                        </DefaultAddressButton>
+                        <DefaultAddressButton 
+                            name={"default-billing-address"}
+                            id={id}
+                        >
+                            Add Default Billing Address
+                        </DefaultAddressButton>
+                        <DeleteAddressButton id={id} setMsg={setMsg} />
+                        <NavLink 
+                            title="Edit Address" 
+                            className="address-edit-button" 
+                            to={`edit-address/${id}`}
+                        >
+                            &#128393;
+                        </NavLink>
+                    </div>
+                </p>
             </li>
         ))
     }
 
-    let content;
+    let addressesList;
     if (addressesStatus === 'pending') {
-        content = 'Loading...';
+        addressesList = <LineWave />;
     } else if (addressesStatus === 'fulfilled') {
-        content = renderAddresses();
+        addressesList = renderAddresses();
     } else if (addressesStatus === 'rejected') {
-        content = addressesError;
+        addressesList = addressesError;
     }
 
     return (
         <div className="addresses">
             <h2>Addresses</h2>
-            {addressesStatus === 'fulfilled' && userStatus === 'fulfilled' 
-            ? <DefaultAddresses /> 
-            : null}
-            <ul>
-                {content}
+            {addressesStatus === 'fulfilled' && userStatus === 'fulfilled' && <DefaultAddresses />}
+            <ul className="addresses-list">
+                {addressesList}
             </ul>
+            <p className="addresses-msg">{msg}</p>
             <AddAddressForm setMsg={setMsg} />
-            {msg}
         </div>
     )
 }

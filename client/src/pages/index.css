@@ -186,6 +186,225 @@
 /*CartDetails Page*/
 
 
+/*User Page*/
+.user {
+    margin: 0 1rem;
+    font-size: 1.25rem;
+}
+
+.user .userInfo {
+    text-align: center;
+    margin-top: .8rem;
+}
+
+.user .userInfo .userUpdateForm {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.user .userInfo .userUpdateForm input {
+    width: 10rem;
+    height: 1.5rem;
+    margin: .5rem 0;
+    border-radius: .5rem;
+    border: 1px solid black;
+} 
+
+.user .userInfo button {
+    padding: .85rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+    margin: 1rem auto;
+}
+
+.user .userInfo .userUpdateForm input[type*=submit] {
+    width: 9rem;
+    height: 3rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+    margin-top: 1.5rem;
+    text-wrap: wrap;
+}
+
+.user .userInfo button:hover,
+.user .userInfo .userUpdateForm input[type*=submit]:hover {
+    background-color: cornsilk;
+    cursor: pointer;
+    transition: background-color .1s;
+}
+
+.user .addresses {
+    
+}
+
+.user .addresses .defaultAddresses {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+    background-color: burlywood;
+    border-radius: 1rem;
+    padding: 1rem 0;
+}
+
+.user .addresses .defaultAddresses h3 {
+    font-weight: bold;
+    font-size: 1.35rem;
+    text-decoration: underline;
+}
+
+.user .addresses .addresses-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    gap: .8rem;
+}
+
+.user .addresses .addresses-list p {
+    margin: 1.25rem 0;
+}
+
+.user .addresses .addresses-list div {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.user .addresses .addresses-list button:not(.address-delete-button) {
+    border-radius: 1rem;
+    padding: .8rem;
+    font-size: 1rem;
+}
+
+.user .addresses .addresses-list button:not(.address-delete-button):hover {
+    background-color: cornsilk;
+    transition: background-color .2s;
+    cursor: pointer;
+}
+
+.user .addresses .addresses-list .address-delete-button,
+.user .addresses .addresses-list .address-edit-button {
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: .4rem;
+    border: 1px solid black;
+}
+
+.user .addresses .addresses-list .address-delete-button {
+    padding: .8rem 1rem;
+    background-color: lightcoral;
+}
+
+.user .addresses .addresses-list .address-edit-button {
+    padding: 1rem;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    background-color: cadetblue;
+}
+
+.user .addresses .addresses-list .address-edit-button:hover {
+    background-color: royalblue;
+    cursor: pointer;
+    transition: background-color .1s;
+}
+
+.user .addresses .addresses-list .address-delete-button:hover {
+    background-color: red;
+    transition: background-color .1s;
+    cursor: pointer;
+}
+
+.user .addresses div.add-address-form form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 1rem 0;
+    background-color: linen;
+    padding: 1rem 0;
+    border-radius: 1rem;
+}
+
+.user .addresses div.add-address-form form input,
+.user .addresses div.add-address-form form select {
+    margin: .5rem 0;
+    height: 1.5rem;
+}
+
+.user .addresses div.add-address-form form input {
+    width: 16rem;
+}
+
+.user .addresses div.add-address-form form select {
+    width: 16.5rem;
+}
+
+.user .addresses div.add-address-form form input[type*=submit] {
+    height: 2rem;
+    width: 14rem;
+    border-radius: .3rem;
+    border: 1px solid black;
+    font-size: 1rem;
+    transition: width .1s;
+}
+
+.user .addresses div.add-address-form form input[type*=submit]:not([disabled]):hover {
+    cursor: pointer;
+    background-color: chartreuse;
+    width: 18rem;
+    transition: background-color .1s, width .1s;
+}
+
+.user .addresses .addresses-msg {
+    display: flex;
+    justify-content: center;
+}
+
+/*UpdateAddressForm*/
+form.address-update-form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: .75rem;
+}
+
+.address-update-form label {
+    font-size: 1.25rem;
+}
+
+.address-update-form input,
+.address-update-form select {
+    height: 2rem;
+    font-size: 1rem;
+    margin: .5rem 0;
+}
+
+.address-update-form input {
+    width: 18rem;
+}
+
+.address-update-form select {
+    width: 18.5rem;
+}
+
+.address-update-form input[type*=submit] {
+    margin-top: 1.75rem;
+    width: 16rem;
+    border-radius: .3rem;
+    border: 1px solid black;
+    transition: width .1s;
+}
+
+.address-update-form input[type*=submit]:not([disabled]):hover {
+    background-color: chartreuse;
+    width: 20rem;
+    transition: background-color .1s, width .1s;
+    cursor: pointer;
+}
+
 /*Mobile viewport*/
 @media only screen and (max-width: 480px) {
     /*Register Page*/
@@ -280,4 +499,36 @@
     .product form {
         gap: 1rem;
     }
+
+    /*User Page*/
+    .user .userInfo button,
+    .user .userInfo .userUpdateForm input[type*=submit],
+    .user .addresses .addresses-list button:not(.address-delete-button),
+    .user .addresses div.add-address-form form input[type*=submit] {
+        font-size: .9rem;
+    }
+
+    .user .addresses .addresses-list .address-delete-button {
+        padding: .1rem;
+    }
+
+    .user .addresses .addresses-list .address-edit-button {
+        padding: .2rem;
+    }
+
+    .user .addresses .addresses-list div {
+        flex-flow: column wrap;
+    }
+
+    .user .addresses .defaultAddresses {
+        padding: 1rem;
+    }
+
+    .user .addresses .addresses-list {
+        flex-flow: column wrap;
+        align-content: center;
+    }
+    
+    /*Update Address Form*/
+
 }

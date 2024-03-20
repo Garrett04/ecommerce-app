@@ -2,11 +2,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { getUserError, getUserStatus, selectUser } from "../../features/user/userSlice";
 import { useEffect, useState } from "react";
 import { fetchUserData, updateUser } from "../../apis/user";
-import { isAuthenticated } from "../../apis/client";
-import { fetchAddressesByUserId } from "../../apis/addresses";
 import Addresses from "../../components/main/user/addresses/Addresses";
-import { Outlet } from "react-router-dom";
-
+import { DNA, LineWave } from "react-loader-spinner";
 
 const User = () => {
     const user = useSelector(selectUser);
@@ -84,7 +81,48 @@ const User = () => {
       // if user.login_method is google then return a form to only update username, first name and last name.
       if (user.login_method === 'google') {
         return (
-          <form action="/api/users" method="PUT" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="userUpdateForm">
+            <div>
+              <label htmlFor="username">Username: </label>
+              <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                value={username} 
+                onChange={handleChange}
+                readOnly={readOnly}
+              />
+            </div>
+            <div>
+              <label htmlFor="firstName">First name: </label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={firstName}
+                onChange={handleChange}
+                readOnly={readOnly}
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName">Last name: </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={lastName}
+                onChange={handleChange}
+                readOnly={readOnly}
+              />
+            </div>
+            {msg}
+            <input type="submit" value="Update Personal Details" hidden={!toggleVisibility}/>
+          </form>
+        )
+      }
+      return (
+        <form onSubmit={handleSubmit} className="userUpdateForm">
+          <div>
             <label htmlFor="username">Username: </label>
             <input 
               type="text" 
@@ -94,6 +132,8 @@ const User = () => {
               onChange={handleChange}
               readOnly={readOnly}
             />
+          </div>
+          <div>
             <label htmlFor="firstName">First name: </label>
             <input
               type="text"
@@ -103,6 +143,8 @@ const User = () => {
               onChange={handleChange}
               readOnly={readOnly}
             />
+          </div>
+          <div>
             <label htmlFor="lastName">Last name: </label>
             <input
               type="text"
@@ -112,59 +154,32 @@ const User = () => {
               onChange={handleChange}
               readOnly={readOnly}
             />
-            <input type="submit" value="Update Personal Details" hidden={!toggleVisibility}/>
-          </form>
-        )
-      }
-      return (
-        <form action="/api/users" method="PUT" onSubmit={handleSubmit}>
-          <label htmlFor="username">Username: </label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username" 
-            value={username} 
-            onChange={handleChange}
-            readOnly={readOnly}
-          />
-          <label htmlFor="firstName">First name: </label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={firstName}
-            onChange={handleChange}
-            readOnly={readOnly}
-          />
-          <label htmlFor="lastName">Last name: </label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={lastName}
-            onChange={handleChange}
-            readOnly={readOnly}
-          />
-          <label htmlFor="oldPassword">Old Password: </label>
-          <input
-            type="password"
-            id="oldPassword"
-            name="oldPassword"
-            value={oldPassword}
-            onChange={handleChange}
-            readOnly={readOnly}
-            required
-          />
-          <label htmlFor="newPassword">New Password: </label>
-          <input
-            type="password"
-            id="newPassword"
-            name="newPassword"
-            value={newPassword}
-            onChange={handleChange}
-            readOnly={readOnly}
-            required
-          />
+          </div>
+          <div>
+            <label htmlFor="oldPassword">Old Password: </label>
+            <input
+              type="password"
+              id="oldPassword"
+              name="oldPassword"
+              value={oldPassword}
+              onChange={handleChange}
+              readOnly={readOnly}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="newPassword">New Password: </label>
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={newPassword}
+              onChange={handleChange}
+              readOnly={readOnly}
+              required
+            />
+          </div>
+          {msg}
           <input type="submit" value="Update Personal Details" hidden={!toggleVisibility}/>
         </form>
       )
@@ -177,7 +192,7 @@ const User = () => {
 
     let userContent;
     if (userStatus === 'pending') {
-      userContent = 'Loading...'
+      userContent = <DNA wrapperStyle={{ display: 'flex', margin: 'auto' }} />
     } else if (userStatus === 'fulfilled') {
       userContent = renderUserData();
     } else if (userStatus === 'rejected') {
@@ -186,10 +201,12 @@ const User = () => {
 
     return (
       <div className="user">
-        <h2>User Information</h2>
-        {userContent}
-        {msg}
-        <button onClick={handleClick} hidden={toggleVisibility}>Change Personal Details</button>
+        <div className="userInfo">
+          <h2>User Information</h2>
+          {userContent}
+          <button onClick={handleClick} hidden={toggleVisibility}>Change Personal Details</button>
+        </div>
+        <hr/>
         <Addresses />
       </div>
     )

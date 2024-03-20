@@ -1,5 +1,9 @@
 /*Universal*/
-/*CartButton & SignInBtn*/
+button {
+  border: 1px solid black;
+}
+
+/*Header*/
 .header .right {
   display: flex;
   gap: 1rem;

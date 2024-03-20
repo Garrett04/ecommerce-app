@@ -61,7 +61,7 @@ const AddAddressForm = ({
     return (
         <div className="add-address-form">
             <form onSubmit={handleSubmit}>
-                <label htmlFor="address_line1">Address Line 1: </label>
+                <label htmlFor="address_line1">Address Line 1 </label>
                 <input 
                     type="text" 
                     id="address_line1" 
@@ -70,7 +70,7 @@ const AddAddressForm = ({
                     onChange={handleChange}
                     required
                 />
-                <label htmlFor="address_line2">Address Line 2: </label>
+                <label htmlFor="address_line2">Address Line 2 </label>
                 <input 
                     type="text" 
                     id="address_line2" 
@@ -85,7 +85,7 @@ const AddAddressForm = ({
                     handleChange={handleChange} 
                 />
                 
-                <label htmlFor="postal_code">Postal Code: </label>
+                <label htmlFor="postal_code">Postal Code </label>
                 <input 
                     type="text" 
                     id="postal_code" 

@@ -18,7 +18,7 @@ const AddressDropdown = ({
 
     return (
         <>
-            <label htmlFor="country">Country: </label>
+            <label htmlFor="country">Country </label>
             <select  
                 id="country" 
                 name="country"
@@ -29,7 +29,7 @@ const AddressDropdown = ({
                 <option value="" disabled hidden>Select Country</option>
                 {renderAllCountryOptions()}
             </select>
-            <label htmlFor="city">State: </label>
+            <label htmlFor="state">State </label>
             <input 
             type="text"
                 id="state" 
@@ -38,7 +38,7 @@ const AddressDropdown = ({
                 onChange={handleChange}
                 required
             />
-            <label htmlFor="city">City: </label>
+            <label htmlFor="city">City </label>
             <input 
                 type="text"
                 id="city" 

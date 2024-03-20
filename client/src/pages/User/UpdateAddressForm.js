@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchAddressesByUserId, updateAddress } from "../../../../../apis/addresses";
+import { fetchAddressesByUserId, updateAddress } from "../../apis/addresses";
 import { useDispatch, useSelector } from "react-redux";
-import { getAddressesStatus, selectAddresses } from "../../../../../features/user/addressesSlice";
+import { getAddressesStatus, selectAddresses } from "../../features/user/addressesSlice";
 import { useParams } from "react-router-dom";
-import AddressDropdown from "./AddressDropdown";
+import AddressDropdown from "../../components/main/user/addresses/AddressForms/AddressDropdown";
 
 
 const UpdateAddressForm = () => {
@@ -62,8 +62,8 @@ const UpdateAddressForm = () => {
 
     if (addressesStatus === 'fulfilled' && addresses) {
         return (
-            <form onSubmit={handleAddressUpdate}>
-                <label htmlFor="address_line1">Address Line 1:</label>
+            <form onSubmit={handleAddressUpdate} className="address-update-form">
+                <label htmlFor="address_line1">Address Line 1</label>
                 <input 
                     type="text"
                     id="address_line1"
@@ -71,7 +71,7 @@ const UpdateAddressForm = () => {
                     value={formData.address_line1} 
                     onChange={handleChange} 
                 />
-                <label htmlFor="address_line2">Address Line 2:</label>
+                <label htmlFor="address_line2">Address Line 2</label>
                 <input 
                     type="text" 
                     id="address_line2"
@@ -85,7 +85,7 @@ const UpdateAddressForm = () => {
                     handleChange={handleChange}
                 />
                 
-                <label htmlFor="postal_code">Postal-code:</label>
+                <label htmlFor="postal_code">Postal-code</label>
                 <input 
                     type="text"
                     id="postal_code"
@@ -93,8 +93,8 @@ const UpdateAddressForm = () => {
                     value={formData.postal_code} 
                     onChange={handleChange}
                 />
-                <input type="submit" value="Edit Address" disabled={disabled} />
                 {msg}
+                <input type="submit" value="Edit Address" disabled={disabled} />
             </form>
         )
     }

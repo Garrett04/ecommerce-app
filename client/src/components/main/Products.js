@@ -32,7 +32,7 @@ const Products = () => {
 
     let content;
     if (productsStatus === 'pending') {
-      content = <LineWave wrapperStyle={{ margin: 'auto' }} />;
+      content = <LineWave wrapperStyle={{ display: 'flex', margin: 'auto' }} />;
     } else if (productsStatus === 'fulfilled') {
       // console.log(products);
       content = renderProducts();

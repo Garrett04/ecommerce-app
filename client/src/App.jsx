@@ -15,7 +15,7 @@ import Main from './components/main/Main';
 import CartDetails from './pages/Carts/CartDetails';
 import PrivateRoutes from './utils/PrivateRoutes';
 import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
-import UpdateAddressForm from './components/main/user/addresses/AddressForms/UpdateAddressForm';
+import UpdateAddressForm from './pages/User/UpdateAddressForm';
 import Orders from './pages/Orders/Orders';
 import OrderDetails from './pages/Orders/OrderDetails';
 import { useEffect } from 'react';
