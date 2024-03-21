@@ -52,7 +52,7 @@ const Carts = () => {
     } else if (cartsStatus === 'fulfilled') {
       content = renderCarts();
     } else if (cartsStatus === 'rejected') {
-      content = cartsError;
+      content = <p>{cartsError}</p>;
     }
 
     return (

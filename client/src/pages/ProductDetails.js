@@ -85,7 +85,7 @@ const Product = () => {
       if (cartsStatus === 'fulfilled') {
         return carts.map((cart) => {
           // checks if cart.product_ids array has the same product_id as the current product id
-          const productExists = cart.product_ids.some(product_id => product_id === parseInt(id));
+          const productExists = cart.product_ids.some(product_id => product_id === id);
           // console.log(productExists);
 
           // if its true then return option element with disabled as true 

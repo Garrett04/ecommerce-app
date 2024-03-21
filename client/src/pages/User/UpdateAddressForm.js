@@ -43,7 +43,7 @@ const UpdateAddressForm = () => {
     useEffect(() => {
         let address;
         if (addressesStatus === 'fulfilled') {
-            address = addresses.find(addressToFind => addressToFind.id === parseInt(id));
+            address = addresses.find(addressToFind => addressToFind.id === id);
             // console.log(address)
             setFormData(address);
         }

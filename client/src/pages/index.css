@@ -406,6 +406,7 @@ form.address-update-form {
     flex-flow: column wrap;
     gap: 1rem;
     margin: .75rem;
+    text-align: center;
 }
 
 .carts div {
