@@ -23,7 +23,8 @@ export const fetchOrderById = createAsyncThunk(
             return { 
                 data: response.data.order, 
                 total_amount: response.data.total_amount,
-                order_status: response.data.order_status 
+                order_status: response.data.order_status,
+                cart_title: response.data.cart_title
             };
         } catch (err) {
             throw err.response.data.msg;

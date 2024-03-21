@@ -167,15 +167,18 @@ router.get('/:orderId', isAuthenticated, async (req, res) => {
         return res.status(404).json({ success: false, msg: "No order found by order id" });
     }
 
-    // Get the total_amount and order_status by putting in the cart_id from the orders table rows. 
+    // Get the cart_details, total_amount and order_status by putting in the cart_id from the orders table rows. 
     // selecting the first row since all will be the same
-    const { total_amount, order_status } = order[0];
+    const { cart_details, total_amount, order_status } = order[0];
+
+    // console.log(order);
 
     res.json({ 
         success: true, 
-        order: order, 
+        order: cart_details.cart_items, 
         total_amount: total_amount,
-        order_status: order_status
+        order_status: order_status,
+        cart_title: cart_details.cart_title
     });
 })
 

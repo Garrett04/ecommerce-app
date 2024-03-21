@@ -19,7 +19,7 @@ const Header = () => {
           <span className="logo">S</span>hop<span className="logo">W</span>ise
         </a>
       </div>
-      {/* <SearchBar /> */}
+      {/* <SearchBar /> Component has been deprecated */}
       <div className="right">
         <Cart />
         <ViewOrdersButton />

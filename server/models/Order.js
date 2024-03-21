@@ -11,19 +11,22 @@ class Order {
     async create(data) {
         try {
             // pg query statement
-            const statement = `INSERT INTO orders (user_id, order_date, order_status, checkout_id, cart_id)
-                                VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4)
+            const statement = `INSERT INTO orders (user_id, order_date, order_status, checkout_id, cart_id, cart_details)
+                                VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4, $5)
                                 RETURNING *`;
 
             // Destructuring of the data object
             const { 
                 user_id,
                 checkout_id,
-                cart_id
+                cart_id,
+                cart_details // is a jsonb data type which has all of the cart items and title
             } = data;
 
+            // console.log(cart_details);
+
             // values array to insert into the statement
-            const values = [ user_id, "success", checkout_id, cart_id ];
+            const values = [ user_id, "success", checkout_id, cart_id, cart_details ];
 
             // query database
             const result = await db.query(statement, values);
@@ -85,16 +88,10 @@ class Order {
             const statement = `SELECT orders.id AS order_id,
                                     order_status,
                                     orders.cart_id,
-                                    name AS product_name,
-                                    price AS product_price,
-                                    quantity AS product_quantity,
-                                    title AS cart_title,
-                                    product_id,
+                                    orders.cart_details,
                                     checkout.total_amount
-                                FROM carts_products, products, carts, orders, checkout
-                                WHERE carts_products.product_id = products.id
-                                    AND carts_products.cart_id = carts.id
-                                    AND carts.id = orders.cart_id
+                                FROM carts, orders, checkout
+                                WHERE carts.id = orders.cart_id
                                     AND orders.checkout_id = checkout.id
                                     AND orders.id = $1`;
 

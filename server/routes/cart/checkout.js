@@ -56,7 +56,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 // POST ROUTES
 // To validate if cart exists, then process the payment using Stripe.
-router.post('/create-checkout-session', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
+router.post('/create-checkout-session', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
 
@@ -132,7 +132,7 @@ router.post('/create-checkout-session', isAuthenticated, isAuthenticated, authCa
 
 // To update checkout status and make an order using a query param which holds the stripe session_id
 // Then return a 200 if successful with a checkout object and order object.
-router.put('/checkout-success', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
+router.put('/checkout-success', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
     const { session_id } = req.query;
@@ -152,9 +152,34 @@ router.put('/checkout-success', isAuthenticated, isAuthenticated, authCartAccess
     // Retrieve stripe session to check if payment is done
     // console.log(session_id)
     const session = await stripe.checkout.sessions.retrieve(session_id);
+    // Retrieve cart details again to later permanantly save a jsonb object to the orders db  
+    const cart = await Cart.findById(false, cartId)
 
     // use stripe to get payment_status
     // console.log(session.payment_status);
+    // console.log(cart);
+
+    // Destruct the first row cart_title since all rows will have same title
+    const { cart_title } = cart[0];
+
+    // Map through cart array and save all necessary values to cart_items
+    const cart_items = cart.map(item => {
+        return {
+            product_id: item.product_id,
+            product_name: item.product_name,
+            product_price: item.product_price,
+            product_quantity: item.product_quantity
+        }
+    })
+
+    const cart_details = {
+        cart_title,
+        cart_items
+    }
+
+    console.log(cart_title + "\n")
+    console.log(cart_items + "\n")
+    console.log(cart_details + "\n");
 
     const data = {
         stripe_session_id: session_id,
@@ -172,7 +197,8 @@ router.put('/checkout-success', isAuthenticated, isAuthenticated, authCartAccess
     const makeOrder = await Order.create({ 
         user_id: userId, 
         checkout_id: updatedCheckoutStatus.id,
-        cart_id: cartId
+        cart_id: cartId,
+        cart_details
     });
 
     res.status(200).json({ success: true, checkout: updatedCheckoutStatus, order: makeOrder });

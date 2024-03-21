@@ -60,7 +60,7 @@ const OrderDetails = () => {
     return (
         <div className="order-details">
             <h2 className="order-status">Order Status: {order_status}</h2>
-            <h2>Cart Title: {orderStatus === 'fulfilled' && order.data[0].cart_title}</h2>
+            <h2>Cart Title: {orderStatus === 'fulfilled' && order.cart_title}</h2>
             <h2>Total Amount: {total_amount}</h2>
             <div className="product-list">
                 {content}
