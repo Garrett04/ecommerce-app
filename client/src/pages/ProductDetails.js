@@ -7,6 +7,7 @@ import { getProductsError } from "../features/products/productsSlice";
 import { addProduct, fetchCartById, fetchCarts } from "../apis/cart";
 import { getCartsStatus, selectCarts } from "../features/carts/cartsSlice";
 import { selectIsAuthenticated } from "../features/auth/authSlice";
+import GoBackButton from "../components/GoBackButton";
 
 
 const Product = () => {
@@ -151,6 +152,7 @@ const Product = () => {
       <div className="product">
         {content}
         {renderForm()}
+        <GoBackButton />
       </div>
     )
 }

@@ -2,14 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartStatus, selectCart } from "../../features/carts/cartSlice";
 import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUserStatus } from "../../features/user/userSlice";
 import { fetchUserData } from "../../apis/user";
 import { fetchAddressesByUserId } from "../../apis/addresses";
 import DefaultAddresses from "../../components/main/user/addresses/DefaultAddresses";
 import CheckoutButton from "../../components/main/carts/CheckoutButton";
 import CartItems from "../../components/main/carts/CartItems";
-
 
 const CartDetails = () => {
     const userStatus = useSelector(getUserStatus);

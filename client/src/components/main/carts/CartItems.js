@@ -1,16 +1,14 @@
 import { useSelector } from "react-redux";
-import { getCartError, getCartStatus, selectCart } from "../../../features/carts/cartSlice";
+import { getCartStatus, selectCart } from "../../../features/carts/cartSlice";
 import DeleteCartItemButton from "./DeleteCartItemButton";
 import { LineWave } from "react-loader-spinner";
 import { Link } from "react-router-dom";
-
 
 const CartItems = ({
     setDeletedCartItemMsg
 }) => {
     const cart = useSelector(selectCart);
     const cartStatus = useSelector(getCartStatus);
-    const cartError = useSelector(getCartError);
 
     const renderCartItems = () => {
         return cart.data.map(({

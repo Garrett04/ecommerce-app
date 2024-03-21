@@ -296,6 +296,21 @@ h2 {
   max-width: 75%;
 }
 
+/*GoBackButton*/
+.go-back-button {
+  font-size: 2rem;
+  transform: scaleX(-1);
+  margin: .85rem;
+  border-radius: .5rem;
+}
+
+.go-back-button:hover {
+  background-color: black;
+  color: white;
+  transition: background-color .1s, color .1s;
+  cursor: pointer;
+}
+
 /*Mobile viewport*/
 @media only screen and (max-width: 480px) {
   /*Header*/

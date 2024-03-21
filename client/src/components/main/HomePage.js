@@ -5,7 +5,7 @@ import { useDispatch} from "react-redux";
 import { useEffect } from "react";
 import { fetchGoogleUser } from "../../apis/auth";
 
-const Main = () => {
+const HomePage = () => {
   const dispatch = useDispatch();
 
   // dispatch fetchGoogleUser once user is redirected to home page
@@ -21,4 +21,5 @@ const Main = () => {
     </div>
   )
 }
-export default Main;
+
+export default HomePage;
