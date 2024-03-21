@@ -28,7 +28,7 @@ const CheckoutSuccess = () => {
 
     return (
       <div className="checkout-success">
-          <h2>Payment Successful</h2>
+          <h2>Your Payment is <span>Successful</span>.<br/> Thank You for your Purchase!</h2>
           <Link to="/">Go back to home page</Link>
           <Link to={`/orders/${orderId}`}>Track your order</Link>
       </div>

@@ -8,16 +8,15 @@ const PrivateRoutes = () => {
     const isAuthenticatedStatus = useSelector(getIsAuthenticatedStatus);
     const isAuthenticated = useSelector(selectIsAuthenticated);
 
-    if (isAuthenticatedStatus === 'fulfilled') {
-        console.log('hello');
-    }
+    // if (isAuthenticatedStatus === 'fulfilled') {
+    //     console.log('hello');
+    // }
 
     if (isAuthenticatedStatus === 'fulfilled') {
         if (isAuthenticated) {
-            // setAuthToken(); // Sets auth token to the header indicating its present in localStorage
             return <Outlet/>; // Proceeding to the protected route
         } else {
-            console.log(isAuthenticatedStatus, location);
+            // console.log(isAuthenticatedStatus, location);
             return <Navigate to="/login" replace state={{ from: location }}/>;
         }
     }

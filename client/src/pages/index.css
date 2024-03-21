@@ -592,6 +592,27 @@ form.address-update-form {
     font-weight: bold;
 }
 
+/*CheckoutSuccess Page*/
+.checkout-success {
+    margin: .75rem;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.checkout-success h2 {
+    margin-bottom: .85rem;
+}
+
+.checkout-success a {
+    font-size: 1.25rem;
+    margin: .25rem 0;
+}
+
+.checkout-success h2 span {
+    color: rgb(50, 182, 50);
+    font-weight: bold;
+}
+
 
 /*Mobile viewport*/
 @media only screen and (max-width: 480px) {
