@@ -21,7 +21,7 @@ const googleStrategy = new GoogleStrategy({
         });
 
         if (user) {
-            console.log(user);
+            // console.log(user);
             return done(null, user);
         }
 

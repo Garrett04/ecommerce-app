@@ -7,7 +7,7 @@ export const fetchCartById = createAsyncThunk(
     async (id) => {
         try {
             const response = await API.get(`cart/${id}`);
-            console.log(response.data);
+            // console.log(response.data);
             return {data: response.data.data, subtotal: response.data.subtotal};
         } catch (err) {
             throw err.response;
@@ -17,9 +17,9 @@ export const fetchCartById = createAsyncThunk(
 
 export const createCart = async (data) => {
     try {
-        console.log(data);
+        // console.log(data);
         const response = await API.post('cart', data)
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     } catch (err) {
         throw err.response;
@@ -36,7 +36,7 @@ export const fetchCarts = createAsyncThunk(
             
         } catch (err) {
             // console.log(err);
-            console.error(err);
+            // console.error(err);
             throw err.response.data.msg;
         }
     }
@@ -55,7 +55,7 @@ export const removeProduct = async (id, product_id) => {
     try {
         const response = await API.delete(`cart/${id}?product_id=${product_id}`)
 
-        console.log(response.data);
+        // console.log(response.data);
 
         return response.data.deletedCart;
     } catch (err) {

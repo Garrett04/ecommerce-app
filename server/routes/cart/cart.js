@@ -382,17 +382,17 @@ router.delete('/:cartId', isAuthenticated, isAuthenticated, authCartAccess, asyn
         product_id
     }
 
-    const deletedCart = await Cart.removeProduct(data);
+    const updatedCart = await Cart.removeProduct(data);
 
-    console.log(deletedCart);
+    // console.log(deletedCart);
 
-    if (!deletedCart) {
+    if (!updatedCart) {
         return res.status(404).json({ success: false, msg: "cart/product id does not exist" });
     }
 
     res.json({ 
         success: true, 
-        deletedCart
+        updatedCart
     })
 })
 

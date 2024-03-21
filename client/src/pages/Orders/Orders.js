@@ -18,7 +18,7 @@ const Orders = () => {
     }, [dispatch])
 
     const renderOrders = () => {
-        console.log(orders);
+        // console.log(orders);
         return orders.map(({
             id,
             order_date,

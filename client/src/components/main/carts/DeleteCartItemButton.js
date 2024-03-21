@@ -20,7 +20,7 @@ const DeleteCartItemButton = ({
             dispatch(fetchCartById(id));
             dispatch(fetchAddressesByUserId());
             dispatch(fetchUserData());
-            console.log("Deleted cart item successfully");
+            // console.log("Deleted cart item successfully");
             setDeletedCartItemMsg("Cart item deleted successfully");
         } catch (err) {
             throw err;

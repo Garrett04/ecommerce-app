@@ -19,7 +19,7 @@ const OrderDetails = () => {
     }, [dispatch, id])
 
     const renderOrderDetails = () => {
-        console.log(order);
+        // console.log(order);
 
         return order.data.map(({
             product_name,

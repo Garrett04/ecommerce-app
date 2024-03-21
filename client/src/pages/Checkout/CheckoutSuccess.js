@@ -16,7 +16,7 @@ const CheckoutSuccess = () => {
                 `cart/${id}/checkout/checkout-success?session_id=${session_id}`, {
                   withCredentials: true
               });
-              console.log("check2", response.data);
+              // console.log("check2", response.data);
               setOrderId(response.data.order.id);
           } catch (err) {
               // if the order already exists then just set the orderId 

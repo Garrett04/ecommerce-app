@@ -16,7 +16,7 @@ const DefaultAddressButton = ({
             // name is either default-shipping-address or default-billing-address 
             const updatedDefaultAddress = await updateDefaultAddress(id, { option: name });
 
-            console.log(updatedDefaultAddress);
+            // console.log(updatedDefaultAddress);
 
             // To update user data state so that it rerenders the user's default addresses
             dispatch(fetchUserData());

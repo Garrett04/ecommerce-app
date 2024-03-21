@@ -154,7 +154,7 @@ router.put('/checkout-success', isAuthenticated, isAuthenticated, authCartAccess
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     // use stripe to get payment_status
-    console.log(session.payment_status);
+    // console.log(session.payment_status);
 
     const data = {
         stripe_session_id: session_id,

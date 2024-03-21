@@ -56,7 +56,7 @@ export const updateDefaultAddress = async (id, option) => {
     try {
         const response = await API.put(`users/addresses/update-default-address/${id}`, (option))
 
-        console.log(response.data);
+        // console.log(response.data);
 
         return response.data.address;
 
