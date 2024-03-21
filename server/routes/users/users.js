@@ -204,12 +204,12 @@ router.put('/', isAuthenticated, async (req, res) => {
     // Make sure to submit the old password and the new password in the client side.
     // Password Validation
     const isSameOldPassword = utils.validatePassword(oldPassword, prevUser.pw_hash, prevUser.pw_salt);
-    const isSamePassword = utils.validatePassword(newPassword, prevUser.pw_hash, prevUser.pw_salt);
+    const IsSameAsCurrentPassword = utils.validatePassword(newPassword, prevUser.pw_hash, prevUser.pw_salt);
 
-    // console.log(isSamePassword);
+    // console.log(IsSameAsCurrentPassword);
     if (!isSameOldPassword) {
         return res.status(400).json({ success: false, msg: "Wrong Old Password entered" });
-    } else if (isSamePassword) {
+    } else if (IsSameAsCurrentPassword) {
         return res.status(401).json({ success: false, msg: "Cannot change password to the current password" });
     }
 

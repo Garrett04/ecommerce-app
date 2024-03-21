@@ -65,7 +65,7 @@ router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const carts = await Cart.find(userId); 
-    console.log(carts);
+    // console.log(carts);
 
     if (!carts) {
         return res.status(404).json({ success: false, msg: "No carts found" });

@@ -23,18 +23,6 @@ router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
     res.json({ success: true, addresses });
 })
 
-// // Fetch an address by address id
-// router.get('/:addressId', isAuthenticated, isAuthenticated, async (req, res) => {
-//     const { addressId } = req.params;
-//     const address = await Address.find(addressId);
-
-//     if (!address) {
-//         return res.status(404).json({ success: false, msg: "Address not found" })
-//     }
-
-//     res.json({ success: true, address });
-// })
-
 /**
  * @swagger
  * definitions:

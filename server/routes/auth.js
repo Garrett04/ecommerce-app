@@ -233,7 +233,7 @@ router.get('/google/callback',
 router.get('/login/success', isAuthenticated, async (req, res) => {
     const user = req.user;
 
-    console.log('hello')
+    // console.log('hello')
 
     const userDetails = await User.findById(user.id);
 
