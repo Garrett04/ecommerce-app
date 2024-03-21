@@ -68,7 +68,7 @@ const Product = () => {
       e.preventDefault();
 
       try {
-        console.log(cartId, id, quantity)
+        // console.log(cartId, id, quantity)
         const cart = await addProduct(cartId, { productId: id, quantity });
         setMsg("Product added to cart!");
         
