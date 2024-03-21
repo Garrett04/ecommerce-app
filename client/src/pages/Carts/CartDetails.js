@@ -9,6 +9,7 @@ import { fetchAddressesByUserId } from "../../apis/addresses";
 import DefaultAddresses from "../../components/main/user/addresses/DefaultAddresses";
 import CheckoutButton from "../../components/main/carts/CheckoutButton";
 import CartItems from "../../components/main/carts/CartItems";
+import GoBackButton from "../../components/GoBackButton";
 
 const CartDetails = () => {
     const userStatus = useSelector(getUserStatus);
@@ -29,16 +30,19 @@ const CartDetails = () => {
     }, [dispatch, id])
 
     return (
-      <div className="cart-details">
-        <h2>{(cartStatus === 'fulfilled' && cart) && cart.data[0].cart_title}</h2>
-        <CartItems setDeletedCartItemMsg={setDeletedCartItemMsg} />
-        {deletedCartItemMsg}
-        <div className="cart-details-bottom">
-          {(cartStatus === 'fulfilled' && cart.subtotal) && <h4>Subtotal: {cart.subtotal}</h4>}
-          {userStatus === 'fulfilled' && <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} />}
-          <CheckoutButton id={id} disabled={disabled} />
+      <>
+        <div className="cart-details">
+          <h2>{(cartStatus === 'fulfilled' && cart) && cart.data[0].cart_title}</h2>
+          <CartItems setDeletedCartItemMsg={setDeletedCartItemMsg} />
+          {deletedCartItemMsg}
+          <div className="cart-details-bottom">
+            {(cartStatus === 'fulfilled' && cart.subtotal) && <h4>Subtotal: {cart.subtotal}</h4>}
+            {userStatus === 'fulfilled' && <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} />}
+            <CheckoutButton id={id} disabled={disabled} />
+          </div>
         </div>
-      </div>
+        <GoBackButton/>
+      </>
     )
 }
 

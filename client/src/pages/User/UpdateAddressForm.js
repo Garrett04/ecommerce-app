@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAddressesStatus, selectAddresses } from "../../features/user/addressesSlice";
 import { useParams } from "react-router-dom";
 import AddressDropdown from "../../components/main/user/addresses/AddressForms/AddressDropdown";
+import GoBackButton from "../../components/GoBackButton";
 
 
 const UpdateAddressForm = () => {
@@ -62,40 +63,43 @@ const UpdateAddressForm = () => {
 
     if (addressesStatus === 'fulfilled' && addresses) {
         return (
-            <form onSubmit={handleAddressUpdate} className="address-update-form">
-                <label htmlFor="address_line1">Address Line 1</label>
-                <input 
-                    type="text"
-                    id="address_line1"
-                    name="address_line1"
-                    value={formData.address_line1} 
-                    onChange={handleChange} 
-                />
-                <label htmlFor="address_line2">Address Line 2</label>
-                <input 
-                    type="text" 
-                    id="address_line2"
-                    name="address_line2"
-                    value={formData.address_line2}
-                    onChange={handleChange} 
-                />
+            <>
+                <form onSubmit={handleAddressUpdate} className="address-update-form">
+                    <label htmlFor="address_line1">Address Line 1</label>
+                    <input 
+                        type="text"
+                        id="address_line1"
+                        name="address_line1"
+                        value={formData.address_line1} 
+                        onChange={handleChange} 
+                    />
+                    <label htmlFor="address_line2">Address Line 2</label>
+                    <input 
+                        type="text" 
+                        id="address_line2"
+                        name="address_line2"
+                        value={formData.address_line2}
+                        onChange={handleChange} 
+                    />
 
-                <AddressDropdown
-                    formData={formData}
-                    handleChange={handleChange}
-                />
-                
-                <label htmlFor="postal_code">Postal-code</label>
-                <input 
-                    type="text"
-                    id="postal_code"
-                    name="postal_code" 
-                    value={formData.postal_code} 
-                    onChange={handleChange}
-                />
-                {msg}
-                <input type="submit" value="Edit Address" disabled={disabled} />
-            </form>
+                    <AddressDropdown
+                        formData={formData}
+                        handleChange={handleChange}
+                    />
+
+                    <label htmlFor="postal_code">Postal-code</label>
+                    <input 
+                        type="text"
+                        id="postal_code"
+                        name="postal_code" 
+                        value={formData.postal_code} 
+                        onChange={handleChange}
+                    />
+                    {msg}
+                    <input type="submit" value="Edit Address" disabled={disabled} />
+                </form>
+                <GoBackButton />
+            </>
         )
     }
 }

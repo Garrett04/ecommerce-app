@@ -5,6 +5,7 @@ import { fetchUserData } from "../../apis/user";
 import Addresses from "../../components/main/user/addresses/Addresses";
 import { DNA } from "react-loader-spinner";
 import UserForm from "../../components/main/user/UserForm";
+import GoBackButton from "../../components/GoBackButton";
 
 const User = () => {
     const userStatus = useSelector(getUserStatus);
@@ -50,16 +51,19 @@ const User = () => {
     }
 
     return (
-      <div className="user">
-        <div className="userInfo">
-          <h2>User Information</h2>
-          {msg}
-          {userContent}
-          <button onClick={handleClick} hidden={toggleVisibility}>Change Personal Details</button>
+      <>
+        <div className="user">
+          <div className="userInfo">
+            <h2>User Information</h2>
+            {msg}
+            {userContent}
+            <button onClick={handleClick} hidden={toggleVisibility}>Change Personal Details</button>
+          </div>
+          <hr/>
+          <Addresses />
         </div>
-        <hr/>
-        <Addresses />
-      </div>
+        <GoBackButton/>
+      </>
     )
 }
 

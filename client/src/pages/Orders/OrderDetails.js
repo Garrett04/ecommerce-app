@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { fetchOrderById } from "../../apis/orders";
 import { useParams } from "react-router-dom";
 import OrderDetailsView from "../../components/main/orders/OrderDetailsView";
+import GoBackButton from "../../components/GoBackButton";
 
 const OrderDetails = () => {
     const dispatch = useDispatch();
@@ -15,9 +16,12 @@ const OrderDetails = () => {
     
 
     return (
-        <div className="order-details">
-            <OrderDetailsView />
-        </div>
+        <>
+            <div className="order-details">
+                <OrderDetailsView />
+            </div>
+            <GoBackButton/>
+        </>
     )
 }
 export default OrderDetails
