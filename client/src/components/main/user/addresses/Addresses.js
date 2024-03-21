@@ -49,30 +49,29 @@ const Addresses = () => {
                     Postal Code: {postal_code}
                     <br/>
                     Country: {country}
-                    <br/>
-                    <div>
-                        <DefaultAddressButton 
-                            name={"default-shipping-address"} 
-                            id={id}
-                        >
-                            Add Default Shipping Address
-                        </DefaultAddressButton>
-                        <DefaultAddressButton 
-                            name={"default-billing-address"}
-                            id={id}
-                        >
-                            Add Default Billing Address
-                        </DefaultAddressButton>
-                        <DeleteAddressButton id={id} setMsg={setMsg} />
-                        <NavLink 
-                            title="Edit Address" 
-                            className="address-edit-button" 
-                            to={`edit-address/${id}`}
-                        >
-                            &#128393;
-                        </NavLink>
-                    </div>
                 </p>
+                <div>
+                    <DefaultAddressButton 
+                        name={"default-shipping-address"} 
+                        id={id}
+                    >
+                        Add Default Shipping Address
+                    </DefaultAddressButton>
+                    <DefaultAddressButton 
+                        name={"default-billing-address"}
+                        id={id}
+                    >
+                        Add Default Billing Address
+                    </DefaultAddressButton>
+                    <DeleteAddressButton id={id} setMsg={setMsg} />
+                    <NavLink 
+                        title="Edit Address" 
+                        className="address-edit-button" 
+                        to={`edit-address/${id}`}
+                    >
+                        &#128393;
+                    </NavLink>
+                </div>
             </li>
         ))
     }

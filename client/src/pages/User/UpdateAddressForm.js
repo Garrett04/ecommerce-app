@@ -54,7 +54,7 @@ const UpdateAddressForm = () => {
             const updatedAddress = await updateAddress(id, formData)
             setMsg("Address Updated Successfully")
 
-            console.log(updatedAddress);
+            // console.log(updatedAddress);
         } catch (err) {
             throw err.status;
         }
