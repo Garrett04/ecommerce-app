@@ -126,6 +126,8 @@ div.banner {
   display: flex;
   margin: 1rem;
   gap: 1rem;
+  margin: 1rem auto;
+  width: 95%;
 }
 
 .banner .promo {
@@ -134,7 +136,7 @@ div.banner {
 
 .banner .promo {
   background-image: url('./resources/images/banner-promo.jpg');
-  height: 12rem;
+  height: 42rem;
   border-radius: 1rem;
   border: 1px solid black;
   background-position: center;
@@ -146,7 +148,7 @@ div.banner {
 .banner .account {
   --s: 100px; /* control the size */
   --c1: #1400c6;
-  --c2: #dcff30;
+  --c2: #f7a787;
   
   --_s: calc(2*var(--s)) calc(2*var(--s));
   --_g: var(--_s) conic-gradient(at 40% 40%,#0000 75%,var(--c1) 0);
@@ -198,7 +200,6 @@ div.banner {
   }
 }
 
-
 .banner .account {
   display: flex;
   flex-flow: column;
@@ -206,12 +207,11 @@ div.banner {
   border: 1px solid black;
   gap: 2rem;
   flex: 2;
-  
 }
 
 .register-btn,
 .login-btn {
-  width: 15rem;
+  width: 70%;
   font-size: 1.5rem;
   border-radius: 1rem;
   height: auto;
