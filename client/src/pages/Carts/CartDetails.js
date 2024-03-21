@@ -14,8 +14,6 @@ import CartItems from "../../components/main/carts/CartItems";
 const CartDetails = () => {
     const userStatus = useSelector(getUserStatus);
 
-    const [noCartItemsMsg, setNoCartItemsMsg] = useState("");
-
     const [deletedCartItemMsg, setDeletedCartItemMsg] = useState("");
     const [disabled, setDisabled] = useState(false);
 
@@ -30,20 +28,6 @@ const CartDetails = () => {
       dispatch(fetchUserData());
       dispatch(fetchAddressesByUserId());
     }, [dispatch, id])
-  
-    useEffect(() => {
-      // Handling case where there's nothing in cart then disable checkout button
-      if (cartStatus === 'rejected') {
-        setNoCartItemsMsg(
-          <p>
-            Please add items to cart. Go to <Link to={'/'}>Home page</Link>
-          </p>
-        );
-        setDisabled(true);
-      }
-    }, [
-      cartStatus
-    ])
 
     return (
       <div className="cart-details">
@@ -52,7 +36,6 @@ const CartDetails = () => {
         {deletedCartItemMsg}
         <div className="cart-details-bottom">
           {(cartStatus === 'fulfilled' && cart.subtotal) && <h4>Subtotal: {cart.subtotal}</h4>}
-          {noCartItemsMsg}
           {userStatus === 'fulfilled' && <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} />}
           <CheckoutButton id={id} disabled={disabled} />
         </div>

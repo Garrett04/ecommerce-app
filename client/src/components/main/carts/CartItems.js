@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { getCartError, getCartStatus, selectCart } from "../../../features/carts/cartSlice";
 import DeleteCartItemButton from "./DeleteCartItemButton";
 import { LineWave } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 
 const CartItems = ({
@@ -36,7 +37,8 @@ const CartItems = ({
     } else if (cartStatus === 'fulfilled') {
       cart_items = renderCartItems();
     } else if (cartStatus === 'rejected') {
-      cart_items = cartError;
+      // Handling case where there's nothing in cart then disable checkout button
+      cart_items = <p>Please add items to cart. Go to <Link to={'/'}>Home page</Link></p>;
     }
 
     return (
