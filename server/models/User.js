@@ -10,12 +10,12 @@ class User {
     async create(data) {
         try {
             // pg query statement
-            const statement = `INSERT INTO users (username, pw_hash, pw_salt) 
-                            VALUES ($1, $2, $3) 
+            const statement = `INSERT INTO users (username, pw_hash, pw_salt, login_method) 
+                            VALUES ($1, $2, $3, $4) 
                             RETURNING *`;
 
             // values array to insert to the statement
-            const values = [data.username, data.hash, data.salt];
+            const values = [data.username, data.hash, data.salt, data.login_method];
 
             // query database
             const result = await db.query(statement, values);

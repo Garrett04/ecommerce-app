@@ -15,8 +15,9 @@ const DeleteCartItemButton = ({
 
     const handleDelete = async () => {
         try {
-            const deletedCart = await removeProduct(id, product_id);
+            await removeProduct(id, product_id);
 
+            // Update redux states
             dispatch(fetchCartById(id));
             dispatch(fetchAddressesByUserId());
             dispatch(fetchUserData());

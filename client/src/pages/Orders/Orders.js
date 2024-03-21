@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getOrdersError, getOrdersStatus, selectOrders } from "../../features/orders/ordersSlice"
+import { getOrdersStatus, selectOrders } from "../../features/orders/ordersSlice"
 import { useEffect } from "react";
 import { fetchOrders } from "../../apis/orders";
 import { Link } from "react-router-dom";
@@ -9,7 +9,6 @@ import { LineWave } from "react-loader-spinner";
 const Orders = () => {
     const orders = useSelector(selectOrders);
     const ordersStatus = useSelector(getOrdersStatus);
-    const ordersError = useSelector(getOrdersError);
 
     const dispatch = useDispatch();
 
@@ -48,7 +47,7 @@ const Orders = () => {
     } else if (ordersStatus === 'fulfilled') {
         content = renderOrders();
     } else if (ordersStatus === 'rejected') {
-        content = ordersError;
+        content = <p>No orders found</p>;
     }
 
     return (

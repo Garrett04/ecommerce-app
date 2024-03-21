@@ -197,7 +197,7 @@ router.post('/register', async (req, res, next) => {
         return res.status(409).json({ success: false, msg: "User with username already exists" });
     }
 
-    const newUser = await User.create({ username, hash, salt });
+    const newUser = await User.create({ username, hash, salt, login_method: 'custom' });
     
     // Issuance of token
     const { token } = utils.issueJWT(newUser);

@@ -88,13 +88,13 @@ const CartDetails = () => {
 
     return (
       <div className="cart-details">
-        <h2>{cartStatus === 'fulfilled' && cart ? cart.data[0].cart_title : null}</h2>
+        <h2>{(cartStatus === 'fulfilled' && cart) && cart.data[0].cart_title}</h2>
         {content}
         {deletedCartItemMsg}
         <div className="cart-details-bottom">
-          {cartStatus === 'fulfilled' && cart.subtotal ? <h4>Subtotal: {cart.subtotal}</h4> : null}
+          {(cartStatus === 'fulfilled' && cart.subtotal) && <h4>Subtotal: {cart.subtotal}</h4>}
           {noCartItemsMsg}
-          {userStatus === 'fulfilled' ? <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} /> : null}
+          {userStatus === 'fulfilled' && <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} />}
           <button onClick={handleCheckout} disabled={disabled}>
             Checkout
           </button>
