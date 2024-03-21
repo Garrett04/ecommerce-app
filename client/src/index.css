@@ -112,6 +112,8 @@ div.logout {
 
 .categories .category button:hover {
   cursor: pointer;
+  background-color:lightsteelblue;
+  transition: background-color .1s;
 }
 
 /*Main*/

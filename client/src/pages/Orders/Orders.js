@@ -3,6 +3,7 @@ import { getOrdersError, getOrdersStatus, selectOrders } from "../../features/or
 import { useEffect } from "react";
 import { fetchOrders } from "../../apis/orders";
 import { Link } from "react-router-dom";
+import { LineWave } from "react-loader-spinner";
 
 
 const Orders = () => {
@@ -26,9 +27,16 @@ const Orders = () => {
             total_amount
         }) => (
             <li key={id}>
-                Status: {order_status} Order Date: {order_date}
-                Cart Title: {cart_title}
-                Total amount: {total_amount}
+                <div>
+                    <p className="order-status">
+                        Status: {order_status}
+                    </p> 
+                    <p>
+                        Order Date: {order_date}
+                    </p>
+                </div>
+                <p>Cart Title: {cart_title}</p>
+                <p>Total amount: {total_amount}</p>
                 <Link to={`${id}`}>View order</Link>
             </li>
         ))
@@ -36,7 +44,7 @@ const Orders = () => {
 
     let content;
     if (ordersStatus === 'pending') {
-        content = 'Loading...';
+        content = <LineWave wrapperStyle={{ display: 'flex', margin: 'auto' }} />;
     } else if (ordersStatus === 'fulfilled') {
         content = renderOrders();
     } else if (ordersStatus === 'rejected') {
@@ -44,9 +52,12 @@ const Orders = () => {
     }
 
     return (
-        <ul className="orders">
-            {content}
-        </ul>
+        <div className="orders">
+            <h2>Orders</h2>
+            <ul className="orders-list">
+                {content}
+            </ul>
+        </div>
     )
 }
 

@@ -179,13 +179,6 @@
     transition: background-color .1s;
 }
 
-/*Carts*/
-/*Carts Page*/
-
-
-/*CartDetails Page*/
-
-
 /*User Page*/
 .user {
     margin: 0 1rem;
@@ -254,6 +247,7 @@
     font-weight: bold;
     font-size: 1.35rem;
     text-decoration: underline;
+    margin-bottom: .5rem;
 }
 
 .user .addresses .addresses-list {
@@ -511,6 +505,94 @@ form.address-update-form {
     cursor: pointer;
 }
 
+/*Orders Page*/
+.orders {
+    display: flex;
+    flex-flow: column wrap;
+    margin: .75rem;
+}
+
+.orders .orders-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.orders .orders-list li {
+    display: flex;
+    flex-flow: column wrap;
+    font-size: 1.15rem;
+    background-color: floralwhite;
+    border: 2px solid black;
+    border-radius: .5rem;
+    padding: .5rem;
+    gap: .3rem;
+    width: 30rem;
+}
+
+.orders .orders-list li div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orders .orders-list li div .order-status {
+    background-color: greenyellow;
+    padding: .2rem;
+    border-radius: 1rem;
+}
+
+/*OrderDetails Page*/
+.order-details {
+    display: flex;
+    flex-flow: column wrap;
+    margin: .75rem;
+    align-content: center;
+}
+
+.order-details h2.order-status {
+    background-color: greenyellow;
+    width: 20rem;
+    margin: auto;
+    border-radius: 1rem;
+    padding: .2rem;
+}
+
+.order-details h2 {
+    margin: auto;
+}
+
+.order-details .product-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.order-details .product-list div {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    gap: .5rem;
+    background-color: azure;
+    border: 1px solid black;
+    border-radius: .5rem;
+    font-size: 1.15rem;
+    padding: .5rem;
+    width: 20rem;
+}
+
+.order-details .product-list div p:last-of-type {
+    margin-bottom: 1.25rem;
+}
+
+.order-details .product-list div span {
+    font-weight: bold;
+}
+
+
 /*Mobile viewport*/
 @media only screen and (max-width: 480px) {
     /*Register Page*/
@@ -633,5 +715,21 @@ form.address-update-form {
     .user .addresses .addresses-list {
         flex-flow: column wrap;
         align-content: center;
+    }
+
+    /*Orders Page*/
+    .orders .orders-list {
+        flex-flow: column wrap;
+        gap: 1rem;
+    }
+
+    .orders .orders-list li {
+        font-size: 1.05rem;
+        width: auto;
+    }
+
+    /*OrderDetails Page*/
+    .order-details .product-list div {
+        font-size: 1.05rem;
     }
 }
