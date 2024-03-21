@@ -224,8 +224,8 @@ router.get('/google',
 
 router.get('/google/callback', 
     passport.authenticate('google', {
-        successRedirect: 'http://localhost:3001/',
-        failureRedirect: 'http://localhost:3001/login'
+        successRedirect: `${process.env.CLIENT_URL}/`,
+        failureRedirect: `${process.env.CLIENT_URL}/login`
     })
 )
 

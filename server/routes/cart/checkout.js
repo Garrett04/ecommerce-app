@@ -83,8 +83,8 @@ router.post('/create-checkout-session', isAuthenticated, authCartAccess, async (
         line_items,
         mode: 'payment',
         // This is where the session_id is stored for later retrieval
-        success_url: `http://localhost:3001/carts/${cartId}/checkout/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `http://localhost:3001/carts/${cartId}`,
+        success_url: `${process.env.CLIENT_URL}/carts/${cartId}/checkout/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.CLIENT_URL}/carts/${cartId}`,
     })
     
     // To get user's default shipping and billing address id 
