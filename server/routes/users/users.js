@@ -178,6 +178,16 @@ router.put('/', isAuthenticated, async (req, res) => {
     const { username, oldPassword, newPassword, first_name, last_name, login_method } = req.body;
     const prevUser = await User.findById(userId);
 
+    // Checking if user's new username is exists in the database
+    const usernameExists = await User.findByUsername(username);
+
+    if (usernameExists) {
+        return res.status(400).json({ 
+            success: false, 
+            msg: "Username already exists. Try a different one" 
+        });
+    }
+
     // for google users
     if (login_method === 'google') {
         const data = {
