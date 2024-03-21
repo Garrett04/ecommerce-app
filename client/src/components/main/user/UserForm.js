@@ -95,6 +95,7 @@ const UserForm = ({
               value={firstName}
               onChange={handleChange}
               readOnly={readOnly}
+              maxLength="50"
             />
           </div>
           <div>
@@ -106,6 +107,7 @@ const UserForm = ({
               value={lastName}
               onChange={handleChange}
               readOnly={readOnly}
+              maxLength="50"
             />
           </div>
           <input type="submit" value="Update Personal Details" hidden={!toggleVisibility}/>
@@ -134,6 +136,7 @@ const UserForm = ({
               value={firstName}
               onChange={handleChange}
               readOnly={readOnly}
+              maxLength="50"
             />
           </div>
           <div>
@@ -145,6 +148,7 @@ const UserForm = ({
               value={lastName}
               onChange={handleChange}
               readOnly={readOnly}
+              maxLength="50"
             />
           </div>
           <div>

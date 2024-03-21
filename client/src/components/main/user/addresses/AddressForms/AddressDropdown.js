@@ -35,6 +35,7 @@ const AddressDropdown = ({
                 value={formData.state}
                 onChange={handleChange}
                 required
+                maxLength="100"
             />
             <label htmlFor="city">City</label>
             <input 
@@ -44,6 +45,7 @@ const AddressDropdown = ({
                 value={formData.city}
                 onChange={handleChange}
                 required
+                maxLength="100"
             />
         </>
     )

@@ -72,6 +72,7 @@ const UpdateAddressForm = () => {
                         name="address_line1"
                         value={formData.address_line1} 
                         onChange={handleChange} 
+                        maxLength="300"
                     />
                     <label htmlFor="address_line2">Address Line 2</label>
                     <input 
@@ -79,7 +80,8 @@ const UpdateAddressForm = () => {
                         id="address_line2"
                         name="address_line2"
                         value={formData.address_line2}
-                        onChange={handleChange} 
+                        onChange={handleChange}
+                        maxLength="300" 
                     />
 
                     <AddressDropdown
@@ -94,6 +96,7 @@ const UpdateAddressForm = () => {
                         name="postal_code" 
                         value={formData.postal_code} 
                         onChange={handleChange}
+                        maxLength="20"
                     />
                     {msg}
                     <input type="submit" value="Edit Address" disabled={disabled} />

@@ -69,6 +69,7 @@ const AddAddressForm = ({
                     value={formData.address_line1}
                     onChange={handleChange}
                     required
+                    maxLength="300"
                 />
                 <label htmlFor="address_line2">Address Line 2 </label>
                 <input 
@@ -78,6 +79,7 @@ const AddAddressForm = ({
                     value={formData.address_line2}
                     onChange={handleChange}
                     required
+                    maxLength="300"
                 />
                 
                 <AddressDropdown 
@@ -93,6 +95,7 @@ const AddAddressForm = ({
                     value={formData.postal_code}
                     onChange={handleChange}
                     required
+                    maxLength="20"
                 />
                 <input type="submit" value="Create new address" disabled={disabled} />
             </form>
