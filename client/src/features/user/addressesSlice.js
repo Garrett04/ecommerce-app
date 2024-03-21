@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchAddressesByUserId } from "../../apis/addresses"
 
-
 const initialState = {
     addresses: [],
     status: 'idle',
