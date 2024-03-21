@@ -10,7 +10,7 @@ export const fetchProducts = createAsyncThunk(
             return response.data.products;
             
         } catch (err) {
-            throw err.response;
+            throw err.response.data.msg;
         }
     }
 )
@@ -23,7 +23,7 @@ export const fetchProductById = createAsyncThunk(
             // console.log(response.data);
             return response.data.product;
         } catch (err) {
-            throw err.response;
+            throw err.response.data.msg;
         }
     }
 )
@@ -36,7 +36,7 @@ export const fetchProductsByCategory = createAsyncThunk(
             // console.log(response.data);
             return response.data.products;
         } catch (err) {
-            throw err.response;
+            throw err.response.data.msg;
         }
     }
 )

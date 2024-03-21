@@ -11,7 +11,7 @@ const User = require('../../models/User');
  */
 
 // Gets all addresses by user id
-router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
+router.get('/', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const addresses = await Address.findByUserId(userId);
@@ -188,7 +188,7 @@ router.post('/add-address', isAuthenticated, async (req, res) => {
  *              description: Unauthorized
  */
 // To delete user address
-router.delete('/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, async (req, res) => {
+router.delete('/:addressId', isAuthenticated, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
 
     const deletedAddressId = await Address.delete(addressId);
@@ -252,7 +252,7 @@ router.delete('/:addressId', isAuthenticated, isAuthenticated, authAddressAccess
  *              description: Unauthorized
  */
 // PUT ROUTES
-router.put('/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, async (req, res) => {
+router.put('/:addressId', isAuthenticated, authAddressAccess, async (req, res) => {
     const { addressId } = req.params;
     
     const data = {
@@ -270,7 +270,7 @@ router.put('/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, a
 })
 
 // To update default_shipping_address_id or default_billing_address_id in the addresses table
-router.put('/update-default-address/:addressId', isAuthenticated, isAuthenticated, authAddressAccess, async (req, res) => {
+router.put('/update-default-address/:addressId', isAuthenticated, authAddressAccess, async (req, res) => {
     const userId = req.user.id;
     const { addressId } = req.params;
     // Holds the value of which address is to be default either default-shipping-address or default-billing-address
