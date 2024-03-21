@@ -23,7 +23,7 @@ const Orders = () => {
             id,
             order_date,
             order_status,
-            cart_title,
+            cart_details,
             total_amount
         }) => (
             <li key={id}>
@@ -35,7 +35,7 @@ const Orders = () => {
                         Order Date: {order_date}
                     </p>
                 </div>
-                <p>Cart Title: {cart_title}</p>
+                <p>Cart Title: {cart_details.cart_title}</p>
                 <p>Total amount: {total_amount}</p>
                 <Link to={`${id}`}>View order</Link>
             </li>

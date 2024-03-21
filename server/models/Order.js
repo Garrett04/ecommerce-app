@@ -55,11 +55,10 @@ class Order {
                                     TO_CHAR(order_date, 'DD-MM-YYYY HH24:MI:SS') AS order_date, 
                                     order_status,
                                     orders.cart_id,
-                                    title AS cart_title,
+                                    orders.cart_details,
                                     checkout.total_amount
-                                FROM orders, carts, checkout
-                                WHERE orders.cart_id = carts.id
-                                    AND orders.checkout_id = checkout.id
+                                FROM orders, checkout
+                                WHERE orders.checkout_id = checkout.id
                                     AND orders.user_id = $1`;
 
             // query database

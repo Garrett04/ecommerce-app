@@ -109,7 +109,7 @@ router.get('/', isAuthenticated, async (req, res) => {
 
     res.json({ 
         success: true, 
-        orders: orders
+        orders,
     });
 })
 

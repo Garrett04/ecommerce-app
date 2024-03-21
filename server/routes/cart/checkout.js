@@ -125,7 +125,7 @@ router.post('/create-checkout-session', isAuthenticated, authCartAccess, async (
 
     const makePayment = await Checkout.processPayment(data);
 
-    console.log(makePayment);
+    // console.log(makePayment);
 
     res.send({ url: session.url });
 })
@@ -176,10 +176,6 @@ router.put('/checkout-success', isAuthenticated, authCartAccess, async (req, res
         cart_title,
         cart_items
     }
-
-    console.log(cart_title + "\n")
-    console.log(cart_items + "\n")
-    console.log(cart_details + "\n");
 
     const data = {
         stripe_session_id: session_id,
