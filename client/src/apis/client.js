@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: 'http://localhost:3000/api/',
+    baseURL: process.env.REACT_APP_ENVIRONMENT === 'production' ? process.env.REACT_APP_API_URL : 'http://localhost:3001',
     withCredentials: true
 })
 

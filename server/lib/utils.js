@@ -3,8 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
 
-const pathToKey = path.join(__dirname, '..', 'id_rsa_priv.pem');
-const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8');
+const PRIV_KEY = process.env.RSA_PRIV_KEY;
 
 function genPassword(password) {
     const salt = crypto.randomBytes(32).toString('hex');
