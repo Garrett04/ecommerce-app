@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom"
-
 import orderIcon from '../../resources/images/order.svg'
 
 const ViewOrdersButton = () => {

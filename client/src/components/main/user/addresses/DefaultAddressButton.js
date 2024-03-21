@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { fetchAddressesByUserId, updateDefaultAddress } from "../../../../apis/addresses";
+import { updateDefaultAddress } from "../../../../apis/addresses";
 import { fetchUserData } from "../../../../apis/user";
 
 
@@ -14,9 +14,7 @@ const DefaultAddressButton = ({
         try {
             // Passing in an id and option property which has a value of name
             // name is either default-shipping-address or default-billing-address 
-            const updatedDefaultAddress = await updateDefaultAddress(id, { option: name });
-
-            // console.log(updatedDefaultAddress);
+            await updateDefaultAddress(id, { option: name });
 
             // To update user data state so that it rerenders the user's default addresses
             dispatch(fetchUserData());

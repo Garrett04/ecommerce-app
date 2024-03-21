@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import bannerPromo from '../../resources/images/banner-promo.jpg'
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../../features/auth/authSlice';
 
@@ -23,9 +22,7 @@ const Banner = () => {
 
   return (
     <div className="banner">
-        <div className="promo">
-          
-        </div>
+        <div className="promo"></div>
         {renderAccountComponent()}
     </div>
   )

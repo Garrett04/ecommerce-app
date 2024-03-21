@@ -70,6 +70,7 @@ const DefaultAddresses = ({
     }, [
         setMsg, 
         setDisabled, 
+        user.data,
         page,
         user.default_shipping_address_id, 
         user.default_billing_address_id

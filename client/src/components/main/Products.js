@@ -21,7 +21,7 @@ const Products = () => {
       return products.map((product) => (
         <div className="productCard" key={product.id}>
           <div className="container">
-            <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`}/>
+            <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`} alt={product.image}/>
           </div>
           <h3>{product.name.length > 40 ? `${product.name.substring(0, 40)}...` : product.name}</h3>
           <h4>{product.price}</h4>

@@ -1,20 +1,16 @@
-import { fetchAuthenticationStatus, isAuthenticated, removeAuthToken } from "../../apis/client";
+import { fetchAuthenticationStatus } from "../../apis/client";
 import { logout } from "../../apis/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserStatus } from "../../features/user/userSlice";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { NavLink } from "react-router-dom";
 
 import logoutIcon from '../../resources/images/logout.svg'
 
-const Logout = () => {
-    const userStatus = useSelector(getUserStatus);
+const LogoutButton = () => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const dispatch = useDispatch();
 
     const handleClick = async () => {
-      // localStorage.removeItem('token');
-      // removeAuthToken(); // Removes the authorization header
       await logout();
       await dispatch(fetchAuthenticationStatus());
     };
@@ -32,4 +28,4 @@ const Logout = () => {
     )
 }
 
-export default Logout;
+export default LogoutButton;

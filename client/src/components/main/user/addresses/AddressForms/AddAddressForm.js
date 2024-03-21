@@ -32,7 +32,7 @@ const AddAddressForm = ({
         e.preventDefault();
 
         try {
-            const newAddress = await createAddress(formData);
+            await createAddress(formData);
 
             // display some message later saying its successful
             setMsg("Successfully created new address");

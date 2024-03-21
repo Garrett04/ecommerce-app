@@ -1,9 +1,7 @@
-import Cart from "./CartButton"
-import SearchBar from "./SearchBar"
-import SignInButton from "./AccountButton"
 import Logout from "./LogoutButton"
-import { Link } from "react-router-dom"
 import ViewOrdersButton from "./ViewOrdersButton"
+import ViewCartsButton from "./ViewCartsButton"
+import ViewAccountButton from "./ViewAccountButton"
 
 const Header = () => {
   return (
@@ -21,9 +19,9 @@ const Header = () => {
       </div>
       {/* <SearchBar /> Component has been deprecated */}
       <div className="right">
-        <Cart />
+        <ViewCartsButton />
         <ViewOrdersButton />
-        <SignInButton />
+        <ViewAccountButton />
         <Logout />
       </div>
     </div>

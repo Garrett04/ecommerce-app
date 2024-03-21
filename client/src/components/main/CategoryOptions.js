@@ -3,7 +3,7 @@ import { getCategoriesError, getCategoriesStatus, selectCategories } from "../..
 import { useEffect } from "react";
 import { fetchCategories } from "../../apis/categories";
 import { fetchProducts, fetchProductsByCategory } from "../../apis/products";
-import { DNA, LineWave } from "react-loader-spinner";
+import { DNA } from "react-loader-spinner";
 
 
 const CategoryOptions = () => {
@@ -16,7 +16,7 @@ const CategoryOptions = () => {
       if (categoriesStatus === 'idle') {
         dispatch(fetchCategories());
       }
-    }, [dispatch]);
+    }, [categoriesStatus, dispatch]);
 
     const handleClick = async (categoryId) => {
       try {
@@ -48,8 +48,10 @@ const CategoryOptions = () => {
     return (
       <ul className="categories">
         {categoriesStatus === 'fulfilled'
-          ? <li className="category"><button onClick={() => dispatch(fetchProducts())}>All Products</button></li>
-          : null}
+          && 
+        <li className="category">
+          <button onClick={() => dispatch(fetchProducts())}>All Products</button>
+        </li>}
         {content}
       </ul>    
     );

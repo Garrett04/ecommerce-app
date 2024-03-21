@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import { fetchProductById } from "../apis/products";
 import { getProductDetailsStatus, selectProductDetails } from "../features/products/productDetailsSlice";
 import { getProductsError } from "../features/products/productsSlice";
-import { addProduct, checkProductExistsInCart, fetchCartById, fetchCarts } from "../apis/cart";
+import { addProduct, fetchCartById, fetchCarts } from "../apis/cart";
 import { getCartsStatus, selectCarts } from "../features/carts/cartsSlice";
-import API, { isAuthenticated, setAuthToken } from "../apis/client";
-import { getCartStatus, selectCart } from "../features/carts/cartSlice";
 import { selectIsAuthenticated } from "../features/auth/authSlice";
 
 
@@ -37,7 +35,7 @@ const Product = () => {
     const renderProduct = () => {
       return (
         <div key={product.id}>
-          <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`}/>
+          <img src={`${process.env.PUBLIC_URL}/images/products/${product.image}`} alt={product.image}/>
           <h2>{product.name}</h2>
           <p>Description: {product.description}</p>
           <p>Price: {product.price}</p>
@@ -69,7 +67,7 @@ const Product = () => {
 
       try {
         // console.log(cartId, id, quantity)
-        const cart = await addProduct(cartId, { productId: id, quantity });
+        await addProduct(cartId, { productId: id, quantity });
         setMsg("Product added to cart!");
         
         dispatch(fetchCarts()); // To update cart options again

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import shoppingCart from '../../resources/images/shopping-cart.svg';
 
-const Cart = () => {
+const ViewCartsButton = () => {
 
     return (
       <div className='cart'>
@@ -12,4 +12,4 @@ const Cart = () => {
     )
 }
 
-export default Cart
+export default ViewCartsButton;

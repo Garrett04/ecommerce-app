@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 import API from "../../apis/client";
 
 const CheckoutSuccess = () => {
     const { id } = useParams();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const session_id = searchParams.get('session_id');
     const [orderId, setOrderId] = useState(null)
 

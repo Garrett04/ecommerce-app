@@ -3,7 +3,7 @@ import { getUserError, getUserStatus, selectUser } from "../../features/user/use
 import { useEffect, useState } from "react";
 import { fetchUserData, updateUser } from "../../apis/user";
 import Addresses from "../../components/main/user/addresses/Addresses";
-import { DNA, LineWave } from "react-loader-spinner";
+import { DNA } from "react-loader-spinner";
 
 const User = () => {
     const user = useSelector(selectUser);
@@ -49,7 +49,7 @@ const User = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const updatedUser = await updateUser({
+        await updateUser({
           username,
           oldPassword,
           newPassword,

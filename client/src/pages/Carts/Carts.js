@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { createCart, fetchCarts } from "../../apis/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartsError, getCartsStatus, selectCarts } from "../../features/carts/cartsSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LineWave } from "react-loader-spinner";
 
 const Carts = () => {
@@ -22,7 +22,7 @@ const Carts = () => {
       e.preventDefault();
       
       try {
-        const newCart = await createCart({title});
+        await createCart({title});
 
         dispatch(fetchCarts()); // Once created it will dispatch fetchCarts again to update state
       } catch (err) {

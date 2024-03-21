@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { deleteAddress, fetchAddressesByUserId } from "../../../../apis/addresses";
-import { useState } from "react";
 import { fetchUserData } from "../../../../apis/user";
 
 

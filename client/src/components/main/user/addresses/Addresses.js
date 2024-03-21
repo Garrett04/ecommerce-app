@@ -6,13 +6,12 @@ import AddAddressForm from "./AddressForms/AddAddressForm";
 import { NavLink } from "react-router-dom";
 import DeleteAddressButton from "./DeleteAddressButton";
 import DefaultAddressButton from "./DefaultAddressButton";
-import { getUserStatus, selectUser } from "../../../../features/user/userSlice";
+import { getUserStatus } from "../../../../features/user/userSlice";
 import DefaultAddresses from "./DefaultAddresses";
 import { LineWave } from "react-loader-spinner";
 
 
 const Addresses = () => {
-    const user = useSelector(selectUser);
     const userStatus = useSelector(getUserStatus);
 
     const addresses = useSelector(selectAddresses);
@@ -78,7 +77,7 @@ const Addresses = () => {
 
     let addressesList;
     if (addressesStatus === 'pending') {
-        addressesList = <LineWave />;
+        addressesList = <LineWave wrapperStyle={{ display: 'flex', margin: 'auto' }} />;
     } else if (addressesStatus === 'fulfilled') {
         addressesList = renderAddresses();
     } else if (addressesStatus === 'rejected') {

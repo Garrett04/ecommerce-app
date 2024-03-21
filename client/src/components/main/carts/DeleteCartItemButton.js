@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { fetchAddressesByUserId } from "../../../apis/addresses";
 import { fetchUserData } from "../../../apis/user";
 
-
-
 const DeleteCartItemButton = ({
     product_id,
     setDeletedCartItemMsg

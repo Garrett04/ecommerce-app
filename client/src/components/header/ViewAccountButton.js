@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import accountIcon from "../../resources/images/account.svg";
 
-const SignInButton = () => {
+const ViewAccountButton = () => {
   return (
     <div className="signIn">
         <NavLink to="/user" title="Your account" className="accountBtn">
@@ -11,4 +11,4 @@ const SignInButton = () => {
   )
 }
 
-export default SignInButton;
+export default ViewAccountButton;

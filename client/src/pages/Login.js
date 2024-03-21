@@ -2,9 +2,8 @@ import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../apis/auth";
-import { fetchAuthenticationStatus, setAuthToken } from "../apis/client";
-import { useDispatch, useSelector } from "react-redux";
-import { getIsAuthenticatedStatus, selectIsAuthenticated } from "../features/auth/authSlice";
+import { fetchAuthenticationStatus } from "../apis/client";
+import { useDispatch } from "react-redux";
 import GoogleButton from "react-google-button";
 
 
@@ -12,8 +11,6 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
-    const isAuthenticatedStatus = useSelector(getIsAuthenticatedStatus);
-    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,7 +26,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const user = await login({ username, password });
+        await login({ username, password });
 
         dispatch(fetchAuthenticationStatus());
 

@@ -2,8 +2,7 @@ import { useCallback, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../apis/auth";
 import { fetchAuthenticationStatus } from "../apis/client";
-import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuthenticated } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 
 const Register = () => {
@@ -12,14 +11,13 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const userData = await register({username, password});
+        await register({username, password});
 
         dispatch(fetchAuthenticationStatus());
         

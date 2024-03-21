@@ -51,7 +51,7 @@ const UpdateAddressForm = () => {
     const handleAddressUpdate = async (e) => {
         e.preventDefault();
         try {
-            const updatedAddress = await updateAddress(id, formData)
+            await updateAddress(id, formData)
             setMsg("Address Updated Successfully")
 
             // console.log(updatedAddress);
