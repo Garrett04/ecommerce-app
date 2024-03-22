@@ -20,7 +20,7 @@ const Login = () => {
 
     const handleClick = async () => {
       // Redirects user to Google login page
-      window.open("http://localhost:3000/api/auth/google", "_self")
+      window.open(`${process.env.REACT_APP_API_URL}/api/auth/google`, "_self")
     }
 
     const handleSubmit = async (e) => {
