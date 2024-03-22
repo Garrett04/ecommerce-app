@@ -21,6 +21,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAuthenticationStatus } from './apis/client';
 import HomePage from './components/main/HomePage';
+import NotFound from './pages/NotFound/NotFound';
 
 const router = createBrowserRouter( createRoutesFromElements(
   <>
@@ -39,6 +40,7 @@ const router = createBrowserRouter( createRoutesFromElements(
     </Route>
     <Route path="register" element={ <Register/> }/>
     <Route path="login" element={ <Login/> }/>
+    <Route index path='*' element={ <NotFound/> }/>
   </>
 ))
 

@@ -1,0 +1,48 @@
+/* From https://lottiefiles.com/blog/inspiration/animated-404-pages */
+.notFound { 
+    padding: 40px 0; 
+    background: transparent; 
+    font-family: 'Arvo', serif;
+    display: block;
+    text-align: center;
+}
+
+.notFound h1,
+.notFound h3,
+.notFound p {
+    color: black;
+    font-size: 2rem;
+}
+
+.notFound p {
+    font-size: 1.5rem;
+}
+
+.notFound h1 {
+    font-size: 8rem;
+    color: rgb(245, 94, 94);
+}
+
+.notFound img { 
+    width: 100%;
+}
+
+.four_zero_four_bg{
+    background-image: url(../../resources/images/error-404.gif);
+    background-repeat: no-repeat;
+    height: 42rem;
+    background-position: center;
+}
+       
+.homePage {      
+    color: #fff!important;
+    padding: 10px 20px;
+    background: #39ac31;
+    border-radius: .5rem;
+    margin: 20px 0;
+    display: inline-block;
+}
+
+.contant_box_404 { 
+    margin-top:-50px;
+}

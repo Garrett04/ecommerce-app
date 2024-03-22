@@ -26,6 +26,7 @@ app.use(cors({
 app.use(require('./swagger'));
 
 // SESSION SETUP
+app.set('trust proxy', 1);
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -38,7 +39,6 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24, // 1 day
         httpOnly: true,
         secure: true,
-        domain: 'onrender.com',
         sameSite: 'none'
     }
 }));

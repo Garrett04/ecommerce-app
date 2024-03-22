@@ -9,7 +9,7 @@ const CheckoutButton = ({
           const checkoutSession = await createCheckoutSession(id);
 
           // Redirect to stripe payment page
-          window.location.href = checkoutSession.url;
+          window.open(checkoutSession.url, '_self');
         } catch (err) {
           throw err.status;
         }

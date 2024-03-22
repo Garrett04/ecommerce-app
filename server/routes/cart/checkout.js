@@ -139,6 +139,8 @@ router.put('/checkout-success', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
     const { session_id } = req.query;
 
+    console.log("from checkout-success route");
+
     // checking if order exists by session_id
     const orderExists = await Order.findOrderBySessionId(session_id);
 
