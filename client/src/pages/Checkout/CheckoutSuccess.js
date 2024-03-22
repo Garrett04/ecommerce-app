@@ -13,9 +13,7 @@ const CheckoutSuccess = () => {
        const updateCheckoutStatus = async () => {
           try {
               const response = await API.put(
-                `cart/${id}/checkout/checkout-success?session_id=${session_id}`, {
-                  withCredentials: true
-              });
+                `cart/${id}/checkout/checkout-success?session_id=${session_id}`);
               // console.log("check2", response.data);
               setOrderId(response.data.order.id);
           } catch (err) {

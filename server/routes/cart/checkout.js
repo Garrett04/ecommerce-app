@@ -127,12 +127,14 @@ router.post('/create-checkout-session', isAuthenticated, authCartAccess, async (
 
     // console.log(makePayment);
 
+    console.log(session);
+
     res.send({ url: session.url });
 })
 
 // To update checkout status and make an order using a query param which holds the stripe session_id
 // Then return a 200 if successful with a checkout object and order object.
-router.put('/checkout-success', isAuthenticated, authCartAccess, async (req, res) => {
+router.put('/checkout-success', isAuthenticated, async (req, res) => {
     const { cartId } = req.params;
     const userId = req.user.id;
     const { session_id } = req.query;

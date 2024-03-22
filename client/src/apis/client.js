@@ -13,7 +13,6 @@ export const fetchAuthenticationStatus = createAsyncThunk(
             const response = await API.get('auth/check-authentication');
             // console.log(response.data);
             
-            console.log(response.data);
             return response.data.authenticated;
         } catch (err) {
             console.error(err);

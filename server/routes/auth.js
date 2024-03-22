@@ -102,6 +102,8 @@ router.post('/login', async (req, res, next) => {
         res.cookie('accessToken', token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24, // 1 day
+            sameSite: 'none',
+            secure: true
         });
 
         res.json({ 
@@ -205,6 +207,8 @@ router.post('/register', async (req, res, next) => {
     res.cookie('accessToken', token, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24, // 1 day
+        sameSite: 'none',
+        secure: true
     })
 
     res.json({ 
@@ -255,7 +259,7 @@ router.get('/login/success', isAuthenticated, async (req, res) => {
 router.post('/logout', isAuthenticated, (req, res, next) => {
     // checks if user has accessToken cookie then log out that user.
     if (req.cookies && req.cookies.accessToken) {
-        res.clearCookie('accessToken');
+        res.clearCookie('accessToken', { secure: true, sameSite: 'none' });
         return res.json({ success: true, msg: "Successfully logged out" });
     }
 
