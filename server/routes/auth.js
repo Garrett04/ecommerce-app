@@ -239,6 +239,10 @@ router.get('/login/success', isAuthenticated, async (req, res) => {
 
     // console.log('hello')
 
+    if (!user) {
+        return res.status(404).json({ success: false, msg: "User not found" });
+    }
+
     const userDetails = await User.findById(user.id);
 
     res.status(200).json({
