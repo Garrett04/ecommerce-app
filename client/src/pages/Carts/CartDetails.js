@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getCartStatus, selectCart } from "../../features/carts/cartSlice";
+import { getCartError, getCartStatus, selectCart } from "../../features/carts/cartSlice";
 import { useEffect, useState } from "react";
 import { fetchCartById } from "../../apis/cart";
 import { useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ const CartDetails = () => {
 
     const cart = useSelector(selectCart);
     const cartStatus = useSelector(getCartStatus);
+    const cartError = useSelector(getCartError);
 
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -29,21 +30,26 @@ const CartDetails = () => {
       dispatch(fetchAddressesByUserId());
     }, [dispatch, id])
 
-    return (
-      <>
-        <div className="cart-details">
-          <h2>{(cartStatus === 'fulfilled' && cart) && cart.data[0].cart_title}</h2>
-          <CartItems setDeletedCartItemMsg={setDeletedCartItemMsg} />
-          {deletedCartItemMsg}
-          <div className="cart-details-bottom">
-            {(cartStatus === 'fulfilled' && cart.subtotal) && <h4>Subtotal: {cart.subtotal}</h4>}
-            {userStatus === 'fulfilled' && <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} />}
-            <CheckoutButton id={id} disabled={disabled} />
+    // Handing case where cartId is invalid uuid
+    if (cartError === 'Invalid uuid') {
+      return <p>{cartError}</p>;
+    } else {
+      return (
+        <>
+          <div className="cart-details">
+            <h2>{(cartStatus === 'fulfilled' && cart) && cart.data[0].cart_title}</h2>
+            <CartItems setDeletedCartItemMsg={setDeletedCartItemMsg} />
+            {deletedCartItemMsg}
+            <div className="cart-details-bottom">
+              {(cartStatus === 'fulfilled' && cart.subtotal) && <h4>Subtotal: {cart.subtotal}</h4>}
+              {userStatus === 'fulfilled' && <DefaultAddresses page={"CartDetails"} setDisabled={setDisabled} />}
+              <CheckoutButton id={id} disabled={disabled} />
+            </div>
           </div>
-        </div>
-        <GoBackButton/>
-      </>
-    )
+          <GoBackButton/>
+        </>
+      )
+    }
 }
 
 export default CartDetails;

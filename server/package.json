@@ -32,7 +32,8 @@
     "pg": "^8.11.3",
     "stripe": "^14.20.0",
     "swagger-jsdoc": "^1.10.3",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "uuid-v4-validator": "^2.0.0"
   },
   "devDependencies": {
     "jsdoc": "^4.0.2"

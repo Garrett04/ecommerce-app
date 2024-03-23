@@ -61,7 +61,7 @@ const {
 
 // GET ROUTES
 // To get all carts by user Id
-router.get('/', isAuthenticated, isAuthenticated, async (req, res) => {
+router.get('/', isAuthenticated, async (req, res) => {
     const userId = req.user.id;
 
     const carts = await Cart.find(userId); 
@@ -373,7 +373,7 @@ router.put('/:cartId', isAuthenticated, authCartAccess, async (req, res) => {
 
 // DELETE ROUTES
 // Removes product from cart
-router.delete('/:cartId', isAuthenticated, isAuthenticated, authCartAccess, async (req, res) => {
+router.delete('/:cartId', isAuthenticated, authCartAccess, async (req, res) => {
     const { cartId } = req.params;
     const { product_id } = req.query;
 

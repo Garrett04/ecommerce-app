@@ -10,7 +10,7 @@ export const fetchCartById = createAsyncThunk(
             // console.log(response.data);
             return {data: response.data.data, subtotal: response.data.subtotal};
         } catch (err) {
-            throw err.response;
+            throw err.response.data.msg;
         }
     }
 )
