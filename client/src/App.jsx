@@ -47,9 +47,9 @@ const router = createBrowserRouter( createRoutesFromElements(
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAuthenticationStatus());
-  }, [dispatch])
+  // useEffect(() => {
+    // dispatch(fetchAuthenticationStatus());
+  // }, [dispatch])
 
   return (
       <RouterProvider router={ router } />
