@@ -24,7 +24,7 @@ const DeleteAddressButton = ({ id, setMsg }) => {
     return (
         <>
             <button title="Delete Address" className="address-delete-button" onClick={handleAddressDelete}>
-                &#128465;
+                &#x1F5D1;
             </button>
         </>
     )

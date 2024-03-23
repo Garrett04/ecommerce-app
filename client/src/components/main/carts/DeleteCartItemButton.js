@@ -28,7 +28,7 @@ const DeleteCartItemButton = ({
 
     return (
         <button title="Remove cart item" className="delete-cart-item" onClick={handleDelete}>
-            &#128465;
+            &#x1F5D1;
         </button>
     )
 }

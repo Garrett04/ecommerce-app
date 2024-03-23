@@ -68,7 +68,7 @@ const Addresses = () => {
                         className="address-edit-button" 
                         to={`edit-address/${id}`}
                     >
-                        &#128393;
+                        &#9999;
                     </NavLink>
                 </div>
             </li>
