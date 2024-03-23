@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../apis/auth";
 import { fetchAuthenticationStatus } from "../apis/client";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsAuthenticatedStatus, selectIsAuthenticated } from "../features/auth/authSlice";
 
 
 const Register = () => {
@@ -11,6 +12,8 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isAuthenticated = useSelector(selectIsAuthenticated);
+    const isAuthenticatedStatus = useSelector(getIsAuthenticatedStatus);
 
     const handleChange = useCallback((e) => e.target.name === 'username' ? setUsername(e.target.value) : setPassword(e.target.value), []);
 
@@ -33,6 +36,13 @@ const Register = () => {
         }
       }
     }
+
+    useEffect(() => {
+      // Redirects authenticated user back to homescreen
+      if (isAuthenticatedStatus === 'fulfilled' && isAuthenticated) {
+        navigate('/');
+      }
+    }, [isAuthenticatedStatus, isAuthenticated, navigate])
 
     return (
       <div className="register">

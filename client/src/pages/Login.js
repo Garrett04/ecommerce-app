@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../apis/auth";
 import { fetchAuthenticationStatus } from "../apis/client";
 import { useDispatch, useSelector } from "react-redux";
 import GoogleButton from "react-google-button";
-import { selectIsAuthenticated } from "../features/auth/authSlice";
+import { getIsAuthenticatedStatus, selectIsAuthenticated } from "../features/auth/authSlice";
 
 
 const Login = () => {
@@ -13,6 +13,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const isAuthenticatedStatus = useSelector(getIsAuthenticatedStatus);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -47,6 +48,13 @@ const Login = () => {
         }
       }
     }
+
+    useEffect(() => {
+      // Redirects authenticated user back to homescreen
+      if (isAuthenticatedStatus === 'fulfilled' && isAuthenticated) {
+        navigate('/');
+      }
+    }, [isAuthenticatedStatus, isAuthenticated, navigate])
 
     return (
       <div className="login">
