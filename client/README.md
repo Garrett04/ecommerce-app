@@ -70,6 +70,7 @@ npm start
 In Progress: 
 - Engaged in testing procedures.
 - Handling of some errors related to url parameters.
+- Show the shipping and billing address in the order details page.
 
 ## Room for Improvement
 Room for improvement:
