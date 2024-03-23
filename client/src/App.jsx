@@ -26,7 +26,7 @@ import NotFound from './pages/NotFound/NotFound';
 const router = createBrowserRouter( createRoutesFromElements(
   <>
     <Route path="/" element={ <Root/> }>
-      <Route index path="/" element={ <HomePage/> }/>
+      <Route index element={ <HomePage/> }/>
       <Route element={<PrivateRoutes/>}>
         <Route path="/carts" element={ <Carts/> }/>
         <Route path="/carts/:id" element={ <CartDetails/> }/>
@@ -37,9 +37,9 @@ const router = createBrowserRouter( createRoutesFromElements(
         <Route path="/user/edit-address/:id" element={ <UpdateAddressForm/> }/>
       </Route>
       <Route path="/product/:id" element={ <Product/> }/>
-      <Route path="register" element={ <Register/> }/>
-      <Route path="login" element={ <Login/> }/>
-      <Route path='*' element={ <NotFound/> }/>
+      <Route path="/register" element={ <Register/> }/>
+      <Route path="/login" element={ <Login/> }/>
+      <Route path='/*' element={ <NotFound/> }/>
     </Route>
   </>
 ))
