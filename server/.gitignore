@@ -24,3 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 id_rsa_priv.pem
+id_rsa_pub.pem
