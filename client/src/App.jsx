@@ -38,18 +38,18 @@ const router = createBrowserRouter( createRoutesFromElements(
       </Route>
       <Route path="/product/:id" element={ <Product/> }/>
     </Route>
-    <Route index path="register" element={ <Register/> }/>
-    <Route index path="login" element={ <Login/> }/>
-    <Route index path='not' element={ <NotFound/> }/>
+    <Route path="register" element={ <Register/> }/>
+    <Route path="login" element={ <Login/> }/>
+    <Route path='*' element={ <NotFound/> }/>
   </>
 ))
 
 function App() {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-    // dispatch(fetchAuthenticationStatus());
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchAuthenticationStatus());
+  }, [dispatch])
 
   return (
       <RouterProvider router={ router } />
