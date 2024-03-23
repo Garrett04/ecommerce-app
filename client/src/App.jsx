@@ -40,7 +40,7 @@ const router = createBrowserRouter( createRoutesFromElements(
     </Route>
     <Route path="register" element={ <Register/> }/>
     <Route path="login" element={ <Login/> }/>
-    <Route index path='*' element={ <NotFound/> }/>
+    <Route index path='not' element={ <NotFound/> }/>
   </>
 ))
 
