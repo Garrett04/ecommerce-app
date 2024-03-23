@@ -38,8 +38,8 @@ const router = createBrowserRouter( createRoutesFromElements(
       </Route>
       <Route path="/product/:id" element={ <Product/> }/>
     </Route>
-    <Route path="register" element={ <Register/> }/>
-    <Route path="login" element={ <Login/> }/>
+    <Route index path="register" element={ <Register/> }/>
+    <Route index path="login" element={ <Login/> }/>
     <Route index path='not' element={ <NotFound/> }/>
   </>
 ))
