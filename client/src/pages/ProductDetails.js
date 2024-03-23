@@ -8,6 +8,7 @@ import { addProduct, fetchCartById, fetchCarts } from "../apis/cart";
 import { getCartsStatus, selectCarts } from "../features/carts/cartsSlice";
 import { selectIsAuthenticated } from "../features/auth/authSlice";
 import GoBackButton from "../components/GoBackButton";
+import { LineWave } from "react-loader-spinner";
 
 
 const Product = () => {
@@ -46,7 +47,7 @@ const Product = () => {
 
     let content;
     if (productDetailsStatus === 'pending') {
-      content = 'Loading...';
+      content = <LineWave wrapperStyle={{ display: 'flex', margin: 'auto' }} />;
     } else if (productDetailsStatus === 'fulfilled') {
       // console.log(product);
       content = renderProduct();

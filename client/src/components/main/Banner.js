@@ -1,9 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../../features/auth/authSlice';
+import { getIsAuthenticatedStatus, selectIsAuthenticated } from '../../features/auth/authSlice';
+import { ColorRing } from 'react-loader-spinner';
 
 const Banner = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAuthenticatedStatus = useSelector(getIsAuthenticatedStatus);
 
   const renderAccountComponent = () => {
     if (!isAuthenticated) {
@@ -20,12 +22,16 @@ const Banner = () => {
     }
   }
 
-  return (
-    <div className="banner">
-        <div className="promo"></div>
-        {renderAccountComponent()}
-    </div>
-  )
+  if (isAuthenticatedStatus === 'pending') {
+    return <ColorRing wrapperStyle={{ display: 'flex', margin: 'auto', width: '4rem' }} />;
+  } else if (isAuthenticatedStatus === 'fulfilled') {
+    return (
+      <div className="banner">
+          <div className="promo"></div>
+          {renderAccountComponent()}
+      </div>
+    )
+  }
 }
 
 export default Banner;
