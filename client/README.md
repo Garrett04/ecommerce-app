@@ -84,3 +84,4 @@ To-Do:
 - Better ways of handling errors.
 - Better ways of deploying properly with less issues.
 - Learn typescript for react.
+- Better implementation of CSS.
