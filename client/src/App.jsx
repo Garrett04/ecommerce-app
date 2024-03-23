@@ -37,11 +37,9 @@ const router = createBrowserRouter( createRoutesFromElements(
         <Route path="/user/edit-address/:id" element={ <UpdateAddressForm/> }/>
       </Route>
       <Route path="/product/:id" element={ <Product/> }/>
-      <Route path="*">
-        <Route path="register" element={ <Register/> }/>
-        <Route path="login" element={ <Login/> }/>
-        <Route path='*' element={ <NotFound/> }/>
-      </Route>
+      <Route path="register" element={ <Register/> }/>
+      <Route path="login" element={ <Login/> }/>
+      <Route path='*' element={ <NotFound/> }/>
     </Route>
   </>
 ))
