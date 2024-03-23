@@ -1,46 +1,86 @@
-# Getting Started with Create React App
+# ShopWise 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> The frontend for an E-Commerce Web App built using React.
 
-## Available Scripts
+## Table of contents
+* [General Information](#general-information)
 
-In the project directory, you can run:
+* [Technologies Used](#technologies-used)
 
-### `npm start`
+* [Setup](#setup)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* [Project Status](#project-status)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* [Room for Improvement](#room-for-improvement)
 
-### `npm test`
+* [Project Takeaways](#project-takeaways)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Basic Wireframes:
+![Desktop Wireframe](wireframe/Desktop.png)
+![Mobile Wireframe](wireframe/Mobile.png)
+![Tablet Wireframe](wireframe/Tablet.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## General Information:
+- Build a functioning e-commerce web app using React
+- Allow users to register and log in via the client side using either ShopWise account or Google.
+- Allow creation of multiple carts
+- Allow viewing of carts
+- Allow viewing of a single cart
+- Allow sorting of products by category
+- Allow adding of products to carts
+- Allow removal of products from carts
+- Allow logout of users
+- Allow adding of addresses, deletion of addresses and editing of addresses
+- Allow setting of default addresses for later checkout
+- Allow checkout of cart through Stripe payment
+- Allow viewing of orders
+- Allow viewing of a single order
+- Use Git version control
+- Use command line
+- Develop locally on your computer
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Technologies Used:
+- `@reduxjs/toolkit`: ^2.2.1,
+- `axios`: ^1.6.7,
+- `country-state-city`: ^3.2.1,
+- `react-google-button`: ^0.7.2,
+- `react-loader-spinner`: ^6.1.6",
+- `react-redux`: ^9.1.0,
+- `react-router-dom`: ^6.22.2,
 
-### `npm run eject`
+## Setup
+To set up locally, begin by installing node_modules:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This command will also execute the `install` script from `package.json`.
+  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Then run the app which is located in `client/` directory:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+npm start
+```
 
-## Learn More
+## Project Status
+In Progress: 
+- Engaged in testing procedures.
+- Handling of some errors related to url parameters.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Room for Improvement
+Room for improvement:
+- Better use of useEffect hook.
+- Better use of redux.
+- Handling of errors.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To-Do:
+- Handling of some errors related to url parameters.
+
+## Project Takeaways
+- Better ways of handling errors.
+- Better ways of deploying properly with less issues.
+- Learn typescript for react.

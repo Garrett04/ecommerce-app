@@ -81,23 +81,38 @@ Add the following fields with respective values to the `.env` file:
   
 ```
 # Postgres Database
-PGHOST=
-PGUSER=
-PGDATABASE=
-PGPASSWORD=
-PGPORT=
-  
-# Express server
-SECRET=
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
 
-# Node.js
+# Express server
+SESSION_SECRET=
+
+# Stripe
+STRIPE_KEY=
+
+# Google
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# Node env
 NODE_ENV=
+DATABASE_URL=
+EXTERNAL_DATABASE_URL=
+
+# Client URL
+CLIENT_URL=
+
+# Port
+PORT=
 ```
 
 Then run the app which is located in `app/` directory:
 
 ```
-node app.js
+npm start
 ```
 
 ## Usage
@@ -111,7 +126,7 @@ It manages multiple endpoints crucial for online shopping, such as:
 ## Project Status
 In Progress: 
 - Engaged in testing procedures.
-- Integration of Stripe payment functionality.
+- Handling of some errors related to auth middlewares.
 
 ## Room for Improvement
 Room for improvement:
