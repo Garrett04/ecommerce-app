@@ -3,14 +3,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../apis/auth";
 import { fetchAuthenticationStatus } from "../apis/client";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GoogleButton from "react-google-button";
+import { selectIsAuthenticated } from "../features/auth/authSlice";
 
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     const navigate = useNavigate();
     const location = useLocation();
